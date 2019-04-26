@@ -1,5 +1,7 @@
 # Youyu FE
 
+![preview](https://travis-ci.com/surplus-youyu/Youyu-fe.svg?branch=master)
+
 ## **[更新日志 ChangeLog.md](./ChangeLog.md)**
 
 以后系统更新日志写在此处，较新的更新写在前面
