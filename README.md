@@ -1,6 +1,6 @@
 # Youyu FE
 
-![preview](https://travis-ci.com/surplus-youyu/Youyu-fe.svg?branch=master)
+![preview](https://travis-ci.org/surplus-youyu/Youyu-fe.svg?branch=master)
 
 ## **[更新日志 ChangeLog.md](./ChangeLog.md)**
 
