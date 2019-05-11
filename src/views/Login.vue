@@ -8,6 +8,6 @@ import { Component, Vue } from 'vue-property-decorator';
   name: 'login'
 })
 export default class Login extends Vue {
-  
+
 }
 </script>
