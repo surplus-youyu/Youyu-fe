@@ -6,7 +6,6 @@
 
 <style>
 body {
-  /* height: 100vh; */
   margin: 0;
 }
 </style>
