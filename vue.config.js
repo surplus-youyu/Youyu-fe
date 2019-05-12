@@ -4,20 +4,20 @@ const path = require('path');
 const lessToJs = require('less-vars-to-js');
 // const apiMocker = require('webpack-api-mocker');
 
-// const lessGlobalVarsString = fs.readFileSync(
-//   'src/global-variables.less',
-//   'utf8'
-// );
-// fs.writeFileSync(
-//   'src/global-variables.ts',
-//   `/* tslint:disable */\nexport default ${JSON.stringify(
-//     lessToJs(lessGlobalVarsString, {
-//       resolveVariables: true,
-//       stripPrefix: true
-//     })
-//   )};`,
-//   'utf8'
-// );
+const lessGlobalVarsString = fs.readFileSync(
+  'src/global-variables.less',
+  'utf8'
+);
+fs.writeFileSync(
+  'src/global-variables.ts',
+  `/* tslint:disable */\nexport default ${JSON.stringify(
+    lessToJs(lessGlobalVarsString, {
+      resolveVariables: true,
+      stripPrefix: true
+    })
+  )};`,
+  'utf8'
+);
 
 module.exports = {
   chainWebpack: config => {
@@ -45,19 +45,19 @@ module.exports = {
         })
       );
   },
-  // css: {
-  //   loaderOptions: {
-  //     less: {
-  //       modifyVars: lessToJs(lessGlobalVarsString)
-  //     }
-  //   }
-  // },
-  devServer: {
-    proxy: 'http://193.112.59.226'
-    // before(app) {
-    //   if (process.env.MOCK_DATA) {
-    //     apiMocker(app, path.resolve(__dirname, './mock/index.js'));
-    //   }
-    // }
-  }
+  css: {
+    loaderOptions: {
+      less: {
+        modifyVars: lessToJs(lessGlobalVarsString)
+      }
+    }
+  },
+  // devServer: {
+  //   proxy: 'http://193.112.59.226'
+  //   // before(app) {
+  //   //   if (process.env.MOCK_DATA) {
+  //   //     apiMocker(app, path.resolve(__dirname, './mock/index.js'));
+  //   //   }
+  //   // }
+  // }
 };
