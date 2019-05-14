@@ -1,29 +1,32 @@
 <template>
   <div id="login-view">
     <div id="login-card">
-      <h1>Surplus 有余</h1>
-      <p>一个面向大学生的专业“众包”系统</p>
-      <Tabs>
-        <TabPane label="账号密码登录">
-          <Input placeholder="账号"/>
-          <Input placeholder="密码"/>
+      <div class="headers">
+        <h1><span class="logo">Surplus</span> 有余</h1>
+        <p>一个面向大学生的专业“众包”系统</p>
+      </div>
+      <Tabs :animated="false">
+        <TabPane label="账号登录">
+          <Input placeholder="账号" size="large"/>
+          <Input placeholder="密码" size="large"/>
           <div class="login-ctrl">
-            <Checkbox>自动登录</Checkbox>
+            <Checkbox size="large">自动登录</Checkbox>
             <span>忘记密码</span>
           </div>
-          <Button style="width: 100%" type="primary">登录</Button>
+          <Button type="primary" size="large">登录</Button>
           <div class="login-ctrl">
             <span>其他登录方式</span>
             <span>注册账户</span>
           </div>
         </TabPane>
         <TabPane label="手机登录">
-          <Input placeholder="手机号"/>
+          <Input placeholder="手机号" size="large"/>
           <div class="certificate">
-            <Input placeholder="验证码" id="inp"/>
-            <Button id="get-cert">获取验证码</Button>
+            <Input id="inp" placeholder="验证码" size="large"/>
+            <div class="space"></div>
+            <Button id="get-cert" size="large">获取验证码</Button>
           </div>
-          <Button style="width: 100%" type="primary">登录</Button>
+          <Button type="primary" size="large">登录</Button>
           <div class="login-ctrl">
             <span>其他登录方式</span>
             <span>注册账户</span>
@@ -48,26 +51,55 @@ export default class Login extends Vue {
   background-image: url('../assets/login-background.jpg');
   height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
   #login-card {
-    width: 30%;
+    width: 356px;
+  }
+  .headers {
+    padding-top: 15vh;
+    padding-bottom: 5vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: center;
+    .logo {
+      font-family: Logo;
+      font-size: 48px;
+    }
+  }
+  .ivu-tabs-bar {
+    margin-bottom: 24px;
+  }
+  .ivu-tabs-nav {
+    width: 100%;
+    text-align: center;
+    .ivu-tabs-tab {
+      width: 48%;
+      margin-right: 0;
+    }
   }
   .ivu-input-wrapper {
     width: 100%;
+    margin-bottom: 20px;
   }
   .login-ctrl {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .ivu-btn {
+    width: 100%;
+    margin-bottom: 20px;
   }
   .certificate {
     display: flex;
     justify-content: space-between;
     #inp {
-      flex: 5;
+      flex: 8;
+      margin-right: 4px;
     }
     #get-cert {
-      flex: 3;
+      flex: 2;
     }
   }
 }
