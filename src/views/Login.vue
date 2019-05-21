@@ -16,7 +16,7 @@
           <Button type="primary" size="large">登录</Button>
           <div class="login-ctrl">
             <span>其他登录方式</span>
-            <span>注册账户</span>
+            <router-link to="/signup">注册用户</router-link>
           </div>
         </TabPane>
         <TabPane label="手机登录">
@@ -29,13 +29,14 @@
           <Button type="primary" size="large">登录</Button>
           <div class="login-ctrl">
             <span>其他登录方式</span>
-            <span>注册账户</span>
+            <router-link to="/signup">注册用户</router-link>
           </div>
         </TabPane>
       </Tabs>
     </div>
   </div>
 </template>
+
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
@@ -46,6 +47,7 @@ export default class Login extends Vue {
 
 }
 </script>
+
 <style lang="less">
 #login-view {
   background-image: url('../assets/login-background.jpg');
