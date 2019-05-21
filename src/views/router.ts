@@ -18,7 +18,8 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       component: () => import('./Signup.vue')
-
+    },
+    {
       path: '/',
       component: BasicLayout,
       children: [
