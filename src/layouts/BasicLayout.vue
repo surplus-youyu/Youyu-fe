@@ -11,6 +11,26 @@
                 <Icon type="logo-dropbox" size="16"/>
                 <span>请求大厅</span>
             </MenuItem>
+            <MenuItem name="personalCenter" v-if="loginStatus">
+                <Icon type="logo-dropbox" size="16"/>
+                <span>个人中心</span>
+            </MenuItem>
+            <Submenu name="orderCenter" v-if="loginStatus">
+              <template slot="title">
+                  <Icon type="ios-analytics" />
+                  我的订单
+              </template>
+              <MenuGroup title="orders">
+                  <MenuItem name="orders-sent">我发出的请求</MenuItem>
+                  <MenuItem name="orders-received">我接受的请求</MenuItem>
+                  <MenuItem name="orders-done">已完成的请求</MenuItem>
+                  <MenuItem name="orders-draft">未发送请求</MenuItem>
+              </MenuGroup>
+            </Submenu>
+            <MenuItem name="publish" v-if="loginStatus">
+                <Icon type="logo-dropbox" size="16"/>
+                <span>发布请求</span>
+            </MenuItem>
             <MenuItem name="about">
                 <Icon type="ios-information-circle-outline" size="16"/>
                 <span>有余简介</span>
@@ -38,6 +58,7 @@ import { Component, Vue } from 'vue-property-decorator';
   name: 'BasicLayout'
 })
 export default class BasicLayout extends Vue {
+  loginStatus = true;
 
   handleClick(name: any) {
     this.$router.push({ name });

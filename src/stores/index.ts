@@ -1,5 +1,5 @@
 import { ModuleState } from '../typings/vuex';
-import User from './modules/user';
+import user from './modules/user';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 // 模块放置于此对象中即可
 const modules = {
-  User
+  user
 };
 const rootStore = new Vuex.Store<RootState>({
   modules,

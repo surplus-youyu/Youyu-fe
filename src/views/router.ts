@@ -37,6 +37,21 @@ export default new Router({
           path: 'about',
           name: 'about',
           component: () => import('./about/about.vue')
+        },
+        {
+          path: 'personalCenter',
+          name: 'personalCenter',
+          component: () => import('./personalCenter/personalCenter.vue')
+        },
+        {
+          path: 'ordersCenter',
+          name: 'ordersCenter',
+          component: () => import('./ordersCenter/ordersCenter.vue')
+        },
+        {
+          path: 'publish',
+          name: 'publish',
+          component: () => import('./publish/publish.vue')
         }
       ]
     }
