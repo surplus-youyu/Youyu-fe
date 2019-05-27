@@ -20,7 +20,7 @@
       </div>
       <div class="signup-ctrl">
         <Button type="primary" size="large">注册</Button>
-        <router-link class="link" to="/login">使用已有账户登录</router-link>
+        <a class="link" @click="login">使用已有账户登录</a>
       </div>
     </div>
   </div>
@@ -33,10 +33,10 @@ import { Component, Vue } from 'vue-property-decorator';
   name: 'signup'
 })
 export default class Signup extends Vue {
-  data() {
-    return {
-      phoneType: '86'
-    };
+  phoneType = '86';
+
+  login() {
+    this.$router.push({ name: 'login' });
   }
 }
 </script>
@@ -89,6 +89,7 @@ export default class Signup extends Vue {
     .link {
       flex: 1;
       text-align: right;
+      text-align: none;
     }
   }
   .ivu-input-wrapper {

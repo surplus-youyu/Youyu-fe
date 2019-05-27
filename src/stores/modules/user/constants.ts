@@ -7,3 +7,4 @@ export const LOAD_USER_PROFILE = 'LOAD_USER_PROFILE';
 // getters
 export const CURRENT_NICKNAME = 'CURRENT_NICKNAME';
 export const CURRENT_USER_INFO = 'CURRENT_USER_INFO';
+export const IS_LOGIN = 'IS_LOGIN';

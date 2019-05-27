@@ -5,31 +5,31 @@
         <h1><span class="logo">Surplus</span> 有余</h1>
         <p>一个面向大学生的专业“众包”系统</p>
       </div>
-      <Tabs :animated="false">
-        <TabPane label="账号登录">
-          <Input placeholder="账号" size="large"/>
-          <Input placeholder="密码" size="large"/>
+      <Tabs :animated="false" v-model="loginType">
+        <TabPane name="UPlogin" label="账号登录">
+          <Input placeholder="账号" size="large" v-model="loginFormUP.username"/>
+          <Input placeholder="密码" type="password" size="large" v-model="loginFormUP.password"/>
           <div class="login-ctrl">
             <Checkbox size="large">自动登录</Checkbox>
             <span>忘记密码</span>
           </div>
-          <Button type="primary" size="large">登录</Button>
+          <Button type="primary" size="large" @click="login">登录</Button>
           <div class="login-ctrl">
             <span>其他登录方式</span>
-            <router-link to="/signup">注册用户</router-link>
+            <a class="signup" @click="signUp">注册用户</a>
           </div>
         </TabPane>
-        <TabPane label="手机登录">
-          <Input placeholder="手机号" size="large"/>
+        <TabPane name="PVlogin" label="手机登录">
+          <Input placeholder="手机号" size="large" v-model="loginFormPV.phone"/>
           <div class="certificate">
-            <Input id="inp" placeholder="验证码" size="large"/>
+            <Input id="inp" placeholder="验证码" size="large" v-model="loginFormPV.veriCode"/>
             <div class="space"></div>
             <Button id="get-cert" size="large">获取验证码</Button>
           </div>
-          <Button type="primary" size="large">登录</Button>
+          <Button type="primary" size="large"  @click="login">登录</Button>
           <div class="login-ctrl">
             <span>其他登录方式</span>
-            <router-link to="/signup">注册用户</router-link>
+            <a class="signup" @click="signUp">注册用户</a>
           </div>
         </TabPane>
       </Tabs>
@@ -39,13 +39,56 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
+import { LoginFormFieldsUP, LoginFormFieldsPV } from '@/typings/login';
+import { LOAD_USER_PROFILE } from '@/stores/modules/user/constants';
 @Component({
   name: 'login'
 })
 export default class Login extends Vue {
 
+  loginFormUP: LoginFormFieldsUP = {
+    loginType: 0,
+    username: undefined,
+    password: ''
+  };
+
+  loginFormPV: LoginFormFieldsPV = {
+    loginType: 1,
+    phone: '',
+    veriCode: ''
+  };
+
+  loginType = 'UPlogin';
+
+  async login() {
+    let fields;
+    if (this.loginType === 'UPlogin') {
+      fields = Object.freeze({ ...this.loginFormUP });
+    } else {
+      fields = Object.freeze({ ...this.loginFormPV });
+    }
+    const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, { fields });
+    if (result) {
+      if (result.status !== 'OK') {
+        this.$Notice.warning({
+            title: '登录失败',
+            desc: result.msg
+          });
+      } else {
+          this.$Notice.success({
+            title: '登录成功',
+            desc: result.msg
+          });
+          this.$router.push({ name: 'problems' });
+      }
+    }
+  }
+
+  signUp() {
+    this.$router.push({ name: 'signup' });
+  }
 }
+
 </script>
 
 <style lang="less">
@@ -88,6 +131,10 @@ export default class Login extends Vue {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    
+    .signup {
+      text-decoration: none;
+    }
   }
   .ivu-btn {
     width: 100%;
