@@ -3,7 +3,7 @@
       <Layout id="slider">
         <Sider style="min-width: 214px; flex: 0 0 214px; max-width: 214px;">
           <div class="logo">
-            <span>Surplus</span>
+            <router-link to="/" style="color: white;"><span>Surplus</span></router-link>
             <h1>有余</h1>
           </div>
           <Menu active-name="1" theme="dark" width="auto" @on-select="handleClick">

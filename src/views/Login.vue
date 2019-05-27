@@ -2,7 +2,7 @@
   <div id="login-view">
     <div id="login-card">
       <div class="headers">
-        <h1><span class="logo">Surplus</span> 有余</h1>
+        <h1><router-link to="/" style="color: #515a6e;"><span class="logo">Surplus</span></router-link> 有余</h1>
         <p>一个面向大学生的专业“众包”系统</p>
       </div>
       <Tabs :animated="false">
