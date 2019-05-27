@@ -64,9 +64,16 @@ export default class Login extends Vue {
     flex-direction: column;
     justify-content: baseline;
     align-items: center;
+    h1 {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      padding-left: 4px;
+    }
     .logo {
       font-family: Logo;
       font-size: 48px;
+      padding-right: 8px;
     }
   }
   .ivu-tabs-bar {

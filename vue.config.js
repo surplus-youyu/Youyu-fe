@@ -48,7 +48,8 @@ module.exports = {
   css: {
     loaderOptions: {
       less: {
-        modifyVars: lessToJs(lessGlobalVarsString)
+        modifyVars: lessToJs(lessGlobalVarsString),
+        javascriptEnabled: true
       }
     }
   },

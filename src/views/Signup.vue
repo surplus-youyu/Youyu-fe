@@ -61,9 +61,16 @@ export default class Signup extends Vue {
     flex-direction: column;
     justify-content: baseline;
     align-items: center;
+    h1 {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      padding-left: 4px;
+    }
     .logo {
       font-family: Logo;
       font-size: 48px;
+      padding-right: 8px;
     }
   }
   .certificate {
