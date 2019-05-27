@@ -1,15 +1,18 @@
 <template>
     <div id="basic-layout">
       <Layout id="slider">
-        <Sider>
-          <div class="logo"> SurPlus 有余 </div>
+        <Sider style="min-width: 214px; flex: 0 0 214px; max-width: 214px;">
+          <div class="logo">
+            <span>Surplus</span>
+            <h1>有余</h1>
+          </div>
           <Menu active-name="1" theme="dark" width="auto" @on-select="handleClick">
             <MenuItem name="requestHall">
-                <Icon type="ios-navigate"></Icon>
+                <Icon type="logo-dropbox" size="16"/>
                 <span>请求大厅</span>
             </MenuItem>
             <MenuItem name="about">
-                <Icon type="ios-navigate"></Icon>
+                <Icon type="ios-information-circle-outline" size="16"/>
                 <span>有余简介</span>
             </MenuItem>
           </Menu>
@@ -49,39 +52,85 @@ export default class BasicLayout extends Vue {
 
 <style lang="less" scoped>
 
-
 #basic-layout {
   .layout-con{
     height: 100%;
     width: 100%;
+  }
+
+  .ivu-layout-sider {
+    width: 256px;
+    min-width: 256px;
+    max-width: 256px;
+    flex: 0 0 256px;
   }
   
   #slider {
     min-height: 100vh;
 
     .logo {
-      height: 50px;
-      font-size: 30px;
       color: white;
-      text-align: center;
-      border-bottom: 1px solid white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #002140;
+
+      span {
+        font-family: Logo;
+        font-size: 36px;
+        padding-right: 4px;
+      }
+
+      h1 {
+        font-size: 16px;
+        padding-left: 4px;
+      }
     }
 
-    .menu-item span{
-      display: inline-block;
-      overflow: hidden;
-      width: 69px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      vertical-align: bottom;
-      transition: width .2s ease .2s;
+    .ivu-menu-dark {
+      background: #001529;
+      .ivu-menu-item {
+        height: 40px;
+        margin: 4px 0;
+        padding: 0 34px 0 24px;
+        display: flex;
+        align-items: center;
+      }
+      .ivu-menu-item-active {
+        color: white;
+      }
+      .ivu-menu-item:hover {
+        color: white;
+        background-color: #001529;
+      }
+      .ivu-menu-item-active:hover {
+        background-color: #1990fc;
+      }
     }
 
-    .menu-item i{
-      transform: translateX(0px);
-      transition: font-size .2s ease, transform .2s ease;
-      vertical-align: middle;
-      font-size: 16px;
+    .menu-item {
+      height: 40px;
+
+      span{
+        display: inline-block;
+        overflow: hidden;
+        width: 69px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: bottom;
+        transition: width .2s ease .2s;
+      }
+
+      i {
+        transform: translateX(0px);
+        transition: font-size .2s ease, transform .2s ease;
+        vertical-align: middle;
+        font-size: 16px;
+      }
+    }
+
+    .ivu-icon {
+      padding-right: 8px;
     }
 
     #header {

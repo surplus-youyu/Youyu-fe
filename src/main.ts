@@ -4,6 +4,7 @@ import router from './views/router';
 import store from './stores';
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import '../theme/index.less';
 
 // import Antd from 'ant-design-vue';
 // import 'ant-design-vue/dist/antd.css';
