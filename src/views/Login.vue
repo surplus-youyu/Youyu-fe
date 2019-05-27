@@ -79,7 +79,7 @@ export default class Login extends Vue {
             title: '登录成功',
             desc: result.msg
           });
-          this.$router.push({ name: 'problems' });
+          this.$router.push({ name: 'requestHall' });
       }
     }
   }

@@ -39,7 +39,7 @@ export default {
       }
       */
       return {
-        status: 'NO',
+        status: 'OK',
         msg: 'test'
       };
     }
