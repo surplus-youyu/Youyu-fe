@@ -1,10 +1,10 @@
 <template>
     <div id="basic-layout">
       <Layout id="slider">
-        <Sider style="min-width: 214px; flex: 0 0 214px; max-width: 214px;">
+        <Sider style="width: 214px;min-width: 214px;max-width: 214px;flex: 0 0 214px;">
           <div class="logo">
             <router-link to="/" style="color: white;"><span>Surplus</span></router-link>
-            <h1>有余</h1>
+            <h1 style="color: white">有余</h1>
           </div>
           <Menu active-name="1" theme="dark" width="auto" @on-select="handleClick">
             <MenuItem name="requestHall">
@@ -12,23 +12,23 @@
                 <span>请求大厅</span>
             </MenuItem>
             <MenuItem name="personalCenter" v-if="loginStatus">
-                <Icon type="logo-dropbox" size="16"/>
+                <Icon type="md-person" size="16"/>
                 <span>个人中心</span>
             </MenuItem>
             <Submenu name="orderCenter" v-if="loginStatus">
               <template slot="title">
-                  <Icon type="ios-analytics" />
-                  我的订单
+                  <div class="submenu-title">
+                    <Icon type="md-reorder" size="16"/>
+                    <span>我的订单</span> 
+                  </div>
               </template>
-              <MenuGroup title="orders">
-                  <MenuItem name="orders-sent">我发出的请求</MenuItem>
-                  <MenuItem name="orders-received">我接受的请求</MenuItem>
-                  <MenuItem name="orders-done">已完成的请求</MenuItem>
-                  <MenuItem name="orders-draft">未发送请求</MenuItem>
-              </MenuGroup>
+              <MenuItem name="orders-sent">我发出的请求</MenuItem>
+              <MenuItem name="orders-received">我接受的请求</MenuItem>
+              <MenuItem name="orders-done">已完成的请求</MenuItem>
+              <MenuItem name="orders-draft">未发送请求</MenuItem>
             </Submenu>
             <MenuItem name="publish" v-if="loginStatus">
-                <Icon type="logo-dropbox" size="16"/>
+                <Icon type="md-add" size="16"/>
                 <span>发布请求</span>
             </MenuItem>
             <MenuItem name="about">
@@ -78,23 +78,14 @@ export default class BasicLayout extends Vue {
     height: 100%;
     width: 100%;
   }
-
-  .ivu-layout-sider {
-    width: 256px;
-    min-width: 256px;
-    max-width: 256px;
-    flex: 0 0 256px;
-  }
   
   #slider {
     min-height: 100vh;
 
     .logo {
-      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #002140;
 
       span {
         font-family: Logo;
@@ -109,28 +100,19 @@ export default class BasicLayout extends Vue {
     }
 
     .ivu-menu-dark {
-      background: #001529;
       .ivu-menu-item {
-        height: 40px;
-        margin: 4px 0;
-        padding: 0 34px 0 24px;
         display: flex;
         align-items: center;
       }
-      .ivu-menu-item-active {
-        color: white;
-      }
-      .ivu-menu-item:hover {
-        color: white;
-        background-color: #001529;
-      }
-      .ivu-menu-item-active:hover {
-        background-color: #1990fc;
+    }
+
+    .submenu-title {
+      .ivu-icon {
+        margin-right: 6px;
       }
     }
 
     .menu-item {
-      height: 40px;
 
       span{
         display: inline-block;
@@ -151,14 +133,15 @@ export default class BasicLayout extends Vue {
     }
 
     .ivu-icon {
-      padding-right: 8px;
+      padding-right: 6px;
     }
 
     #header {
       background-color: #fff;
+      height: 55px;
 
       .login-button {
-        margin-top: 15px;
+        margin-top: 12px;
         float: right;
       }
     }
