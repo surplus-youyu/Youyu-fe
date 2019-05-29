@@ -68,8 +68,8 @@ export default class QuestionCreater extends Vue {
       { required: true, message: '题目不能为空', trigger: 'blur' }
     ],
     options: [
-      { 
-        required: true, message: '选项不能为空', 
+      {
+        required: true, message: '选项不能为空',
         validator: (rule: any, value: string[], callback: any) => {
           if (this.content.type !== 3 && value.length === 0) {
             callback(new Error('选项不能为空'));
@@ -77,7 +77,7 @@ export default class QuestionCreater extends Vue {
             callback();
           }
         }
-      },
+      }
     ]
   };
 
@@ -86,7 +86,7 @@ export default class QuestionCreater extends Vue {
   }
 
   createNewQuestion() {
-    (this.$refs['questionForm'] as Form).validate((isValid) => {
+    (this.$refs.questionForm as Form).validate((isValid) => {
       if (isValid) {
         this.$Notice.success({
           title: '成功创建',
