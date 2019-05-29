@@ -49,9 +49,9 @@ export default new Router({
           component: () => import('./ordersCenter/ordersCenter.vue')
         },
         {
-          path: 'publish',
-          name: 'publish',
-          component: () => import('./publish/publish.vue')
+          path: 'publish/questionare',
+          name: 'publishQuestionare',
+          component: () => import('./publish/PublishQuestionare.vue')
         }
       ]
     }
