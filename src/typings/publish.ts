@@ -1,5 +1,5 @@
 export interface IQuestionare {
-  id: number;
+  id?: number;
   title: string;
   publisher_id: number;
   content: IQuestionareContent[];
