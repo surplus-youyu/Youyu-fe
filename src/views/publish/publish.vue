@@ -1,5 +1,10 @@
 <template>
-  <question-creater/>
+  <div>
+    <Modal v-model="showCreaterDialog" :footer-hide="true">
+      <question-creater/>
+    </Modal>
+    <Button @click="createQuestion">创建问题</Button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -14,6 +19,11 @@ import QuestionCreater from '@/components/QuestionCreater.vue';
   }
 })
 export default class Publish extends Vue {
+  showCreaterDialog: boolean = false;
+
+  createQuestion() {
+    this.showCreaterDialog = true;
+  }
 }
 </script>
 
