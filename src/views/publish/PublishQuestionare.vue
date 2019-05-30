@@ -7,8 +7,7 @@
       mode="create"/>
     </Modal>
     <div style="position: fixed; bottom: 10vh; z-index: 100;" >
-      <Button type="primary" shape="circle" @click="createQuestion" 
-      icon="ios-add" size="large"></Button>
+      <Button type="primary" icon="md-add" shape="circle" @click="createQuestion" size="large"></Button>
     </div>
     <h1 style="margin-bottom: 1rem;">创建你的问卷</h1>
     <Input type="text" placeholder="输入问卷题目" style="width: 50%;"
