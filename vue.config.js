@@ -53,12 +53,12 @@ module.exports = {
       }
     }
   },
-  // devServer: {
-  //   proxy: 'http://193.112.59.226'
-  //   // before(app) {
-  //   //   if (process.env.MOCK_DATA) {
-  //   //     apiMocker(app, path.resolve(__dirname, './mock/index.js'));
-  //   //   }
-  //   // }
-  // }
+  devServer: {
+    proxy: 'http://193.112.59.226:8888'
+    // before(app) {
+    //   if (process.env.MOCK_DATA) {
+    //     apiMocker(app, path.resolve(__dirname, './mock/index.js'));
+    //   }
+    // }
+  }
 };
