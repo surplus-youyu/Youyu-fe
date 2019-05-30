@@ -50,7 +50,7 @@ export default new Router({
         },
         {
           path: 'publish/questionare',
-          name: 'publishQuestionare',
+          name: 'publish',
           component: () => import('./publish/PublishQuestionare.vue')
         }
       ]
