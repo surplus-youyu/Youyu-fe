@@ -2,6 +2,7 @@ export interface IQuestionare {
   id?: number;
   title: string;
   publisher_id: number;
+  bounty: number;
   content: IQuestionareContent[];
 }
 
