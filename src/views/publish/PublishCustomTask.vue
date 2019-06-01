@@ -60,7 +60,7 @@ export default class Publish extends Vue {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .submit-btn-wrapper,
 .title-wrapper,
 .description-wrapper,
