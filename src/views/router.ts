@@ -50,8 +50,13 @@ export default new Router({
         },
         {
           path: 'publish/questionare',
-          name: 'publish',
+          name: 'questionare',
           component: () => import('./publish/PublishQuestionare.vue')
+        },
+        {
+          path: 'publish/customtask',
+          name: 'customtask',
+          component: () => import('./publish/PublishCustomTask.vue')
         }
       ]
     }

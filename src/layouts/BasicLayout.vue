@@ -27,10 +27,16 @@
               <MenuItem name="orders-done">已完成的请求</MenuItem>
               <MenuItem name="orders-draft">未发送请求</MenuItem>
             </Submenu>
-            <MenuItem name="publish" v-if="loginStatus">
-                <Icon type="md-add" size="16"/>
-                <span>发布请求</span>
-            </MenuItem>
+            <Submenu name="publish" v-if="loginStatus">
+              <template slot="title">
+                <div class="submenu-title">
+                  <Icon type="md-add" size="16"/>
+                  <span>发布请求</span>
+                </div>
+              </template>
+              <MenuItem name="questionare">发布问卷</MenuItem>
+              <MenuItem name="customtask">发布任务</MenuItem>
+            </Submenu>
             <MenuItem name="about">
                 <Icon type="ios-information-circle-outline" size="16"/>
                 <span>有余简介</span>

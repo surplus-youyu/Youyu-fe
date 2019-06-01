@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div class="publish-questionare">
     <Modal v-model="showCreaterDialog" :footer-hide="true">
       <question-form
@@ -10,8 +10,14 @@
       <Button type="primary" icon="md-add" shape="circle" @click="createQuestion" size="large"></Button>
     </div>
     <h1 style="margin-bottom: 1rem;">创建你的问卷</h1>
-    <Input type="text" placeholder="输入问卷题目" style="width: 50%;"
-    v-model="currentQuestionare.title"/>
+    <div class="title-wrapper">
+      <h3 style="margin-bottom: 1rem">标题</h3>
+      <Input 
+        type="text" 
+        placeholder="输入问卷标题" 
+        style="width: 59%;"
+        v-model="currentQuestionare.title"/>
+    </div>
     <h3 v-if="currentQuestionare.content.length === 0" 
       style="text-align: center; height: 200px; line-height: 200px;
       vertical-align: middle;">
@@ -25,6 +31,10 @@
       mode="edit"
       :index="idx"/> 
     </Card>
+    <div class="submit-btn-wrapper">
+      <Button style="margin-right: 1rem;">重置</Button>
+      <Button type="primary" >提交</Button>
+    </div>
   </div>
 </template>
 
@@ -78,5 +88,10 @@ export default class Publish extends Vue {
 }
 </script>
 <style lang="less">
+.submit-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0 0 0;
+}
 </style>
 
