@@ -6,7 +6,7 @@
       <Input 
         v-model="taskTitle" type="text" 
         placeholder="请输入任务标题"
-        style="width: 59%"
+        style="width: 60%"
         size="large"/>
     </div>
     <div class="description-wrapper">
@@ -16,7 +16,7 @@
         type="textarea" 
         :rows="6" 
         placeholder="请输入任务描述..." 
-        style="width: 59%"/>
+        style="width: 60%"/>
     </div>
     <div class="uploader-wrapper">
       <h3 style="margin-bottom: 1rem">附件</h3>
@@ -25,7 +25,7 @@
         multiple
         action=""
         type="drag"
-        style="width: 59%">
+        style="width: 60%">
         <div style="padding: 20px 0">
           <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
           <p>点击或拖拽上传附件</p>

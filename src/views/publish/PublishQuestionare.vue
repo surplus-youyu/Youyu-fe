@@ -15,22 +15,26 @@
       <Input 
         type="text" 
         placeholder="输入问卷标题" 
-        style="width: 59%;"
+        style="width: 60%;"
         v-model="currentQuestionare.title"/>
     </div>
-    <h3 v-if="currentQuestionare.content.length === 0" 
-      style="text-align: center; height: 200px; line-height: 200px;
-      vertical-align: middle;">
-      你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
-    </h3>
-    <Card :dis-hover="true" style="margin: 1rem 0 0 0" 
-      v-for="(content, idx) in currentQuestionare.content" :key="'content' + idx">
-      <question-form 
-      :inputContent="content"
-      @modifyQuestion="modifyQuestionHandler"
-      mode="edit"
-      :index="idx"/> 
-    </Card>
+    <div class="questions-wrapper">
+      <h3 v-if="currentQuestionare.content.length === 0" 
+        style="text-align: center; height: 200px; line-height: 200px;
+        vertical-align: middle; width: 60%;">
+        你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
+      </h3>
+      <h3 v-else>问题</h3>
+      <Card :dis-hover="true" style="margin: 1rem 0 0 0; width: 60%" 
+        v-for="(content, idx) in currentQuestionare.content" :key="'content' + idx">
+        <question-form 
+        :inputContent="content"
+        @modifyQuestion="modifyQuestionHandler"
+        mode="edit"
+        :index="idx"/> 
+      </Card>
+    </div>
+    
     <div class="submit-btn-wrapper">
       <Button style="margin-right: 1rem;">重置</Button>
       <Button type="primary" >提交</Button>
@@ -88,10 +92,15 @@ export default class Publish extends Vue {
 }
 </script>
 <style lang="less">
+.submit-btn-wrapper,
+.questions-wrapper 
+{
+  margin: 1rem 0 0 0;
+}
+
 .submit-btn-wrapper {
   display: flex;
   justify-content: flex-end;
-  margin: 1rem 0 0 0;
 }
 </style>
 
