@@ -35,7 +35,7 @@ export default class RequestHall extends Vue {
     time: 0,
     price: 0,
     campus: 'east'
-  }
+  };
 
   selectTime(timeStatus: SortMap['time']) {
     this.sortMap.time = timeStatus;
@@ -51,9 +51,9 @@ export default class RequestHall extends Vue {
     this.sortMap.campus = campus;
   }
 
-  sortList() {
+  // sortList() {
 
-  }
+  // }
 }
 </script>
 

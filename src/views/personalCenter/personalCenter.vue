@@ -75,7 +75,7 @@ import { Component, Vue } from 'vue-property-decorator';
 })
 export default class PersonalCenter extends Vue {
   nickName: string = '鸡你太美';
-  gender: string = "女";
+  gender: string = '女';
   email: string = 'nmsl@cxk.ikun';
   description: string = '大家好，我是练习两年半的偶像练习生：kunkun。我喜欢唱、跳、RAP、篮球。Music~';
   balance: number = 0.0;
@@ -129,5 +129,7 @@ export default class PersonalCenter extends Vue {
 
 .submit-btn-wrapper {
   margin: 2rem 0 0 0;
+  display: flex;
+  justify-content: flex-start;
 }
 </style>

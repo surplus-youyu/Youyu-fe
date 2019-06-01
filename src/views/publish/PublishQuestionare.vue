@@ -16,7 +16,8 @@
         type="text" 
         placeholder="输入问卷标题" 
         style="width: 60%;"
-        v-model="currentQuestionare.title"/>
+        v-model="currentQuestionare.title"
+        size="large"/>
     </div>
     <div class="questions-wrapper">
       <h3 v-if="currentQuestionare.content.length === 0" 
