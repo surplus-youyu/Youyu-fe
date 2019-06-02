@@ -23,7 +23,7 @@ export default class SortButton extends Vue {
   @Prop({
     required: false
   })
-  reset ?: boolean;
+  reset !: boolean;
 
   // -1 = 从小到大，1 = 从大到小， 0 = 默认。
   status = 0;

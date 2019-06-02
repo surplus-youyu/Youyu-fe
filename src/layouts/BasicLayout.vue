@@ -47,14 +47,13 @@
           <Header id="header">
             <Button v-if="!loginStatus" icon="md-person" class="login-button" type="primary" @click="login">登录</Button>
             <div class="user-info" v-else>
-              <Dropdown>
+              <Dropdown class="avatar-container" @on-click="drapDownClick">
                   <img class="user-avatar" :src="userAvatar" />
                 <DropdownMenu slot="list">
-                  <DropdownItem name="personalCenter" @click="handleClick">个人中心</DropdownItem>
-                  <DropdownItem @click="logOut">退出</DropdownItem>
+                  <DropdownItem name="personalCenter">个人中心</DropdownItem>
+                  <DropdownItem name="logOut">退出</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
-              <span class="user-name" >{{userName}}</span>
             </div>
           </Header>
           <Content id="content">
@@ -96,7 +95,7 @@ export default class BasicLayout extends Vue {
   userName = '';
   userAvatar = DefaultAvatar;
 
-  handleClick(name: any) {
+  handleClick(name: string) {
     this.$router.push({ name });
   }
 
@@ -106,6 +105,15 @@ export default class BasicLayout extends Vue {
 
   logOut() {
     this.$router.push({ name: 'login' });
+  }
+
+  drapDownClick(name: string) {
+    if (name === 'personalCenter') {
+      this.handleClick(name);
+    } else {
+      // 去除用户信息
+      this.logOut();
+    }
   }
 
 }
@@ -197,6 +205,13 @@ export default class BasicLayout extends Vue {
 
         .user-name {
           font-size: 16px;
+        }
+
+        .avatar-container {
+          height: 55px;
+          .ivu-dropdown-rel {
+            height: 55px !important;
+          }
         }
       }
     }
