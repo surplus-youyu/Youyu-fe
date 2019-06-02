@@ -55,7 +55,7 @@ export default new Router({
         },
         {
           path: 'questionare/:sid',
-          name: 'questionare',
+          name: 'answer-questionare',
           component: () => import('./answer/Survey.vue')
         },
         {
