@@ -10,26 +10,6 @@
       <Button type="primary" icon="md-add" shape="circle" @click="createQuestion" size="large"></Button>
     </div>
     <h1 style="margin-bottom: 1rem;">创建你的问卷</h1>
-<<<<<<< HEAD
-    <Input type="text" placeholder="输入问卷题目" style="width: 50%; margin-bottom: 1rem;"
-    v-model="currentQuestionare.title"/><br>
-    <Label>赏金: </Label>
-    <InputNumber :min="0" v-model="currentQuestionare.bounty"></InputNumber>
-    <Button type="primary" @click="createQuestionare" style="float: right;">发布</Button>
-    <h3 v-if="currentQuestionare.content.length === 0" 
-      style="text-align: center; height: 200px; line-height: 200px;
-      vertical-align: middle;">
-      你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
-    </h3>
-    <Card :dis-hover="true" style="margin: 1rem 0 0 0" 
-      v-for="(content, idx) in currentQuestionare.content" :key="'content' + idx">
-      <question-form 
-      :inputContent="content"
-      @modifyQuestion="modifyQuestionHandler"
-      mode="edit"
-      :index="idx"/> 
-    </Card>
-=======
     <div class="title-wrapper">
       <h3 style="margin-bottom: 1rem">标题</h3>
       <Input 
@@ -60,7 +40,6 @@
       <Button style="margin-right: 1rem;">重置</Button>
       <Button type="primary" >提交</Button>
     </div>
->>>>>>> 20f5461e90cc15df96b2728e5f22b7e2627e9658
   </div>
 </template>
 
