@@ -48,6 +48,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { IQuestionareContent, IQuestionare } from '@/typings/publish';
 import QuestionForm from '@/components/QuestionForm.vue';
 import { CURRENT_USER_INFO } from '../../stores/modules/user/constants';
+import { POST_QUESTIONARE } from '../../stores/modules/questionare/constants';
 
 @Component({
   name: 'publish-questionare',
@@ -69,6 +70,7 @@ export default class Publish extends Vue {
   currentQuestionare: IQuestionare = {
     title: '',
     publisher_id: -1,
+    bounty: 0,
     content: []
   };
 
@@ -83,6 +85,46 @@ export default class Publish extends Vue {
 
   createQuestion() {
     this.showCreaterDialog = true;
+  }
+
+  async createQuestionare() {
+    if (this.currentQuestionare.title.length === 0) {
+      this.$Notice.error({
+        title: '标题不能为空',
+        duration: 2
+      });
+      return;
+    } else if (this.currentQuestionare.content.length === 0) {
+      this.$Notice.error({
+        title: '题目不能为空',
+        duration: 2
+      });
+      return;
+    } else {
+      const result = await this.$store.dispatch(`questionare/${POST_QUESTIONARE}`,
+        Object.freeze(this.currentQuestionare));
+      if (result === 'OK') {
+        this.$Notice.success({
+          title: '发布成功',
+          duration: 2
+        });
+        this.clear();
+      } else {
+        this.$Notice.error({
+          title: result,
+          duration: 2
+        });
+      }
+    }
+  }
+
+  clear() {
+    this.currentQuestionare = {
+      title: '',
+      publisher_id: -1,
+      bounty: 0,
+      content: []
+    };
   }
 
   mounted() {
