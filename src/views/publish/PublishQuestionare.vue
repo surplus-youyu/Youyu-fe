@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div class="publish-questionare">
     <Modal v-model="showCreaterDialog" :footer-hide="true">
       <question-form
@@ -7,10 +7,10 @@
       mode="create"/>
     </Modal>
     <div style="position: fixed; bottom: 10vh; z-index: 100;" >
-      <Button type="primary" shape="circle" @click="createQuestion" 
-      icon="ios-add" size="large"></Button>
+      <Button type="primary" icon="md-add" shape="circle" @click="createQuestion" size="large"></Button>
     </div>
     <h1 style="margin-bottom: 1rem;">创建你的问卷</h1>
+<<<<<<< HEAD
     <Input type="text" placeholder="输入问卷题目" style="width: 50%; margin-bottom: 1rem;"
     v-model="currentQuestionare.title"/><br>
     <Label>赏金: </Label>
@@ -29,6 +29,38 @@
       mode="edit"
       :index="idx"/> 
     </Card>
+=======
+    <div class="title-wrapper">
+      <h3 style="margin-bottom: 1rem">标题</h3>
+      <Input 
+        type="text" 
+        placeholder="输入问卷标题" 
+        style="width: 60%;"
+        v-model="currentQuestionare.title"
+        size="large"/>
+    </div>
+    <div class="questions-wrapper">
+      <h3 v-if="currentQuestionare.content.length === 0" 
+        style="text-align: center; height: 200px; line-height: 200px;
+        vertical-align: middle; width: 60%;">
+        你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
+      </h3>
+      <h3 v-else>问题</h3>
+      <Card :dis-hover="true" style="margin: 1rem 0 0 0; width: 60%" 
+        v-for="(content, idx) in currentQuestionare.content" :key="'content' + idx">
+        <question-form 
+        :inputContent="content"
+        @modifyQuestion="modifyQuestionHandler"
+        mode="edit"
+        :index="idx"/> 
+      </Card>
+    </div>
+    
+    <div class="submit-btn-wrapper">
+      <Button style="margin-right: 1rem;">重置</Button>
+      <Button type="primary" >提交</Button>
+    </div>
+>>>>>>> 20f5461e90cc15df96b2728e5f22b7e2627e9658
   </div>
 </template>
 
@@ -124,5 +156,15 @@ export default class Publish extends Vue {
 }
 </script>
 <style lang="less">
+.submit-btn-wrapper,
+.questions-wrapper 
+{
+  margin: 1rem 0 0 0;
+}
+
+.submit-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
 </style>
 

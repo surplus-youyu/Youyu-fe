@@ -52,7 +52,7 @@ export default {
       return state.user;
     },
     [IS_LOGIN](state): boolean {
-      return state.user !== null;
+      return true || state.user !== null;
     }
   }
 } as Module<State, any>;

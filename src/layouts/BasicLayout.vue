@@ -27,10 +27,16 @@
               <MenuItem name="orders-done">已完成的请求</MenuItem>
               <MenuItem name="orders-draft">未发送请求</MenuItem>
             </Submenu>
-            <MenuItem name="publish" v-if="loginStatus">
-                <Icon type="md-add" size="16"/>
-                <span>发布请求</span>
-            </MenuItem>
+            <Submenu name="publish" v-if="loginStatus">
+              <template slot="title">
+                <div class="submenu-title">
+                  <Icon type="md-add" size="16"/>
+                  <span>发布请求</span>
+                </div>
+              </template>
+              <MenuItem name="questionare">发布问卷</MenuItem>
+              <MenuItem name="customtask">发布任务</MenuItem>
+            </Submenu>
             <MenuItem name="about">
                 <Icon type="ios-information-circle-outline" size="16"/>
                 <span>有余简介</span>
@@ -39,7 +45,17 @@
         </Sider>
       <Layout>
           <Header id="header">
-            <Button icon="md-person" class="login-button" type="primary" @click="login">登录</Button>
+            <Button v-if="!loginStatus" icon="md-person" class="login-button" type="primary" @click="login">登录</Button>
+            <div class="user-info" v-else>
+              <Dropdown>
+                  <img class="user-avatar" :src="userAvatar" />
+                <DropdownMenu slot="list">
+                  <DropdownItem name="personalCenter" @click="handleClick">个人中心</DropdownItem>
+                  <DropdownItem @click="logOut">退出</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+              <span class="user-name" >{{userName}}</span>
+            </div>
           </Header>
           <Content id="content">
               <Card>
@@ -53,18 +69,42 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { IS_LOGIN, CURRENT_USER_INFO } from '@/stores/modules/user/constants';
+import { IUserInfo } from '@/stores/modules/user/typing';
+import DefaultAvatar from '@/assets/user/default-avatar.png';
+import store from '@/stores';
 
 @Component({
-  name: 'BasicLayout'
+  name: 'BasicLayout',
+  beforeRouteEnter(from: any, to: any, next: any) {
+    const isLogin = store.getters[`user/${IS_LOGIN}`];
+    let user: IUserInfo;
+    if (isLogin) {
+      user = store.getters[`user/${CURRENT_USER_INFO}`];
+    }
+    next((vm: any) => {
+      vm.loginStatus = isLogin;
+      if (isLogin) {
+        vm.userName = 'test' || user.nick_name || user.real_name;
+        vm.userAvatar = DefaultAvatar || user.avatar || DefaultAvatar;
+      }
+    });
+  }
 })
 export default class BasicLayout extends Vue {
   loginStatus = true;
+  userName = '';
+  userAvatar = DefaultAvatar;
 
   handleClick(name: any) {
     this.$router.push({ name });
   }
 
   login() {
+    this.$router.push({ name: 'login' });
+  }
+
+  logOut() {
     this.$router.push({ name: 'login' });
   }
 
@@ -143,6 +183,21 @@ export default class BasicLayout extends Vue {
       .login-button {
         margin-top: 12px;
         float: right;
+      }
+
+      .user-info {
+        float: right;
+        display: flex;
+        align-items: center;
+
+        .user-avatar {
+          height: 50px;
+          margin-right: 10px;
+        }
+
+        .user-name {
+          font-size: 16px;
+        }
       }
     }
   }

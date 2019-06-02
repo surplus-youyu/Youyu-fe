@@ -169,8 +169,5 @@ export default class QuestionForm extends Vue {
   .ivu-slider-wrap {
     width: 50% !important;
   }
-  .ivu-input-wrapper {
-    width: 50% !important;
-  }
 }
 </style>
