@@ -4,19 +4,19 @@
       <sort-button class="sort-btn" :reset="!sortBytime" title="时间" @status-change="selectTime"></sort-button>
       <sort-button class="sort-btn" :reset="sortBytime" title="价格" @status-change="selectPrice"></sort-button>
       <div class="select-container">
-        <Select class="select" v-model="sortMap.campus" style="width:200px" placeholder="校区">
+        <Select class="select" clearable @on-change="selectCampus" style="width:200px" placeholder="校区">
           <Option value="east" key="east">东校园</Option>
           <Option value="north" key="north">北校园</Option>
           <Option value="south" key="south">南校园</Option>
           <Option value="Shenzhen" key="Shenzhen">深圳校园</Option>
         </Select>
       </div>
-      <Input class="search" placeholder="请输入搜索内容">
+      <Input class="search" type='text' @on-enter="search" v-model="searchText" clearable placeholder="请输入搜索内容">
         <Icon type="ios-search" slot="suffix" />
       </Input>
     </div>
     <div class="cards-container">
-      <request-card :req="testReq"></request-card>
+      <request-card class="req-card" v-for="(item, index) in ShowReqs" :key="index" :req="item"></request-card>
     </div>
   </div>
 </template>
@@ -36,6 +36,7 @@ import { SortMap, RequsetMsg } from '@/typings/requestHall';
 export default class RequestHall extends Vue {
 
   sortBytime = false;
+  searchText = '';
 
   sortMap: SortMap = {
     time: 0,
@@ -47,27 +48,111 @@ export default class RequestHall extends Vue {
     title: '快递帮拿',
     tags: ['快递', '明六'],
     desc: '送到明二',
+    price: 10,
+    campus: 'east',
     owner: '小明',
     publishTime: '2019-05-20 09:30'
   };
 
+  testReq1: RequsetMsg = {
+    title: '快递帮拿',
+    tags: ['快递', '明六'],
+    desc: '送到明二',
+    price: 5,
+    campus: 'east',
+    owner: '小明',
+    publishTime: '2019-05-20 21:30'
+  };
+
+  testReq2: RequsetMsg = {
+    title: '快递帮拿',
+    tags: ['快递', '明六'],
+    desc: '送到明二',
+    price: 5,
+    campus: 'north',
+    owner: '小明',
+    publishTime: '2019-05-21 09:30'
+  };
+
+  testReq3: RequsetMsg = {
+    title: '快递帮拿',
+    tags: ['快递', '明六'],
+    desc: '送到明二',
+    price: 20,
+    campus: 'south',
+    owner: '小明',
+    publishTime: '2019-05-21 19:30'
+  };
+
+  testReq4: RequsetMsg = {
+    title: '快递帮',
+    tags: ['快递', '明六'],
+    desc: '送到明二',
+    price: 30,
+    campus: 'Shenzhen',
+    owner: '小明',
+    publishTime: '2019-05-14 19:30'
+  };
+
+  Reqs: RequsetMsg[] = [this.testReq1, this.testReq2, this.testReq3, this.testReq4, this.testReq];
+
+  ShowReqs: RequsetMsg[] = this.Reqs;
+
   selectTime(timeStatus: SortMap['time']) {
     this.sortMap.time = timeStatus;
     this.sortBytime = true;
+    this.sortList(false);
   }
 
   selectPrice(priceStatus: SortMap['price']) {
     this.sortMap.price = priceStatus;
     this.sortBytime = false;
+    this.sortList(false);
   }
 
   selectCampus(campus: SortMap['campus']) {
+    // 清除campus选项时设为''
+    campus = campus || '';
     this.sortMap.campus = campus;
+    this.sortList(true);
   }
 
-  // sortList() {
+  // 首先先根据校区进行筛选,再根据时间或价格进行排序
+  sortList(filterCampus: boolean) {
+    if (filterCampus) {
+      if (this.sortMap.campus) {
+        this.ShowReqs = this.Reqs.filter( item => item.campus === this.sortMap.campus);
+      } else {
+        this.ShowReqs = this.Reqs;
+      }
+    }
+    let sortType = '', sortOrder = 0;
+    if (this.sortMap.time && this.sortBytime) {
+      sortType = 'publishTime';
+      sortOrder = this.sortMap.time;
+    } else if (this.sortMap.price && !this.sortBytime) {
+      sortType = 'price';
+      sortOrder = this.sortMap.price;
+    }
+    if (sortType && sortOrder) {
+      this.ShowReqs.sort((a: RequsetMsg, b: RequsetMsg) => {
+          if (a[sortType] > b[sortType]) {
+            return sortOrder === 1 ? -1 : 1;
+          } else if (a[sortType] < b[sortType]) {
+            return sortOrder === 1 ? 1 : -1;
+          } else {
+            return 0;
+          }
+      })
+    }
+  }
 
-  // }
+  search() {
+    console.log(this.searchText);
+    // 避免上次搜索结果为空,而这次搜索拿空数据进行过滤
+    this.sortList(true);
+    this.ShowReqs = this.ShowReqs.filter(item => item.title.includes(this.searchText));
+  }
 }
 </script>
 
@@ -104,6 +189,10 @@ export default class RequestHall extends Vue {
   .cards-container {
     margin-top: 20px;
     padding: 0 35px;
+
+    .req-card {
+      margin: 0 20px 20px 0;
+    }
   }
 </style>
 
