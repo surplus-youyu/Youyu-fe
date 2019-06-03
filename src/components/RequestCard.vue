@@ -4,7 +4,11 @@
     <div class="tags">
       <Tag class="tag" v-for="tag in req.tags" :key="tag" color="default">{{tag}}</Tag>
     </div>
-      <p class="desc">{{req.desc}}</p>
+    <p class="desc">{{req.desc}}</p>
+    <div>
+      <span>{{ campusMap[req.campus] }}  </span>
+      <span>￥{{req.price}}</span>
+    </div>
     <div>
       <span>发布者：{{req.owner}}</span>
       <span class="req-pbtime">{{req.publishTime}}</span>
@@ -28,12 +32,20 @@ export default class RequestCard extends Vue {
   })
   req !: RequsetMsg;
 
+  campusMap = {
+    east: '东校园',
+    north: '北校园',
+    south: '南校园',
+    Shenzhen: '深圳校园'
+  };
+
 }
 </script>
 
 
 <style lang="less" scoped>
 .card {
+  display: inline-block;
   width: 400px;
 
     .title {

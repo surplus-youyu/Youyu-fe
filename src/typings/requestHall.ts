@@ -8,6 +8,8 @@ export interface RequsetMsg {
     title: string;
     tags?: string[];
     desc?: string;
+    price: number;
+    campus: 'east' | 'north' | 'south' | 'Shenzhen';
     owner: string;
     publishTime: string;
 }
