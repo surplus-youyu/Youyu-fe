@@ -121,12 +121,13 @@ export default class RequestHall extends Vue {
   sortList(filterCampus: boolean) {
     if (filterCampus) {
       if (this.sortMap.campus) {
-        this.ShowReqs = this.Reqs.filter( item => item.campus === this.sortMap.campus);
+        this.ShowReqs = this.Reqs.filter((item) => item.campus === this.sortMap.campus);
       } else {
         this.ShowReqs = this.Reqs;
       }
     }
-    let sortType = '', sortOrder = 0;
+    let sortType = '';
+    let sortOrder = 0;
     if (this.sortMap.time && this.sortBytime) {
       sortType = 'publishTime';
       sortOrder = this.sortMap.time;
@@ -143,15 +144,14 @@ export default class RequestHall extends Vue {
           } else {
             return 0;
           }
-      })
+      });
     }
   }
 
   search() {
-    console.log(this.searchText);
     // 避免上次搜索结果为空,而这次搜索拿空数据进行过滤
     this.sortList(true);
-    this.ShowReqs = this.ShowReqs.filter(item => item.title.includes(this.searchText));
+    this.ShowReqs = this.ShowReqs.filter((item) => item.title.includes(this.searchText));
   }
 }
 </script>

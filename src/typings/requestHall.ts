@@ -5,6 +5,7 @@ export interface SortMap {
 }
 
 export interface RequsetMsg {
+    [key: string]: any;
     title: string;
     tags?: string[];
     desc?: string;
