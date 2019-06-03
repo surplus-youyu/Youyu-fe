@@ -25,7 +25,7 @@
               <MenuItem name="orders-sent">我发出的请求</MenuItem>
               <MenuItem name="orders-received">我接受的请求</MenuItem>
               <MenuItem name="orders-done">已完成的请求</MenuItem>
-              <MenuItem name="orders-draft">未发送请求</MenuItem>
+              <MenuItem name="orders-draft">未发送的请求</MenuItem>
             </Submenu>
             <Submenu name="publish" v-if="loginStatus">
               <template slot="title">
