@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { IQuestionareContent, IQuestionare } from '@/typings/publish';
+import { IQuestionnaireContent, IQuestionnaire } from '@/typings/publish';
 import { CURRENT_USER_INFO } from '../../stores/modules/user/constants';
 
 @Component({
