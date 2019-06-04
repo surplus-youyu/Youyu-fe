@@ -2,7 +2,7 @@ const merge = require('webpack-merge');
 const fs = require('fs');
 const path = require('path');
 const lessToJs = require('less-vars-to-js');
-const apiMocker = require('webpack-api-mocker');
+const apiMocker = require('mocker-api');
 
 const lessGlobalVarsString = fs.readFileSync(
   'src/global-variables.less',
