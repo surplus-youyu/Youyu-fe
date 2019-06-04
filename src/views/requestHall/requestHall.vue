@@ -26,11 +26,18 @@ import { Component, Vue } from 'vue-property-decorator';
 import SortButton from '@/components/SortButton.vue';
 import RequestCard from '@/components/RequestCard.vue';
 import { SortMap, RequsetMsg } from '@/typings/requestHall';
+import router from '@/views/router';
 @Component({
   name: 'requestHall',
   components: {
     SortButton,
     RequestCard
+  },
+  beforeRouteEnter(to: any, from: any, next: any) {
+    next();
+  },
+  beforeRouteUpdate(to: any, from: any, next: any) {
+    next( );
   }
 })
 export default class RequestHall extends Vue {

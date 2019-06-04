@@ -7,7 +7,7 @@
             <h1 style="color: white">有余</h1>
           </div>
           <Menu active-name="1" theme="dark" width="auto" @on-select="handleClick">
-            <MenuItem name="requestHall">
+            <MenuItem name="requests/public">
                 <Icon type="logo-dropbox" size="16"/>
                 <span>请求大厅</span>
             </MenuItem>
@@ -22,10 +22,10 @@
                     <span>我的订单</span> 
                   </div>
               </template>
-              <MenuItem name="orders-sent">我发出的请求</MenuItem>
-              <MenuItem name="orders-received">我接受的请求</MenuItem>
-              <MenuItem name="orders-done">已完成的请求</MenuItem>
-              <MenuItem name="orders-draft">未发送的请求</MenuItem>
+              <MenuItem name="requests/sent">我发出的请求</MenuItem>
+              <MenuItem name="requests/received">我接受的请求</MenuItem>
+              <MenuItem name="requests/done">已完成的请求</MenuItem>
+              <MenuItem name="requests/draft">未发送的请求</MenuItem>
             </Submenu>
             <Submenu name="publish" v-if="loginStatus">
               <template slot="title">
@@ -75,7 +75,7 @@ import store from '@/stores';
 
 @Component({
   name: 'BasicLayout',
-  beforeRouteEnter(from: any, to: any, next: any) {
+  beforeRouteEnter(to: any, from: any, next: any) {
     const isLogin = store.getters[`user/${IS_LOGIN}`];
     let user: IUserInfo;
     if (isLogin) {
@@ -96,7 +96,11 @@ export default class BasicLayout extends Vue {
   userAvatar = DefaultAvatar;
 
   handleClick(name: string) {
-    this.$router.push({ name });
+    if (name.includes('requests')) {
+      this.$router.push({name: 'requests', params: {requestType: name.split('/')[1]}});
+    } else {
+      this.$router.push({ name });
+    }
   }
 
   login() {

@@ -26,11 +26,11 @@ export default new Router({
         {
           path: '',
           name: 'home',
-          redirect: '/requestHall'
+          redirect: '/requests/public'
         },
         {
-          path: 'requestHall',
-          name: 'requestHall',
+          path: 'requests/:requestType',
+          name: 'requests',
           component: () => import('./requestHall/requestHall.vue')
         },
         {
