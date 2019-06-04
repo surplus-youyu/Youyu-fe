@@ -1,5 +1,5 @@
 <template>
-  <div class="publish-questionare">
+  <div class="publish-questionnaire">
     <Modal v-model="showCreaterDialog" :footer-hide="true">
       <question-form
       @createNewQuestion="newQuestionHandler"
@@ -16,18 +16,18 @@
         type="text" 
         placeholder="输入问卷标题" 
         style="width: 60%;"
-        v-model="currentQuestionare.title"
+        v-model="currentQuestionnaire.title"
         size="large"/>
     </div>
     <div class="questions-wrapper">
-      <h3 v-if="currentQuestionare.content.length === 0" 
+      <h3 v-if="currentQuestionnaire.content.length === 0" 
         style="text-align: center; height: 200px; line-height: 200px;
         vertical-align: middle; width: 60%;">
         你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
       </h3>
       <h3 v-else>问题</h3>
       <Card :dis-hover="true" style="margin: 1rem 0 0 0; width: 60%" 
-        v-for="(content, idx) in currentQuestionare.content" :key="'content' + idx">
+        v-for="(content, idx) in currentQuestionnaire.content" :key="'content' + idx">
         <question-form 
         :inputContent="content"
         @modifyQuestion="modifyQuestionHandler"
@@ -45,13 +45,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { IQuestionareContent, IQuestionare } from '@/typings/publish';
+import { IQuestionnaireContent, IQuestionnaire } from '@/typings/publish';
 import QuestionForm from '@/components/QuestionForm.vue';
 import { CURRENT_USER_INFO } from '../../stores/modules/user/constants';
-import { POST_QUESTIONARE } from '../../stores/modules/questionare/constants';
+import { POST_QUESTIONARE } from '../../stores/modules/questionnaire/constants';
 
 @Component({
-  name: 'publish-questionare',
+  name: 'publish-questionnaire',
   components: {
     QuestionForm
   }
@@ -59,7 +59,7 @@ import { POST_QUESTIONARE } from '../../stores/modules/questionare/constants';
 export default class Publish extends Vue {
   showCreaterDialog: boolean = false;
 
-  plainContent: IQuestionareContent = {
+  plainContent: IQuestionnaireContent = {
     title: '',
     type: 1,
     options: [],
@@ -67,42 +67,42 @@ export default class Publish extends Vue {
     limit: 1
   };
 
-  currentQuestionare: IQuestionare = {
+  currentQuestionnaire: IQuestionnaire = {
     title: '',
     publisher_id: -1,
     bounty: 0,
     content: []
   };
 
-  newQuestionHandler(content: IQuestionareContent) {
+  newQuestionHandler(content: IQuestionnaireContent) {
     this.showCreaterDialog = false;
-    this.currentQuestionare.content.push(content);
+    this.currentQuestionnaire.content.push(content);
   }
 
-  modifyQuestionHandler(content: IQuestionareContent, index: number) {
-    this.currentQuestionare.content[index] = content;
+  modifyQuestionHandler(content: IQuestionnaireContent, index: number) {
+    this.currentQuestionnaire.content[index] = content;
   }
 
   createQuestion() {
     this.showCreaterDialog = true;
   }
 
-  async createQuestionare() {
-    if (this.currentQuestionare.title.length === 0) {
+  async createQuestionnaire() {
+    if (this.currentQuestionnaire.title.length === 0) {
       this.$Notice.error({
         title: '标题不能为空',
         duration: 2
       });
       return;
-    } else if (this.currentQuestionare.content.length === 0) {
+    } else if (this.currentQuestionnaire.content.length === 0) {
       this.$Notice.error({
         title: '题目不能为空',
         duration: 2
       });
       return;
     } else {
-      const result = await this.$store.dispatch(`questionare/${POST_QUESTIONARE}`,
-        Object.freeze(this.currentQuestionare));
+      const result = await this.$store.dispatch(`questionnaire/${POST_QUESTIONARE}`,
+        Object.freeze(this.currentQuestionnaire));
       if (result === 'OK') {
         this.$Notice.success({
           title: '发布成功',
@@ -119,7 +119,7 @@ export default class Publish extends Vue {
   }
 
   clear() {
-    this.currentQuestionare = {
+    this.currentQuestionnaire = {
       title: '',
       publisher_id: -1,
       bounty: 0,
@@ -129,7 +129,7 @@ export default class Publish extends Vue {
 
   mounted() {
     if (this.$store.getters[`user/${CURRENT_USER_INFO}`] !== null) {
-      this.currentQuestionare.publisher_id = this.$store.getters[`user/${CURRENT_USER_INFO}`].uid;
+      this.currentQuestionnaire.publisher_id = this.$store.getters[`user/${CURRENT_USER_INFO}`].uid;
     }
   }
 }

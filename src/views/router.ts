@@ -49,13 +49,13 @@ export default new Router({
           component: () => import('./ordersCenter/ordersCenter.vue')
         },
         {
-          path: 'publish/questionare',
-          name: 'questionare',
-          component: () => import('./publish/PublishQuestionare.vue')
+          path: 'publish/questionnaire',
+          name: 'questionnaire',
+          component: () => import('./publish/PublishQuestionnaire.vue')
         },
         {
-          path: 'questionare/:sid',
-          name: 'answer-questionare',
+          path: 'questionnaire/:sid',
+          name: 'answer-questionnaire',
           component: () => import('./answer/Survey.vue')
         },
         {

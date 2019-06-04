@@ -38,7 +38,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Watch, Emit } from 'vue-property-decorator';
-import { IQuestionareContent } from '../typings/publish';
+import { IQuestionnaireContent } from '../typings/publish';
 import { Form } from 'iview/types/form';
 
 interface IAnswerSheet {
@@ -54,7 +54,7 @@ export default class AnswerSheet extends Vue {
   @Prop({
     required: true
   })
-  inputQuestion !: IQuestionareContent;
+  inputQuestion !: IQuestionnaireContent;
 
   @Prop({
     required: true,

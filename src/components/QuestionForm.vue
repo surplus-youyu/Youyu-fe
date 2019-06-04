@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { IQuestionareContent } from '@/typings/publish';
+import { IQuestionnaireContent } from '@/typings/publish';
 import { Form } from 'iview/types/form';
 
 @Component({
@@ -51,9 +51,9 @@ export default class QuestionForm extends Vue {
   @Prop({
     required: true
   })
-  inputContent !: IQuestionareContent;
+  inputContent !: IQuestionnaireContent;
 
-  content: IQuestionareContent = {
+  content: IQuestionnaireContent = {
     title: '',
     type: 1,
     options: [],

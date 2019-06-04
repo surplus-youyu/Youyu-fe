@@ -1,49 +1,34 @@
 <template>
-  <div id="current-questionare">
-    <answer-sheet v-for="(content, idx) in currentQuestionare.content" ref="answer"
-    :key="`content-questionare-${idx}`" :inputQuestion="content" :index="idx"></answer-sheet>
+  <div id="current-questionnaire">
+    <answer-sheet v-for="(content, idx) in currentQuestionnaire.content" ref="answer"
+    :key="`content-questionnaire-${idx}`" :inputQuestion="content" :index="idx"></answer-sheet>
     <Button @click="submit">提交</Button>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { IQuestionare } from '../../typings/publish';
+import { IQuestionnaire } from '../../typings/publish';
 import AnswerSheet from '@/components/AnswerSheet.vue';
+import { LOAD_QUESTIONARE, GET_CURRENT_QUESTIONARE } from '@/stores/modules/questionnaire/constants';
 
 @Component({
   name: 'survey',
   components: {
     AnswerSheet
+  },
+  async beforeRouteUpdate(to: any, from: any, next: any) {
+    if (to.params.sid !== from.params.sid) {
+      await this.$store.dispatch(`questionnaire/${LOAD_QUESTIONARE}`, to.params.sid);
+    }
+    next();
   }
 })
 export default class Survey extends Vue {
-  currentQuestionare: IQuestionare = {
-    title: 'a questionare',
+  currentQuestionnaire: IQuestionnaire = {
+    title: '',
     publisher_id: -1,
-    bounty: 10,
-    content: [
-      {
-        title: 'question 1',
-        type: 1,
-        options: ['o1', 'o2', 'o3'],
-        optional: true,
-        limit: 1
-      },
-      {
-        title: 'question 2',
-        type: 2,
-        options: ['p1', 'p2', 'p3'],
-        optional: true,
-        limit: 2
-      },
-      {
-        title: 'question 3',
-        type: 3,
-        options: [],
-        optional: true,
-        limit: -1
-      }
-    ]
+    bounty: 0,
+    content: []
   };
 
   submit() {
@@ -60,6 +45,11 @@ export default class Survey extends Vue {
         duration: 2
       });
     }
+  }
+
+  async mounted() {
+    await this.$store.dispatch(`questionnaire/${LOAD_QUESTIONARE}`, this.$route.params.sid);
+    this.currentQuestionnaire = this.$store.getters[`questionnaire/${GET_CURRENT_QUESTIONARE}`];
   }
 }
 </script>

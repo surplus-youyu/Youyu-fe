@@ -34,7 +34,7 @@
                   <span>发布请求</span>
                 </div>
               </template>
-              <MenuItem name="questionare">发布问卷</MenuItem>
+              <MenuItem name="questionnaire">发布问卷</MenuItem>
               <MenuItem name="customtask">发布任务</MenuItem>
             </Submenu>
             <MenuItem name="about">

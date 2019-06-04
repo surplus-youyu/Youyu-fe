@@ -7,7 +7,6 @@ import {
 } from './constants';
 import { LoginFormFieldsUP, LoginFormFieldsPV } from '@/typings/login';
 import { httpRequest, httpRequestSilence } from '@/utils/httpRequest';
-import { IGeneralResponse } from '@/typings/response';
 import { IUserInfo, State } from './typing';
 
 import {Module} from 'vuex';

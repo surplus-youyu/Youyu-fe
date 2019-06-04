@@ -12,7 +12,7 @@ import {
  } from './constants';
 import { RequsetMsg } from '@/typings/requestHall';
 import { httpRequestSilence } from '@/utils/httpRequest';
-import { IResponse, IGeneralResponse } from '@/typings/response';
+import { IResponse } from '@/typings/response';
 
 export default {
   namespaced: true,
@@ -27,7 +27,7 @@ export default {
     async [LOAD_REQUESTS]({ commit }, type: string) {
       try {
         const { data } = await httpRequestSilence.get<IResponse<RequsetMsg[]> >(`/requests/${type}`);
-        if (data.status === 'OK') {
+        if (data.status) {
           commit(SET_REQUESTS, { data: data.data, type });
         }
       } catch (err) {
