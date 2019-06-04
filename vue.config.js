@@ -2,7 +2,7 @@ const merge = require('webpack-merge');
 const fs = require('fs');
 const path = require('path');
 const lessToJs = require('less-vars-to-js');
-// const apiMocker = require('webpack-api-mocker');
+const apiMocker = require('webpack-api-mocker');
 
 const lessGlobalVarsString = fs.readFileSync(
   'src/global-variables.less',
@@ -54,11 +54,11 @@ module.exports = {
     }
   },
   devServer: {
-    proxy: 'http://193.112.59.226:8888'
-    // before(app) {
-    //   if (process.env.MOCK_DATA) {
-    //     apiMocker(app, path.resolve(__dirname, './mock/index.js'));
-    //   }
-    // }
+    // proxy: 'http://193.112.59.226:8888'
+    before(app) {
+      if (process.env.MOCK_DATA) {
+        apiMocker(app, path.resolve(__dirname, './mock/index.js'));
+      }
+    }
   }
 };

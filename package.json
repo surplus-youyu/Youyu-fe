@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "vue-cli-service serve"
+    "start": "cross-env MOCK_DATA=true vue-cli-service serve"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -22,7 +22,8 @@
     "vue-property-decorator": "^8.0.0",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "vuex-class": "^0.3.2"
+    "vuex-class": "^0.3.2",
+    "webpack-api-mocker": "^1.7.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
