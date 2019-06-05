@@ -9,7 +9,7 @@
     <div style="position: fixed; bottom: 10vh; z-index: 100;" >
       <Button type="primary" icon="md-add" shape="circle" @click="createQuestion" size="large"></Button>
     </div>
-    <h1 style="margin-top: 1rem; margin-bottom: 1rem; text-align: center;">创建你的问卷</h1>
+    <h1 style="margin-top: 1rem; margin-bottom: 2rem; text-align: center;">创建你的问卷</h1>
     <div class="title-wrapper">
       <h3 style="margin-bottom: 1rem">标题</h3>
       <Input 
@@ -21,7 +21,7 @@
       <h3 style="margin: 1rem 0 1rem 0">描述</h3>
       <Input
         type="textarea"
-        :rows="6"
+        :rows="4"
         placeholder="请输入问卷描述"
         style="width: 55%"
         v-model="currentQuestionnaire.summary"/>
@@ -36,7 +36,7 @@
     </div>
     <div class="questions-wrapper">
       <h3 v-if="currentQuestionnaire.content.length === 0" 
-        style="text-align: center; height: 200px; line-height: 200px;
+        style="text-align: center; height: 180px; line-height: 180px;
         vertical-align: middle;">
         你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
       </h3>

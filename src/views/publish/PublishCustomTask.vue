@@ -1,6 +1,6 @@
 <template>
   <div class="publish-customtask">
-    <h1 style="margin-top: 1rem; text-align: center;">创建你的任务</h1>
+    <h1 style="margin-top: 1rem; text-align: center; margin-bottom: 2rem;">创建你的任务</h1>
     <div class="title-wrapper">
       <h3 style="margin-bottom: 1rem">标题</h3>
       <Input 
@@ -14,7 +14,7 @@
       <Input 
         v-model="currentCustomTask.description" 
         type="textarea" 
-        :rows="6" 
+        :rows="4" 
         placeholder="请输入任务描述..." 
         style="width: 55%"/>
     </div>
@@ -141,6 +141,6 @@ export default class Publish extends Vue {
 .submit-btn-wrapper {
   display: flex;
   justify-content: flex-end;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>个人中心</h1>
+    <h1 style="text-align: center; margin-top: 1rem; margin-bottom: 1rem;">个人中心</h1>
     <div class="info-wrapper">
       <div class="info" style="width: 40%">
         <div class="detail-wrapper">
@@ -109,6 +109,7 @@ export default class PersonalCenter extends Vue {
 <style lang="less" scoped>
 .info-wrapper {
   display: flex;
+  justify-content: center;
 }
 
 .detail-wrapper {
@@ -130,6 +131,6 @@ export default class PersonalCenter extends Vue {
 .submit-btn-wrapper {
   margin: 2rem 0 0 0;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 </style>

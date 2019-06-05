@@ -1,7 +1,7 @@
 <template>
     <div id="basic-layout">
       <Layout id="slider">
-        <Sider style="width: 214px;min-width: 214px;max-width: 214px;flex: 0 0 214px;">
+        <Sider :style="{position: 'fixed', minWidth: '214px', height: '100vh', left: 0, overflow: 'auto'}">
           <div class="logo">
             <router-link to="/" style="color: white;"><span>Surplus</span></router-link>
             <h1 style="color: white">有余</h1>
@@ -43,7 +43,7 @@
             </MenuItem>
           </Menu>
         </Sider>
-      <Layout>
+      <Layout :style="{marginLeft: '214px'}">
           <Header id="header">
             <Button v-if="!loginStatus" icon="md-person" class="login-button" type="primary" @click="login">登录</Button>
             <div class="user-info" v-else>
