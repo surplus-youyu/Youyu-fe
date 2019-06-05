@@ -1,11 +1,10 @@
 module.exports = {
-  'GET /api/questionnaires/:id': (req, res) => {
-    // if (req.params.id === 1) {
+  'GET /api/tasks/:id': (req, res) => {
       res.send({
         msg: 'ok',
         status: true,
         data: {
-          tid: 1,
+          tid: req.params.id,
           title: 'questionnaire 1',
           owner: 1,
           summary: 'a summary',
@@ -38,6 +37,11 @@ module.exports = {
           enclosure: '',
         }
       });
-    // }
+  },
+  'POST /api/tasks': (req, res) => {
+    res.send({
+      status: true,
+      msg: 'OK'
+    });
   }
 };
