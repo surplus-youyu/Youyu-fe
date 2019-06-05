@@ -18,20 +18,22 @@
         style="width: 60%;"
         v-model="currentQuestionnaire.title"
         size="large"/>
+      <h3 style="margin: 1rem 0 1rem 0">描述</h3>
       <Input
         type="text"
         placeholder="输入问卷描述"
+        style="width: 60%"
         v-model="currentQuestionnaire.summary"
         size="large"/>
     </div>
     <div class="questions-wrapper">
       <h3 v-if="currentQuestionnaire.content.length === 0" 
         style="text-align: center; height: 200px; line-height: 200px;
-        vertical-align: middle; width: 60%;">
+        vertical-align: middle;">
         你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
       </h3>
       <h3 v-else>问题</h3>
-      <Card :dis-hover="true" style="margin: 1rem 0 0 0; width: 60%" 
+      <Card :dis-hover="true" style="margin: 1rem 0 0 0;" 
         v-for="(content, idx) in currentQuestionnaire.content" :key="'content' + idx">
         <question-form 
         :inputContent="content"
@@ -43,7 +45,7 @@
     
     <div class="submit-btn-wrapper">
       <Button style="margin-right: 1rem;">重置</Button>
-      <Button type="primary" >提交</Button>
+      <Button type="primary" @click="createQuestionnaire">提交</Button>
     </div>
   </div>
 </template>
@@ -97,6 +99,12 @@ export default class Publish extends Vue {
     if (this.currentQuestionnaire.title.length === 0) {
       this.$Notice.error({
         title: '标题不能为空',
+        duration: 2
+      });
+      return;
+    } else if (this.currentQuestionnaire.summary.length === 0) {
+      this.$Notice.error({
+        title: '描述不能为空',
         duration: 2
       });
       return;
