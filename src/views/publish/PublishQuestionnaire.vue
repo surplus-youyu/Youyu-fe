@@ -92,13 +92,15 @@ export default class Publish extends Vue {
 
   newQuestionHandler(content: IQuestionnaireContent) {
     this.showCreaterDialog = false;
-    if (this.currentQuestionnaire.content)
+    if (this.currentQuestionnaire.content) {
       this.currentQuestionnaire.content.push(content);
+    }
   }
 
   modifyQuestionHandler(content: IQuestionnaireContent, index: number) {
-    if (this.currentQuestionnaire.content)
+    if (this.currentQuestionnaire.content) {
       this.currentQuestionnaire.content[index] = content;
+    }
   }
 
   createQuestion() {
