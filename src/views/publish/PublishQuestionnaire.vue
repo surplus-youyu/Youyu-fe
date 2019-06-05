@@ -18,6 +18,11 @@
         style="width: 60%;"
         v-model="currentQuestionnaire.title"
         size="large"/>
+      <Input
+        type="text"
+        placeholder="输入问卷描述"
+        v-model="currentQuestionnaire.summary"
+        size="large"/>
     </div>
     <div class="questions-wrapper">
       <h3 v-if="currentQuestionnaire.content.length === 0" 
@@ -70,6 +75,7 @@ export default class Publish extends Vue {
   currentQuestionnaire: IQuestionnaire = {
     title: '',
     publisher_id: -1,
+    summary: '',
     bounty: 0,
     content: []
   };
@@ -122,6 +128,7 @@ export default class Publish extends Vue {
     this.currentQuestionnaire = {
       title: '',
       publisher_id: -1,
+      summary: '',
       bounty: 0,
       content: []
     };

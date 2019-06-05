@@ -27,6 +27,7 @@ export default class Survey extends Vue {
   currentQuestionnaire: IQuestionnaire = {
     title: '',
     publisher_id: -1,
+    summary: '',
     bounty: 0,
     content: []
   };
