@@ -1,21 +1,38 @@
+let isLogin = false;
+
 module.exports = {
-  'GET /api/user/': (req, res) => {
+  'PUT /api/user/login': (req, res) => {
+    isLogin = true;
     res.send({
       status: true,
-      msg: 'OK',
-      data: {
-        uid: 1,
-        real_name: 'test',
-        nick_name: 'test-nick-name',
-        avatar: 'null',
-        age: 10,
-        gender: 'm',
-        balance: 100,
-        major: 'SE',
-        grade: 2,
-        phone: '1888888888',
-        email: 'lll@qq.com'
-      }
+      msg: 'OK'
     });
+  },
+  'GET /api/user': (req, res) => {
+    if (isLogin) {
+      res.send({
+        status: true,
+        msg: 'OK',
+        data: {
+          uid: 1,
+          real_name: 'test',
+          nick_name: 'test-nick-name',
+          avatar: 'null',
+          age: 10,
+          gender: 'm',
+          balance: 100,
+          major: 'SE',
+          grade: 2,
+          phone: '1888888888',
+          email: 'lll@qq.com'
+        }
+      });
+    } else {
+      res.statusCode = 401;
+      res.send({
+        status: false,
+        msg: 'unauthorized'
+      });
+    }
   }
 };
