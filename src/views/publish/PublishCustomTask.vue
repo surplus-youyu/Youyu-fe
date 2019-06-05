@@ -6,7 +6,7 @@
       <Input 
         v-model="currentCustomTask.title" type="text" 
         placeholder="请输入任务标题"
-        style="width: 55%"
+        style="width: 45%"
         size="large"/>
     </div>
     <div class="description-wrapper">
@@ -16,14 +16,15 @@
         type="textarea" 
         :rows="4" 
         placeholder="请输入任务描述..." 
-        style="width: 55%"/>
+        style="width: 45%"
+        size="large"/>
     </div>
     <div class="payment-wrapper">
       <h3 style="margin-bottom: 1rem">报酬</h3>
       <Input 
         v-model="currentCustomTask.bounty" 
         prefix="logo-yen"
-        style="width: 55%"
+        style="width: 45%"
         size="large"/>
     </div>
     <div class="uploader-wrapper">
@@ -33,7 +34,7 @@
         multiple
         action=""
         type="drag"
-        style="width: 55%">
+        style="width: 45%">
         <div style="padding: 20px 0">
           <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
           <p>点击或拖拽上传附件</p>
@@ -134,7 +135,7 @@ export default class Publish extends Vue {
   align-items: center;
   h3 {
     text-align: left;
-    width: 55%;
+    width: 45%;
   }
 }
 

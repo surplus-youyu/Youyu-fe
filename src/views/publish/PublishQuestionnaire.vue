@@ -15,7 +15,7 @@
       <Input 
         type="text"
         placeholder="请输入问卷标题..." 
-        style="width: 55%;"
+        style="width: 45%;"
         v-model="currentQuestionnaire.title"
         size="large"/>
       <h3 style="margin: 1rem 0 1rem 0">描述</h3>
@@ -23,7 +23,7 @@
         type="textarea"
         :rows="4"
         placeholder="请输入问卷描述"
-        style="width: 55%"
+        style="width: 45%"
         v-model="currentQuestionnaire.summary"/>
     </div>
     <div class="bounty-wrapper">
@@ -31,7 +31,7 @@
       <Input 
         v-model="currentQuestionnaire.bounty" 
         prefix="logo-yen"
-        style="width: 55%"
+        style="width: 45%"
         size="large"/>
     </div>
     <div class="questions-wrapper">
@@ -41,7 +41,7 @@
         你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
       </h3>
       <h3 v-else>问题</h3>
-      <Card :dis-hover="true" style="margin: 1rem 0 0 0; width: 55%" 
+      <Card :dis-hover="true" style="margin: 1rem 0 0 0; width: 45%" 
         v-for="(content, idx) in currentQuestionnaire.content" :key="'content' + idx">
         <question-form 
         :inputContent="content"
@@ -181,7 +181,7 @@ export default class Publish extends Vue {
   align-items: center;
   h3 {
     text-align: left;
-    width: 55%;
+    width: 45%;
   }
 }
 

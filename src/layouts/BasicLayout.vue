@@ -48,7 +48,9 @@
             <Button v-if="!loginStatus" icon="md-person" class="login-button" type="primary" @click="login">登录</Button>
             <div class="user-info" v-else>
               <Dropdown class="avatar-container" @on-click="drapDownClick">
+                <div class="avatar-wrapper" style="height: 55px;">
                   <img class="user-avatar" :src="userAvatar" />
+                </div>
                 <DropdownMenu slot="list">
                   <DropdownItem name="personalCenter">个人中心</DropdownItem>
                   <DropdownItem name="logOut">退出</DropdownItem>
@@ -202,15 +204,19 @@ export default class BasicLayout extends Vue {
         display: flex;
         align-items: center;
 
+        .avatar-wrapper {
+          display: flex;
+          align-items: center;
+        }
+
         .user-avatar {
-          height: 50px;
-          margin-right: 10px;
+          height: 40px;
         }
 
         .user-name {
           font-size: 16px;
         }
-
+        
         .avatar-container {
           height: 55px;
           .ivu-dropdown-rel {

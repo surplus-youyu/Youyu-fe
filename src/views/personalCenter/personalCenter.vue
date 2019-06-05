@@ -8,27 +8,12 @@
           <Input 
             v-model="nickName"
             type="text"
-            style="width: 80%"/>
-        </div>
-        <div class="detail-wrapper">
-          <span class="sub-title" style="margin-bottom: 1rem">邮箱</span>
-          <Input
-            disabled
-            v-model="email"
-            type="text"
-            style="width: 80%"/>
-        </div>
-        <div class="detail-wrapper">
-          <span class="sub-title" style="margin-bottom: 1rem">个人简介</span>
-          <Input 
-            v-model="description"
-            type="textarea"
-            :rows="6"
-            style="width: 80%"/>
+            style="width: 80%"
+            size="large"/>
         </div>
         <div class="detail-wrapper">
           <span class="sub-title" style="margin-bottom: 1rem">性别</span>
-          <Select v-model="gender" style="width:200px">
+          <Select v-model="gender" style="width:60px" size="large">
             <Option 
               v-for="item in genderList" 
               :value="item.value"
@@ -37,7 +22,7 @@
           </Select>
         </div>
         <div class="detail-wrapper">
-          <span class="sub-title" style="margin-bottom: 1rem">余额</span>
+          <span class="sub-title" style="margin-bottom: 1rem" size="large">余额</span>
           <Input 
             v-model="balance" 
             prefix="logo-yen"
@@ -45,8 +30,21 @@
             disabled/>
         </div>
         <div class="detail-wrapper">
-          <span class="sub-title" style="margin-bottom: 7px">密保手机</span>
+          <span class="sub-title" style="margin-bottom: 1rem">邮箱</span>
+          <span>已绑定邮箱：{{ email }}</span>
+        </div>
+        <div class="detail-wrapper">
+          <span class="sub-title" style="margin-bottom: 1rem">密保手机</span>
           <span>已绑定手机：{{ phoneDisplay }}</span>
+        </div>
+        <div class="detail-wrapper">
+          <span class="sub-title" style="margin-bottom: 1rem">个人简介</span>
+          <Input 
+            v-model="description"
+            type="textarea"
+            :rows="6"
+            style="width: 80%"
+            size="large"/>
         </div>
       </div>
       <div class="avatar" style="margin: 1rem 0 0 0">
@@ -57,7 +55,7 @@
         <Upload
           :before-upload="handleUpload"
           action="">
-          <Button>更换头像</Button>
+          <Button size="large">更换头像</Button>
         </Upload>
       </div>
     </div>
@@ -129,7 +127,7 @@ export default class PersonalCenter extends Vue {
 }
 
 .submit-btn-wrapper {
-  margin: 2rem 0 0 0;
+  margin: 1rem 0 0 0;
   display: flex;
   justify-content: flex-end;
 }
