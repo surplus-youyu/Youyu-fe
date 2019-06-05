@@ -1,22 +1,30 @@
 <template>
   <div class="publish-customtask">
-    <h1 style="text-align: center;">创建你的任务</h1>
+    <h1 style="margin-top: 1rem; text-align: center;">创建你的任务</h1>
     <div class="title-wrapper">
       <h3 style="margin-bottom: 1rem">标题</h3>
       <Input 
-        v-model="taskTitle" type="text" 
+        v-model="currentCustomTask.title" type="text" 
         placeholder="请输入任务标题"
-        style="width: 60%"
+        style="width: 55%"
         size="large"/>
     </div>
     <div class="description-wrapper">
       <h3 style="margin-bottom: 1rem">描述</h3>
       <Input 
-        v-model="taskDescription" 
+        v-model="currentCustomTask.description" 
         type="textarea" 
         :rows="6" 
         placeholder="请输入任务描述..." 
-        style="width: 60%"/>
+        style="width: 55%"/>
+    </div>
+    <div class="payment-wrapper">
+      <h3 style="margin-bottom: 1rem">报酬</h3>
+      <Input 
+        v-model="currentCustomTask.bounty" 
+        prefix="logo-yen"
+        style="width: 55%"
+        size="large"/>
     </div>
     <div class="uploader-wrapper">
       <h3 style="margin-bottom: 1rem">附件</h3>
@@ -25,7 +33,7 @@
         multiple
         action=""
         type="drag"
-        style="width: 60%">
+        style="width: 55%">
         <div style="padding: 20px 0">
           <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
           <p>点击或拖拽上传附件</p>
@@ -52,7 +60,15 @@ import { POST_QUESTIONARE } from '@/stores/modules/questionnaire/constants';
 export default class Publish extends Vue {
   taskTitle: string = '';
   taskDescription: string = '';
+  taskPayment: number = 0;
   file: any = null;
+
+  currentCustomTask: IQuestionnaire = {
+    title: '',
+    publisher_id: -1,
+    summary: '',
+    bounty: 0
+  };
 
   handleUpload(file: any) {
     this.file = file;
@@ -62,6 +78,7 @@ export default class Publish extends Vue {
   clear() {
     this.taskTitle = '';
     this.taskDescription = '';
+    this.taskPayment = 0;
     this.file = null;
   }
 
@@ -100,24 +117,30 @@ export default class Publish extends Vue {
 .submit-btn-wrapper,
 .title-wrapper,
 .description-wrapper,
+.payment-wrapper,
 .uploader-wrapper
 {
   margin: 1rem 0 0 0;
 }
 
-.title-wrapper, .description-wrapper, .uploader-wrapper {
+.title-wrapper, 
+.description-wrapper,
+.payment-wrapper,
+.uploader-wrapper 
+{
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   h3 {
     text-align: left;
-    width: 60%;
+    width: 55%;
   }
 }
 
 .submit-btn-wrapper {
   display: flex;
   justify-content: flex-end;
+  margin-top: 3rem;
 }
 </style>
