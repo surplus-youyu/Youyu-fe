@@ -3,13 +3,15 @@ import {
   CURRENT_USER_INFO,
   LOAD_USER_PROFILE,
   MODIFY_USER_PROFILE,
-  IS_LOGIN
+  IS_LOGIN,
+  LOGIN
 } from './constants';
 import { LoginFormFieldsUP, LoginFormFieldsPV } from '@/typings/login';
 import { httpRequest, httpRequestSilence } from '@/utils/httpRequest';
 import { IUserInfo, State } from './typing';
 
 import {Module} from 'vuex';
+import { IResponse } from '@/typings/response';
 
 export default {
   namespaced: true,
@@ -22,25 +24,28 @@ export default {
     }
   },
   actions: {
-    async [LOAD_USER_PROFILE]({ commit }, payload: LoginFormFieldsUP | LoginFormFieldsPV) {
-      // noop
-      /*
+    async [LOAD_USER_PROFILE]({ commit }) {
       try {
-        const { data } = await httpRequestSilence.post<
-          OJData<IUserInfo, {}>
-        >(`/user`, payload);
-        if (data.status === 'OK') {
+        const { data } = await httpRequestSilence.get<IResponse<IUserInfo> >(`/user`);
+        if (data.status) {
           commit(MODIFY_USER_PROFILE, data.data);
-          return data;
         }
       } catch (error) {
-        return error.data;
+        // noop
       }
-      */
-      return {
-        status: 'OK',
-        msg: 'test'
-      };
+    },
+    async [LOGIN]({ commit }, payload: LoginFormFieldsUP): Promise<string> {
+      try {
+        const { data } = await httpRequestSilence.put<IResponse<{}> >(`user/login`);
+        if (data.status) {
+          return Promise.resolve('OK');
+        } else {
+          return Promise.resolve(data.msg);
+        }
+      } catch (error) {
+        // noop
+        return Promise.resolve(error);
+      }
     }
   },
   getters: {
@@ -51,7 +56,7 @@ export default {
       return state.user;
     },
     [IS_LOGIN](state): boolean {
-      return true || state.user !== null;
+      return state.user !== null;
     }
   }
 } as Module<State, any>;
