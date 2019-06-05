@@ -14,7 +14,7 @@ export default {
     async [LOAD_QUESTIONARE]({ commit }, qid: number) {
       try {
         const { data } = await httpRequestSilence.get<IResponse<IQueryQuestionnaireResponse> >
-          (`/questionnaires/${qid}`);
+          (`/tasks/${qid}`);
         if (data.data) {
           const newQuestionnaire: IQuestionnaire = {
             id: data.data.tid,
@@ -30,10 +30,12 @@ export default {
     },
     async [POST_QUESTIONARE]({ commit }, payload: IQuestionnaire): Promise<string> {
       try {
-        const { data } = await httpRequestSilence.post<IResponse<{}>>(`/surveys`, {
+        const { data } = await httpRequestSilence.post<IResponse<{}>>(`/tasks`, {
           title: payload.title,
+          type: 'survey',
           content: JSON.stringify(payload.content),
-          bounty: 0
+          bounty: 0,
+          enclosure: ''
         });
         if (data.status) {
           return Promise.resolve('OK');
