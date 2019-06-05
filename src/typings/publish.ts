@@ -3,6 +3,7 @@ export interface IQuestionnaire {
   title: string;
   publisher_id: number;
   bounty: number;
+  summary: string;
   content: IQuestionnaireContent[];
 }
 

@@ -1,7 +1,9 @@
 import Home from './Home.vue';
 import Router from 'vue-router';
 import Vue from 'vue';
+import store from '@/stores';
 import BasicLayout from '@/layouts/BasicLayout.vue';
+import { LOAD_USER_PROFILE, CURRENT_USER_INFO } from '@/stores/modules/user/constants';
 
 Vue.use(Router);
 
@@ -22,6 +24,14 @@ export default new Router({
     {
       path: '/',
       component: BasicLayout,
+      async beforeEnter(to, from, next) {
+        await store.dispatch(`user/${LOAD_USER_PROFILE}`);
+        if (store.getters[`user/${CURRENT_USER_INFO}`] !== null) {
+          next();
+        } else {
+          next('/login');
+        }
+      },
       children: [
         {
           path: '',

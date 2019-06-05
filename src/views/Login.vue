@@ -7,7 +7,7 @@
       </div>
       <Tabs :animated="false" v-model="loginType">
         <TabPane name="UPlogin" label="账号登录">
-          <Input placeholder="账号" size="large" v-model="loginFormUP.username"/>
+          <Input placeholder="邮箱" size="large" v-model="loginFormUP.username"/>
           <Input placeholder="密码" type="password" size="large" v-model="loginFormUP.password"/>
           <div class="login-ctrl">
             <Checkbox size="large">自动登录</Checkbox>
@@ -40,7 +40,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { LoginFormFieldsUP, LoginFormFieldsPV } from '@/typings/login';
-import { LOAD_USER_PROFILE } from '@/stores/modules/user/constants';
+import { LOAD_USER_PROFILE, LOGIN } from '@/stores/modules/user/constants';
 @Component({
   name: 'login'
 })
@@ -67,20 +67,19 @@ export default class Login extends Vue {
     } else {
       fields = Object.freeze({ ...this.loginFormPV });
     }
-    const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, { fields });
-    if (result) {
-      if (result.status !== 'OK') {
-        this.$Notice.warning({
-            title: '登录失败',
-            desc: result.msg
-          });
-      } else {
-          this.$Notice.success({
-            title: '登录成功',
-            desc: result.msg
-          });
-          this.$router.push({ name: 'requestHall' });
-      }
+    const result = await this.$store.dispatch(`user/${LOGIN}`, fields);
+    //  const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, { fields });
+    if (result !== 'OK') {
+      this.$Notice.warning({
+        title: '登录失败',
+        desc: result.msg
+      });
+    } else {
+      this.$Notice.success({
+          title: '登录成功',
+          desc: result.msg
+      });
+      this.$router.push({ name: 'home' });
     }
   }
 

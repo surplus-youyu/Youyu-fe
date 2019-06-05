@@ -32,8 +32,9 @@ export default {
       try {
         const { data } = await httpRequestSilence.post<IResponse<{}>>(`/tasks`, {
           title: payload.title,
+          summary: payload.summary,
           type: 'survey',
-          content: JSON.stringify(payload.content),
+          extra: JSON.stringify(payload.content),
           bounty: 0,
           enclosure: ''
         });
