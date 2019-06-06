@@ -9,31 +9,39 @@
     <div style="position: fixed; bottom: 10vh; z-index: 100;" >
       <Button type="primary" icon="md-add" shape="circle" @click="createQuestion" size="large"></Button>
     </div>
-    <h1 style="margin-bottom: 1rem;">创建你的问卷</h1>
+    <h1 style="margin-top: 1rem; margin-bottom: 2rem; text-align: center;">创建你的问卷</h1>
     <div class="title-wrapper">
       <h3 style="margin-bottom: 1rem">标题</h3>
       <Input 
-        type="text" 
-        placeholder="输入问卷标题" 
-        style="width: 60%;"
+        type="text"
+        placeholder="请输入问卷标题..." 
+        style="width: 45%;"
         v-model="currentQuestionnaire.title"
         size="large"/>
       <h3 style="margin: 1rem 0 1rem 0">描述</h3>
       <Input
-        type="text"
-        placeholder="输入问卷描述"
-        style="width: 60%"
-        v-model="currentQuestionnaire.summary"
+        type="textarea"
+        :rows="4"
+        placeholder="请输入问卷描述"
+        style="width: 45%"
+        v-model="currentQuestionnaire.summary"/>
+    </div>
+    <div class="bounty-wrapper">
+      <h3 style="margin-bottom: 1rem">报酬</h3>
+      <Input 
+        v-model="currentQuestionnaire.bounty" 
+        prefix="logo-yen"
+        style="width: 45%"
         size="large"/>
     </div>
     <div class="questions-wrapper">
       <h3 v-if="currentQuestionnaire.content.length === 0" 
-        style="text-align: center; height: 200px; line-height: 200px;
+        style="text-align: center; height: 180px; line-height: 180px;
         vertical-align: middle;">
         你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
       </h3>
       <h3 v-else>问题</h3>
-      <Card :dis-hover="true" style="margin: 1rem 0 0 0;" 
+      <Card :dis-hover="true" style="margin: 1rem 0 0 0; width: 45%" 
         v-for="(content, idx) in currentQuestionnaire.content" :key="'content' + idx">
         <question-form 
         :inputContent="content"
@@ -84,11 +92,15 @@ export default class Publish extends Vue {
 
   newQuestionHandler(content: IQuestionnaireContent) {
     this.showCreaterDialog = false;
-    this.currentQuestionnaire.content.push(content);
+    if (this.currentQuestionnaire.content) {
+      this.currentQuestionnaire.content.push(content);
+    }
   }
 
   modifyQuestionHandler(content: IQuestionnaireContent, index: number) {
-    this.currentQuestionnaire.content[index] = content;
+    if (this.currentQuestionnaire.content) {
+      this.currentQuestionnaire.content[index] = content;
+    }
   }
 
   createQuestion() {
@@ -108,7 +120,7 @@ export default class Publish extends Vue {
         duration: 2
       });
       return;
-    } else if (this.currentQuestionnaire.content.length === 0) {
+    } else if (this.currentQuestionnaire.content && this.currentQuestionnaire.content.length === 0) {
       this.$Notice.error({
         title: '题目不能为空',
         duration: 2
@@ -151,9 +163,26 @@ export default class Publish extends Vue {
 </script>
 <style lang="less">
 .submit-btn-wrapper,
-.questions-wrapper 
+.questions-wrapper,
+.bounty-wrapper
 {
   margin: 1rem 0 0 0;
+}
+
+.title-wrapper, 
+.description-wrapper,
+.bounty-wrapper, 
+.uploader-wrapper, 
+.questions-wrapper 
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  h3 {
+    text-align: left;
+    width: 45%;
+  }
 }
 
 .submit-btn-wrapper {

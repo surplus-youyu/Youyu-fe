@@ -4,7 +4,7 @@ export interface IQuestionnaire {
   publisher_id: number;
   bounty: number;
   summary: string;
-  content: IQuestionnaireContent[];
+  content?: IQuestionnaireContent[];
 }
 
 export interface IQuestionnaireContent {
