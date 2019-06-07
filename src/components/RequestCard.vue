@@ -2,7 +2,7 @@
  <card class="card">
     <p class="title" slot="title">{{req.title}} </p>
     <div class="tags">
-      <Tag class="tag" v-for="tag in req.tags" :key="tag" color="default">{{tag}}</Tag>
+      <Tag class="tag" v-for="tag in req.tags" :key="tag" :fade="false" color="default">{{tag}}</Tag>
     </div>
     <p class="desc">{{req.desc}}</p>
     <div>
