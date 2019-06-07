@@ -26,18 +26,72 @@ import { Component, Vue } from 'vue-property-decorator';
 import SortButton from '@/components/SortButton.vue';
 import RequestCard from '@/components/RequestCard.vue';
 import { SortMap, RequsetMsg } from '@/typings/requestHall';
-import router from '@/views/router';
+import {
+  LOAD_REQUESTS,
+  GET_PUBLIC_REQUESTS,
+  GET_SELF_REQUESTS_SENT,
+  GET_SELF_REQUESTS_RECEIVED,
+  GET_SELF_REQUESTS_DONE,
+  GET_SELF_REQUESTS_DRAFT
+  } from '@/stores/modules/requests/constants';
+import store from '@/stores';
+import { UID } from '@/stores/modules/user/constants';
+import { dataMap } from './constants';
+
 @Component({
   name: 'requestHall',
   components: {
     SortButton,
     RequestCard
   },
-  beforeRouteEnter(to: any, from: any, next: any) {
-    next();
+  async beforeRouteEnter(to: any, from: any, next: any) {
+    let data: RequestInfo[] = [];
+    if (to.params.requestType === 'public') {
+      const result = await store.dispatch(`requests/${LOAD_REQUESTS}`, 'public');
+      if (result) {
+        data = store.getters[`requests/${dataMap[to.params.requestType]}`];
+      }
+      next((vm: any) => {
+        vm.Reqs = [ ...data ];
+        vm.ShowReqs = [ ...data ];
+      });
+    } else {
+      const uid = store.getters[`user/${UID}`];
+      if (uid) {
+        const result = await store.dispatch(`requests/${LOAD_REQUESTS}`, to.params.requestType, uid);
+        if (result) {
+          data = store.getters[`requests/${dataMap[to.params.requestType]}`];
+          next((vm: any) => {
+          vm.Reqs = [ ...data ];
+          vm.ShowReqs = [ ...data ];
+        });
+        }
+      } else {
+        next('/login');
+      }
+    }
   },
-  beforeRouteUpdate(to: any, from: any, next: any) {
-    next( );
+  async beforeRouteUpdate(to: any, from: any, next: any) {
+    let data: RequestInfo[] = [];
+    if (to.params.requestType === 'public') {
+      const result = await store.dispatch(`requests/${LOAD_REQUESTS}`, 'public');
+      if (result) {
+        data = store.getters[`requests/${dataMap[to.params.requestType]}`];
+        this.Reqs = [ ...data ];
+        this.ShowReqs = [ ...data ];
+      }
+    } else {
+      const uid = store.getters[`user/${UID}`];
+      if (uid) {
+        const result = await store.dispatch(`requests/${LOAD_REQUESTS}`, to.params.requestType, uid);
+        if (result) {
+          data = store.getters[`requests/${dataMap[to.params.requestType]}`];
+          this.Reqs = [ ...data ];
+          this.ShowReqs = [ ...data ];
+        }
+      }
+    }
+    next();
   }
 })
 export default class RequestHall extends Vue {
@@ -51,59 +105,9 @@ export default class RequestHall extends Vue {
     campus: ''
   };
 
-  testReq: RequsetMsg = {
-    title: '快递帮拿',
-    tags: ['快递', '明六'],
-    desc: '送到明二',
-    price: 10,
-    campus: 'east',
-    owner: '小明',
-    publishTime: '2019-05-20 09:30'
-  };
+  Reqs: RequsetMsg[] = [];
 
-  testReq1: RequsetMsg = {
-    title: '快递帮拿',
-    tags: ['快递', '明六'],
-    desc: '送到明二',
-    price: 5,
-    campus: 'east',
-    owner: '小明',
-    publishTime: '2019-05-20 21:30'
-  };
-
-  testReq2: RequsetMsg = {
-    title: '快递帮拿',
-    tags: ['快递', '明六'],
-    desc: '送到明二',
-    price: 5,
-    campus: 'north',
-    owner: '小明',
-    publishTime: '2019-05-21 09:30'
-  };
-
-  testReq3: RequsetMsg = {
-    title: '快递帮拿',
-    tags: ['快递', '明六'],
-    desc: '送到明二',
-    price: 20,
-    campus: 'south',
-    owner: '小明',
-    publishTime: '2019-05-21 19:30'
-  };
-
-  testReq4: RequsetMsg = {
-    title: '快递帮',
-    tags: ['快递', '明六'],
-    desc: '送到明二',
-    price: 30,
-    campus: 'Shenzhen',
-    owner: '小明',
-    publishTime: '2019-05-14 19:30'
-  };
-
-  Reqs: RequsetMsg[] = [this.testReq1, this.testReq2, this.testReq3, this.testReq4, this.testReq];
-
-  ShowReqs: RequsetMsg[] = this.Reqs;
+  ShowReqs: RequsetMsg[] = [];
 
   selectTime(timeStatus: SortMap['time']) {
     this.sortMap.time = timeStatus;

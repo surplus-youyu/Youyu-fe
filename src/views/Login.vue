@@ -67,9 +67,9 @@ export default class Login extends Vue {
     } else {
       fields = Object.freeze({ ...this.loginFormPV });
     }
-    const result = await this.$store.dispatch(`user/${LOGIN}`, fields);
+    const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, fields);
     //  const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, { fields });
-    if (result !== 'OK') {
+    if (!result.status) {
       this.$Notice.warning({
         title: '登录失败',
         desc: result.msg
