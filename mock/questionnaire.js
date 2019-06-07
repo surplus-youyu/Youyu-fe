@@ -1,5 +1,6 @@
+
 const question1 = {
-  tid: req.params.id,
+  tid: 1 || req.params.id,
   title: 'questionnaire 1',
   owner: 1,
   summary: 'a summary',
@@ -33,7 +34,7 @@ const question1 = {
 };
 
 const task = {
-  tid: req.params.id,
+  tid: 2 || req.params.id,
   title: '快递帮拿',
   owner: 1,
   summary: '去明德园丰巢3号柜取快递',
