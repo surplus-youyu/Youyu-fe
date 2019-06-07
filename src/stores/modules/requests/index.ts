@@ -24,14 +24,17 @@ export default {
     selfRequestsDraft: null
   }),
   actions: {
-    async [LOAD_REQUESTS]({ commit }, type: string) {
+    async [LOAD_REQUESTS]({ commit }, type: string, uid: number = 0) {
       try {
-        const { data } = await httpRequestSilence.get<IResponse<RequsetMsg[]> >(`/requests/${type}`);
+        const { data } = await httpRequestSilence.get<IResponse<RequsetMsg[]> >(`/requests/${type}?uid=${uid}`);
         if (data.status) {
-          commit(SET_REQUESTS, { data: data.data, type });
+          commit(SET_REQUESTS, { data: data.data, type});
+          return true;
+        } else {
+          return false;
         }
       } catch (err) {
-        return Promise.resolve('fail');
+        return err.data;
       }
     }
   },
@@ -56,10 +59,10 @@ export default {
     [SET_REQUESTS](state, payload) {
       const ReqMap: KeyToValueMap = {
         public: 'publicRequests',
-        selfSent: 'selfRequestsSent',
-        selfReceived: 'selfRequestsReceived',
-        selfDone: 'selfRequestsDone',
-        selfDraft: 'selfRequestsDraft'
+        sent: 'selfRequestsSent',
+        received: 'selfRequestsReceived',
+        done: 'selfRequestsDone',
+        draft: 'selfRequestsDraft'
       };
       state[ReqMap[payload.type]] = payload.data;
     }

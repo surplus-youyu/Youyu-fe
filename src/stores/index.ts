@@ -1,6 +1,7 @@
 import { ModuleState } from '../typings/vuex';
 import user from './modules/user';
 import questionnaire from './modules/questionnaire';
+import requests from './modules/requests';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -9,7 +10,8 @@ Vue.use(Vuex);
 // 模块放置于此对象中即可
 const modules = {
   user,
-  questionnaire
+  questionnaire,
+  requests
 };
 const rootStore = new Vuex.Store<RootState>({
   modules,

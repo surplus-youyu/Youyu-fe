@@ -4,14 +4,14 @@ import {
   LOAD_USER_PROFILE,
   MODIFY_USER_PROFILE,
   IS_LOGIN,
-  LOGIN
+  UID
 } from './constants';
 import { LoginFormFieldsUP, LoginFormFieldsPV } from '@/typings/login';
 import { httpRequest, httpRequestSilence } from '@/utils/httpRequest';
+import { IResponse } from '@/typings/response';
 import { IUserInfo, State } from './typing';
 
 import {Module} from 'vuex';
-import { IResponse } from '@/typings/response';
 
 export default {
   namespaced: true,
@@ -19,32 +19,24 @@ export default {
     user: null
   }),
   mutations: {
-    [MODIFY_USER_PROFILE](state, { user }: { user: IUserInfo | null }) {
+    [MODIFY_USER_PROFILE](state,  user: IUserInfo | null ) {
       state.user = user;
+
     }
   },
   actions: {
-    async [LOAD_USER_PROFILE]({ commit }) {
+    async [LOAD_USER_PROFILE]({ commit }, payload: LoginFormFieldsUP | LoginFormFieldsPV) {
+      // noop
       try {
-        const { data } = await httpRequestSilence.get<IResponse<IUserInfo> >(`/user`);
+        const { data } = await httpRequestSilence.put<
+        IResponse<IUserInfo, {}>
+        >(`/user/login`, payload);
         if (data.status) {
           commit(MODIFY_USER_PROFILE, data.data);
+          return data;
         }
       } catch (error) {
-        // noop
-      }
-    },
-    async [LOGIN]({ commit }, payload: LoginFormFieldsUP): Promise<string> {
-      try {
-        const { data } = await httpRequestSilence.put<IResponse<{}> >(`user/login`);
-        if (data.status) {
-          return Promise.resolve('OK');
-        } else {
-          return Promise.resolve(data.msg);
-        }
-      } catch (error) {
-        // noop
-        return Promise.resolve(error);
+        return error.data;
       }
     }
   },
@@ -57,6 +49,9 @@ export default {
     },
     [IS_LOGIN](state): boolean {
       return state.user !== null;
+    },
+    [UID](state): number | null {
+      return state.user && state.user.uid;
     }
   }
 } as Module<State, any>;

@@ -9,3 +9,4 @@ export const LOGIN = 'LOGIN';
 export const CURRENT_NICKNAME = 'CURRENT_NICKNAME';
 export const CURRENT_USER_INFO = 'CURRENT_USER_INFO';
 export const IS_LOGIN = 'IS_LOGIN';
+export const UID = 'UID';
