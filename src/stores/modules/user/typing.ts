@@ -14,4 +14,5 @@ export interface IUserInfo {
   grade: number;
   phone: string;
   email: string;
+  description: string;
 }

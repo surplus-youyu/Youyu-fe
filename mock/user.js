@@ -10,16 +10,23 @@ module.exports = {
         uid: 1,
         real_name: 'test',
         nick_name: 'test-nick-name',
-        avatar: 'null',
+        avatar: '',
         age: 10,
         gender: 'm',
         balance: 100,
         major: 'SE',
         grade: 2,
         phone: '1888888888',
-        email: 'lll@qq.com'
+        email: 'lll@qq.com',
+        description: string = '大家好，我是练习两年半的偶像练习生：kunkun。我喜欢唱、跳、RAP、篮球。Music~'
       }
     });
+  },
+  'PUT /api/user/modifyInfo': (req, res) => {
+    res.send({
+      status: true,
+      msg: 'update info ok'
+    })
   },
   'GET /api/user': (req, res) => {
     if (isLogin) {
@@ -30,14 +37,15 @@ module.exports = {
           uid: 1,
           real_name: 'test',
           nick_name: 'test-nick-name',
-          avatar: 'null',
+          avatar: '',
           age: 10,
           gender: 'm',
           balance: 100,
           major: 'SE',
           grade: 2,
           phone: '1888888888',
-          email: 'lll@qq.com'
+          email: 'lll@qq.com',
+          description: string = '大家好，我是练习两年半的偶像练习生：kunkun。我喜欢唱、跳、RAP、篮球。Music~'
         }
       });
     } else {

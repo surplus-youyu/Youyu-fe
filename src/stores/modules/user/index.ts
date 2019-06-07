@@ -38,6 +38,19 @@ export default {
       } catch (error) {
         return error.data;
       }
+    },
+    async [MODIFY_USER_PROFILE]({commit}, payload) {
+      try {
+        const { data } = await httpRequestSilence.put<
+        IResponse<{}, {}>
+        >(`/user/modifyInfo`, payload);
+        if (data.status) {
+          commit(MODIFY_USER_PROFILE, payload);
+          return data;
+        }
+      } catch (error) {
+        return error.data;
+      }
     }
   },
   getters: {
