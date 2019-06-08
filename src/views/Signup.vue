@@ -19,7 +19,7 @@
         <Button size="large">获取验证码</Button>
       </div>
       <div class="signup-ctrl">
-        <Button type="primary" size="large">注册</Button>
+        <Button type="primary" size="large" @click="signUp">注册</Button>
         <a class="link" @click="login">使用已有账户登录</a>
       </div>
     </div>
@@ -29,6 +29,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { SignUpFormFields } from '@/typings/signup';
+import { LOAD_USER_PROFILE, SIGNUP } from '@/stores/modules/user/constants';
 
 @Component({
   name: 'signup'
@@ -43,6 +44,24 @@ export default class Signup extends Vue {
     phone: '',
     veriCode: ''
   };
+
+  async signUp() {
+    let fields = Object.freeze({ ...this.signUpForm });
+    const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, fields);
+    //  const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, { fields });
+    if (!result.status) {
+      this.$Notice.warning({
+        title: '注册失败',
+        desc: result.msg
+      });
+    } else {
+      this.$Notice.success({
+          title: '注册成功',
+          desc: result.msg
+      });
+      this.$router.push({ name: 'home' });
+    }
+  }
 
   login() {
     this.$router.push({ name: 'login' });
