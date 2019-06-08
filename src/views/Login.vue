@@ -7,8 +7,8 @@
       </div>
       <Tabs :animated="false" v-model="loginType">
         <TabPane name="UPlogin" label="账号登录">
-          <Input placeholder="邮箱" size="large" v-model="loginFormUP.email"/>
-          <Input placeholder="密码" type="password" size="large" v-model="loginFormUP.password"/>
+          <Input placeholder="邮箱" size="large" v-model="loginFormEP.email"/>
+          <Input placeholder="密码" type="password" size="large" v-model="loginFormEP.password"/>
           <div class="login-ctrl">
             <Checkbox size="large">自动登录</Checkbox>
             <span>忘记密码</span>
@@ -46,7 +46,7 @@ import { LOAD_USER_PROFILE, LOGIN } from '@/stores/modules/user/constants';
 })
 export default class Login extends Vue {
 
-  loginFormUP: LoginFormFieldsEP = {
+  loginFormEP: LoginFormFieldsEP = {
     loginType: 0,
     email: undefined,
     password: ''
@@ -63,7 +63,7 @@ export default class Login extends Vue {
   async login() {
     let fields;
     if (this.loginType === 'UPlogin') {
-      fields = Object.freeze({ ...this.loginFormUP });
+      fields = Object.freeze({ ...this.loginFormEP });
     } else {
       fields = Object.freeze({ ...this.loginFormPV });
     }
