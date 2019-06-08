@@ -6,7 +6,7 @@ import {
   IS_LOGIN,
   UID
 } from './constants';
-import { LoginFormFieldsUP, LoginFormFieldsPV } from '@/typings/login';
+import { LoginFormFieldsEP, LoginFormFieldsPV } from '@/typings/login';
 import { httpRequest, httpRequestSilence } from '@/utils/httpRequest';
 import { IResponse } from '@/typings/response';
 import { IUserInfo, State } from './typing';
@@ -25,7 +25,7 @@ export default {
     }
   },
   actions: {
-    async [LOAD_USER_PROFILE]({ commit }, payload: LoginFormFieldsUP | LoginFormFieldsPV) {
+    async [LOAD_USER_PROFILE]({ commit }, payload: LoginFormFieldsEP | LoginFormFieldsPV) {
       // noop
       try {
         const { data } = await httpRequestSilence.put<

@@ -7,7 +7,7 @@
       </div>
       <Tabs :animated="false" v-model="loginType">
         <TabPane name="UPlogin" label="账号登录">
-          <Input placeholder="邮箱" size="large" v-model="loginFormUP.username"/>
+          <Input placeholder="邮箱" size="large" v-model="loginFormUP.email"/>
           <Input placeholder="密码" type="password" size="large" v-model="loginFormUP.password"/>
           <div class="login-ctrl">
             <Checkbox size="large">自动登录</Checkbox>
@@ -39,16 +39,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { LoginFormFieldsUP, LoginFormFieldsPV } from '@/typings/login';
+import { LoginFormFieldsEP, LoginFormFieldsPV } from '@/typings/login';
 import { LOAD_USER_PROFILE, LOGIN } from '@/stores/modules/user/constants';
 @Component({
   name: 'login'
 })
 export default class Login extends Vue {
 
-  loginFormUP: LoginFormFieldsUP = {
+  loginFormUP: LoginFormFieldsEP = {
     loginType: 0,
-    username: undefined,
+    email: undefined,
     password: ''
   };
 
