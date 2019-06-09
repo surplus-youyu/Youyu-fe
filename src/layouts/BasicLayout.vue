@@ -3,10 +3,10 @@
       <Layout id="slider">
         <Sider :style="{position: 'fixed', minWidth: '214px', height: '100vh', left: 0, overflow: 'auto'}">
           <div class="logo">
-            <router-link to="/" style="color: white;"><span>Surplus</span></router-link>
+            <div @click="ClickLogo" style="color: white;"><span>Surplus</span></div>
             <h1 style="color: white">有余</h1>
           </div>
-          <Menu active-name="1" theme="dark" width="auto" @on-select="handleClick">
+          <Menu ref="leftMenu" theme="dark" width="auto" @on-select="handleClick">
             <MenuItem name="requests/public">
                 <Icon type="logo-dropbox" size="16"/>
                 <span>请求大厅</span>
@@ -115,11 +115,19 @@ export default class BasicLayout extends Vue {
 
   drapDownClick(name: string) {
     if (name === 'personalCenter') {
+      const leftMenu: any = this.$refs.leftMenu;
+      leftMenu.currentActiveName = 'personalCenter';
       this.handleClick(name);
     } else {
       // 去除用户信息
       this.logOut();
     }
+  }
+
+  ClickLogo() {
+    const leftMenu: any = this.$refs.leftMenu;
+    leftMenu.currentActiveName = 'requests/public';
+    this.handleClick('home');
   }
 
 }
