@@ -41,7 +41,7 @@ export default new Router({
         {
           path: 'requests/:requestType',
           name: 'requests',
-          component: () => import('./requestHall/requestHall.vue')
+          component: () => import('./request/requestHall.vue')
         },
         {
           path: 'about',
