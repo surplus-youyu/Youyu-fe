@@ -4,14 +4,14 @@
     <div class="tags">
       <Tag class="tag" v-for="tag in req.tags" :key="tag" :fade="false" color="default">{{tag}}</Tag>
     </div>
-    <p class="desc">{{req.desc}}</p>
+    <p class="desc">{{req.summary}}</p>
     <div>
       <span>{{ campusMap[req.campus] }}  </span>
-      <span>￥{{req.price}}</span>
+      <span>￥{{req.bounty}}</span>
     </div>
     <div>
       <span>发布者：{{req.owner}}</span>
-      <span class="req-pbtime">{{req.publishTime}}</span>
+      <span class="req-pbtime">{{req.created_at}}</span>
     </div>
   </card>
 </template>
