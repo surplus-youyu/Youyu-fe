@@ -46,13 +46,13 @@ export default {
       return state.selfRequestsSent;
     },
     [GET_SELF_REQUESTS_RECEIVED](state): RequsetMsg[] | null {
-        return state.selfRequestsReceived;
+      return state.selfRequestsReceived;
     },
     [GET_SELF_REQUESTS_DONE](state): RequsetMsg[] | null {
-        return state.selfRequestsDone;
+      return state.selfRequestsDone;
     },
     [GET_SELF_REQUESTS_DRAFT](state): RequsetMsg[] | null {
-        return state.selfRequestsDraft;
+      return state.selfRequestsDraft;
     }
   },
   mutations: {
