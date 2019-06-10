@@ -46,7 +46,7 @@ const task = {
 
 module.exports = {
   'GET /api/tasks/:id': (req, res) => {
-    if (req.params.id === 1) {
+    if (req.params.id == 1) {
       res.send({
         msg: 'ok',
         status: true,
