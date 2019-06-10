@@ -8,9 +8,9 @@ export interface RequsetMsg {
     [key: string]: any;
     title: string;
     tags?: string[];
-    desc?: string;
-    price: number;
+    summary?: string;
+    bounty: number;
     campus: 'east' | 'north' | 'south' | 'Shenzhen';
     owner: string;
-    publishTime: string;
+    created_at: string;
 }
