@@ -2,7 +2,7 @@
   <div>
     <div class="sort-group">
       <sort-button class="sort-btn" :reset="!sortBytime" title="时间" @status-change="selectTime"></sort-button>
-      <sort-button class="sort-btn" :reset="sortBytime" title="价格" @status-change="selectPrice"></sort-button>
+      <sort-button class="sort-btn" :reset="sortBytime" title="价格" @status-change="selectbounty"></sort-button>
       <div class="select-container">
         <Select class="select" clearable @on-change="selectCampus" style="width:200px" placeholder="校区">
           <Option value="east" key="east">东校园</Option>
@@ -11,9 +11,7 @@
           <Option value="Shenzhen" key="Shenzhen">深圳校园</Option>
         </Select>
       </div>
-      <Input class="search" type='text' @on-enter="search" v-model="searchText" clearable placeholder="请输入搜索内容">
-        <Icon type="ios-search" slot="suffix" />
-      </Input>
+      <Input class="search" type='text' @on-enter="search" v-model="searchText" clearable placeholder="请输入搜索内容" suffix="ios-search"/>
     </div>
     <div class="cards-container">
       <request-card class="req-card" v-for="(item, index) in ShowReqs" :key="index" :req="item"></request-card>
@@ -72,23 +70,23 @@ import { dataMap } from './constants';
     }
   },
   async beforeRouteUpdate(to: any, from: any, next: any) {
-    let data: RequestInfo[] = [];
+    const data: RequestInfo[] = [];
     if (to.params.requestType === 'public') {
       const result = await store.dispatch(`requests/${LOAD_REQUESTS}`, 'public');
-      if (result) {
-        data = store.getters[`requests/${dataMap[to.params.requestType]}`];
-        this.Reqs = [ ...data ];
-        this.ShowReqs = [ ...data ];
-      }
+      // if (result) {
+      //   data = store.getters[`requests/${dataMap[to.params.requestType]}`];
+      //   this.Reqs = [ ...data ];
+      //   this.ShowReqs = [ ...data ];
+      // }
     } else {
       const uid = store.getters[`user/${UID}`];
       if (uid) {
         const result = await store.dispatch(`requests/${LOAD_REQUESTS}`, to.params.requestType, uid);
-        if (result) {
-          data = store.getters[`requests/${dataMap[to.params.requestType]}`];
-          this.Reqs = [ ...data ];
-          this.ShowReqs = [ ...data ];
-        }
+        // if (result) {
+        //   data = store.getters[`requests/${dataMap[to.params.requestType]}`];
+        //   this.Reqs = [ ...data ];
+        //   this.ShowReqs = [ ...data ];
+        // }
       }
     }
     next();
@@ -115,8 +113,8 @@ export default class RequestHall extends Vue {
     this.sortList(false);
   }
 
-  selectPrice(priceStatus: SortMap['price']) {
-    this.sortMap.price = priceStatus;
+  selectbounty(bountyStatus: SortMap['price']) {
+    this.sortMap.price = bountyStatus;
     this.sortBytime = false;
     this.sortList(false);
   }
@@ -140,10 +138,10 @@ export default class RequestHall extends Vue {
     let sortType = '';
     let sortOrder = 0;
     if (this.sortMap.time && this.sortBytime) {
-      sortType = 'publishTime';
+      sortType = 'created_at';
       sortOrder = this.sortMap.time;
     } else if (this.sortMap.price && !this.sortBytime) {
-      sortType = 'price';
+      sortType = 'bounty';
       sortOrder = this.sortMap.price;
     }
     if (sortType && sortOrder) {
@@ -163,6 +161,12 @@ export default class RequestHall extends Vue {
     // 避免上次搜索结果为空,而这次搜索拿空数据进行过滤
     this.sortList(true);
     this.ShowReqs = this.ShowReqs.filter((item) => item.title.includes(this.searchText));
+  }
+
+  mounted() {
+    const data = store.getters[`requests/${this.$route.params.requestType}`];
+    this.Reqs = [ ...data ];
+    this.ShowReqs = [ ...data ];
   }
 }
 </script>
