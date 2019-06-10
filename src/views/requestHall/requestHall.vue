@@ -2,7 +2,7 @@
   <div>
     <div class="sort-group">
       <sort-button class="sort-btn" :reset="!sortBytime" title="时间" @status-change="selectTime"></sort-button>
-      <sort-button class="sort-btn" :reset="sortBytime" title="价格" @status-change="selectbounty"></sort-button>
+      <sort-button class="sort-btn" :reset="sortBytime" title="价格" @status-change="selectBounty"></sort-button>
       <div class="select-container">
         <Select class="select" clearable @on-change="selectCampus" style="width:200px" placeholder="校区">
           <Option value="east" key="east">东校园</Option>
@@ -113,7 +113,7 @@ export default class RequestHall extends Vue {
     this.sortList(false);
   }
 
-  selectbounty(bountyStatus: SortMap['price']) {
+  selectBounty(bountyStatus: SortMap['price']) {
     this.sortMap.price = bountyStatus;
     this.sortBytime = false;
     this.sortList(false);
