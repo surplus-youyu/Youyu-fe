@@ -46,7 +46,7 @@ export default class Signup extends Vue {
   };
 
   async signUp() {
-    let fields = Object.freeze({ ...this.signUpForm });
+    const fields = Object.freeze({ ...this.signUpForm });
     const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, fields);
     //  const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, { fields });
     if (!result.status) {
