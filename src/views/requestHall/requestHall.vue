@@ -163,13 +163,11 @@ export default class RequestHall extends Vue {
     this.ShowReqs = this.ShowReqs.filter((item) => item.title.includes(this.searchText));
   }
 
-  // mounted() {
-  //   const data = store.getters[`requests/${this.$route.params.requestType}`];
-  //   console.log(data);
-    
-  //   this.Reqs = [ ...data ];
-  //   this.ShowReqs = [ ...data ];
-  // }
+  mounted() {
+    const data = store.getters[`requests/${dataMap[this.$route.params.requestType]}`];
+    this.Reqs = [ ...data ];
+    this.ShowReqs = [ ...data ];
+  }
 }
 </script>
 
