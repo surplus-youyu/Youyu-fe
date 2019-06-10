@@ -4,7 +4,8 @@ import {
   LOAD_USER_PROFILE,
   MODIFY_USER_PROFILE,
   IS_LOGIN,
-  UID
+  UID,
+  LOGIN
 } from './constants';
 import { LoginFormFieldsEP, LoginFormFieldsPV } from '@/typings/login';
 import { httpRequest, httpRequestSilence } from '@/utils/httpRequest';
@@ -21,22 +22,37 @@ export default {
   mutations: {
     [MODIFY_USER_PROFILE](state,  user: IUserInfo | null ) {
       state.user = user;
-
     }
   },
   actions: {
-    async [LOAD_USER_PROFILE]({ commit }, payload: LoginFormFieldsEP | LoginFormFieldsPV) {
-      // noop
+    async [LOGIN]({ dispatch }, payload: LoginFormFieldsEP | LoginFormFieldsPV) {
       try {
         const { data } = await httpRequestSilence.put<
-        IResponse<IUserInfo, {}>
-        >(`/user/login`, payload);
+          IResponse<{}> >(`/login`, payload);
         if (data.status) {
-          commit(MODIFY_USER_PROFILE, data.data);
-          return data;
+          await dispatch(LOAD_USER_PROFILE);
+          return Promise.resolve('OK');
+        } else {
+          return Promise.resolve('fail');
         }
       } catch (error) {
-        return error.data;
+        return Promise.resolve(error);
+      }
+    },
+    async [LOAD_USER_PROFILE]({ commit }): Promise<string> {
+      // noop
+      try {
+        const { data } = await httpRequestSilence.get<
+        IResponse<IUserInfo, {}>
+        >(`/user`);
+        if (data.status) {
+          commit(MODIFY_USER_PROFILE, data.data);
+          return Promise.resolve('OK');
+        } else {
+          return Promise.resolve(data.msg);
+        }
+      } catch (error) {
+        return Promise.resolve(error);
       }
     },
     async [MODIFY_USER_PROFILE]({commit}, payload) {
