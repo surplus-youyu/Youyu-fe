@@ -36,12 +36,12 @@ export default {
         // noop
       }
     },
-    async [POST_QUESTIONARE]({ commit }, payload: IQuestionnaire): Promise<string> {
+    async [POST_QUESTIONARE]({ commit }, payload): Promise<string> {
       try {
         const { data } = await httpRequestSilence.post<IResponse<{}>>(`/tasks`, {
           title: payload.title,
           description: payload.summary,
-          type: 'TASK_TYPE_SURVEY',
+          type: (payload.type === '' ? 'TASK_TYPE_SURVEY' : payload.type),
           content: JSON.stringify(payload.content),
           reward: 0,
           limit: 100
@@ -55,13 +55,13 @@ export default {
         return Promise.resolve('fail');
       }
     },
-    async [RECEIVE_QUESTIONARE](payload): Promise<string> {
+    async [RECEIVE_QUESTIONARE]({}, payload): Promise<string> {
       try {
          const { data } = await httpRequestSilence.post<IResponse<
           {
            id: number
           }> >(
-           `/assignments`, payload
+           `/assignments`, { task_id: Number(payload.task_id) }
          );
          if (data.status || data.msg === 'OK') {
            if (data.data) {

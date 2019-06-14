@@ -37,7 +37,7 @@ export default {
     },
     async [SUBMIT_ASSIGNMENT_ANSWER]({ commit }, { aid, payload }) {
       try {
-        const { data } = await httpRequestSilence.post<IResponse<{}> >(
+        const { data } = await httpRequestSilence.put<IResponse<{}> >(
           `/assignments/${aid}`, {
             payload: JSON.stringify(payload)
           }
