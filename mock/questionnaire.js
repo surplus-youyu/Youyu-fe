@@ -1,4 +1,4 @@
-
+const myassignment = [];
 const question1 = {
   tid: 1 || req.params.id,
   title: 'questionnaire 1',
@@ -74,6 +74,30 @@ module.exports = {
         total: 2,
         tasks: [question1, task]
       }
+    });
+  },
+  'POST /api/assignments': (req, res) => {
+    myassignment.push({
+      assign_id: myassignment.length,
+      
+    });
+    res.send({
+      status: true,
+      msg: 'OK'
+    });
+  },
+  'GET /api/assignments': (req, res) => {
+    const data = [];
+    if (myassignment.includes(1)) {
+      data.push(question1);
+    }
+    if (myassignment.includes(2)) {
+      data.push(task);
+    }
+    res.send({
+      status: true,
+      msg: 'OK',
+      data: data
     });
   }
 };
