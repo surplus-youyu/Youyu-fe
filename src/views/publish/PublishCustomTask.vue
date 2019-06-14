@@ -12,7 +12,7 @@
     <div class="description-wrapper">
       <h3 style="margin-bottom: 1rem">描述</h3>
       <Input 
-        v-model="currentCustomTask.description" 
+        v-model="currentCustomTask.summary" 
         type="textarea" 
         :rows="4" 
         placeholder="请输入任务描述..." 
@@ -84,7 +84,7 @@ export default class Publish extends Vue {
   }
 
   async submit() {
-    if (this.taskTitle === '' || this.taskDescription === '') {
+    if (this.currentCustomTask.title === '' || this.currentCustomTask.summary === '') {
       this.$Notice.error({
         title: '标题和描述不能为空',
         duration: 2
@@ -93,9 +93,10 @@ export default class Publish extends Vue {
     }
     const result = await this.$store.dispatch(
       `questionnaire/${POST_QUESTIONARE}`, Object.freeze({
-        title: this.taskTitle,
-        summary: this.taskDescription,
-        enclosure: this.file
+        title: this.currentCustomTask.title,
+        summary: this.currentCustomTask.summary,
+        enclosure: this.file,
+        type: 'TASK_TYPE_CUSTOM'
       })
     );
     if (result === 'OK') {
