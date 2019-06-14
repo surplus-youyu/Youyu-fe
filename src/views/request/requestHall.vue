@@ -73,20 +73,10 @@ import { dataMap } from './constants';
     const data: RequestInfo[] = [];
     if (to.params.requestType === 'public') {
       const result = await store.dispatch(`requests/${LOAD_REQUESTS}`, 'public');
-      // if (result) {
-      //   data = store.getters[`requests/${dataMap[to.params.requestType]}`];
-      //   this.Reqs = [ ...data ];
-      //   this.ShowReqs = [ ...data ];
-      // }
     } else {
       const uid = store.getters[`user/${UID}`];
       if (uid) {
         const result = await store.dispatch(`requests/${LOAD_REQUESTS}`, to.params.requestType, uid);
-        // if (result) {
-        //   data = store.getters[`requests/${dataMap[to.params.requestType]}`];
-        //   this.Reqs = [ ...data ];
-        //   this.ShowReqs = [ ...data ];
-        // }
       }
     }
     next();

@@ -60,7 +60,7 @@
           </Header>
           <Content id="content">
               <Card>
-                  <router-view></router-view>
+                  <router-view :key="key"></router-view>
               </Card>
           </Content>
       </Layout>
@@ -128,6 +128,11 @@ export default class BasicLayout extends Vue {
     const leftMenu: any = this.$refs.leftMenu;
     leftMenu.currentActiveName = 'requests/public';
     this.handleClick('home');
+  }
+
+
+  get key() {
+    return this.$route.path + Math.random();
   }
 
 }
