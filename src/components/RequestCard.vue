@@ -1,19 +1,22 @@
 <template>
  <card class="card">
-    <p class="title" slot="title">{{req.title}} </p>
-    <div class="tags">
-      <Tag class="tag" v-for="tag in req.tags" :key="tag" :fade="false" color="default">{{tag}}</Tag>
-    </div>
-    <p class="desc">{{req.summary}}</p>
-    <div>
-      <span>{{ campusMap[req.campus] }}  </span>
-      <span>￥{{req.bounty}}</span>
-    </div>
-    <div>
-      <span>发布者：{{req.owner}}</span>
-      <span class="req-pbtime">{{req.created_at}}</span>
-    </div>
-  </card>
+  <p class="title" slot="title">{{req.title}} </p>
+  <div class="tags">
+    <Tag class="tag" v-for="tag in req.tags" :key="tag" :fade="false" color="default">{{tag}}</Tag>
+  </div>
+  <p class="desc">{{req.description}}</p>
+  <div>
+    <span>{{ campusMap[req.campus] }}  </span>
+    <span>￥{{req.reward}}</span>
+  </div>
+  <div>
+    <span>发布者：{{req.creator}}</span>
+    <span class="req-pbtime">{{req.created_at}}</span>
+  </div>
+  <div style="margin-top: 1rem; display: flex; justify-content: flex-end;">
+    <Button type="primary" @click="$emit('click')">查看详情</Button>
+  </div>
+</card>
 </template>
 
 
