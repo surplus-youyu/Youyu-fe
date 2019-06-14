@@ -4,7 +4,7 @@
 
 # [api文档](https://github.com/surplus-youyu/Dashboard/blob/master/docs/Interface-API-design.md)
 
-**我们是有API文档的，先看一下api文档的接口设计再写mock data，不然以后很难对接，mock data就失去意义了**
+**删除mock data，直接使用开发完成的api**
 
 
 ## **[更新日志 ChangeLog.md](./ChangeLog.md)**
