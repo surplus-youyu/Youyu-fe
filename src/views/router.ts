@@ -36,12 +36,23 @@ export default new Router({
         {
           path: '',
           name: 'home',
-          redirect: '/requests/public'
+          redirect: '/tasks'
         },
+        // {
+        //   path: 'requests/:requestType',
+        //   name: 'requests',
+        //   component: () => import('./requestHall/requestHall.vue')
+        // },
         {
+<<<<<<< HEAD
+          path: '/tasks',
+          name: 'tasks',
+          component: () => import('./requestHall/requestHall.vue')
+=======
           path: 'requests/:requestType',
           name: 'requests',
           component: () => import('./request/requestHall.vue')
+>>>>>>> fb266c327cbace400b68c1124bce36c0199d286c
         },
         {
           path: 'about',
@@ -65,13 +76,18 @@ export default new Router({
         },
         {
           path: 'questionnaire/:sid',
-          name: 'answer-questionnaire',
+          name: 'view-questionnaire',
           component: () => import('./answer/Survey.vue')
         },
         {
           path: 'publish/customtask',
           name: 'customtask',
           component: () => import('./publish/PublishCustomTask.vue')
+        },
+        {
+          name: 'answer-questionnaire',
+          path: 'assignments/:aid/questionnaire',
+          component: () => import('./answer/Survey.vue')
         }
       ]
     }

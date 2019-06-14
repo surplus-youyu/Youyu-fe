@@ -7,11 +7,11 @@ export interface IResponse<D, P = {}> {
 }
 
 export interface IQueryQuestionnaireResponse {
-    tid: number;
-    owner: number;
+    id: number;
+    creator: number;
     title: string;
-    summary: string;
+    description: string;
     type: string;
-    bounty: number;
-    extra: string;
+    reward: number;
+    content: string;
 }

@@ -1,9 +1,10 @@
 import { ModuleState } from '../typings/vuex';
 import user from './modules/user';
 import questionnaire from './modules/questionnaire';
-import requests from './modules/requests';
+import assignment from './modules/assignment';
 import Vue from 'vue';
 import Vuex from 'vuex';
+import task from './modules/task';
 
 Vue.use(Vuex);
 
@@ -11,7 +12,8 @@ Vue.use(Vuex);
 const modules = {
   user,
   questionnaire,
-  requests
+  assignment,
+  task
 };
 const rootStore = new Vuex.Store<RootState>({
   modules,

@@ -4,7 +4,7 @@
       <Input :value="inputQuestion.title" disabled/>
       <Label style="margin-top: 1rem; display: inline-block;">单选</Label>
       <FormItem prop="radio">
-        <RadioGroup v-model="answer.radio">
+        <RadioGroup v-model="answer.radio" :disabled="readonly">
           <Radio v-for="(option, idx) in inputQuestion.options" 
             class="single-selection-form"
             :key="`option-${option + idx}`"
@@ -18,7 +18,7 @@
       <Input :value="inputQuestion.title" disabled />
       <Label style="margin-top: 1rem; display: inline-block;">多选：{{ inputQuestion.limit }}</Label>
       <FormItem prop="checkBox">
-        <CheckboxGroup v-model="answer.checkBox">
+        <CheckboxGroup v-model="answer.checkBox" :disabled="readonly">
           <Checkbox 
             v-for="(option, idx) in inputQuestion.options" :key="`option-multi-${option + idx}`"
             class="multi-selection-form"
@@ -31,7 +31,8 @@
     <Form v-else ref="input" :rules="inputRule" :model="answer">
       <Input :value="inputQuestion.title" disabled/>
       <FormItem prop="input">
-        <Input v-model="answer.input" placeholder="输入答案" class="input-form"/>
+        <Input :disabled="readonly"
+        v-model="answer.input" placeholder="输入答案" class="input-form"/>
       </FormItem>
     </Form>
   </Card>
@@ -61,6 +62,8 @@ export default class AnswerSheet extends Vue {
     type: Number
   })
   index !: number;
+
+  @Prop({required: true, type: Boolean}) readonly !: boolean;
 
   answer: IAnswerSheet = {
     radio: -1,
