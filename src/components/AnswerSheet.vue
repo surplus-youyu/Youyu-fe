@@ -146,32 +146,21 @@ export default class AnswerSheet extends Vue {
   }
 
   validate(): boolean {
+    let isValid = false;
     if (this.inputQuestion.type === 1) {
       (this.$refs.single as Form).validate((valid) => {
-        if (valid) {
-          return true;
-        } else {
-          return false;
-        }
+        isValid = valid || false;
       });
     } else if (this.inputQuestion.type === 2) {
       (this.$refs.multi as Form).validate((valid) => {
-        if (valid) {
-          return true;
-        } else {
-          return false;
-        }
+        isValid = valid || false;
       });
     } else {
       (this.$refs.input as Form).validate((valid) => {
-       if (valid) {
-          return true;
-        } else {
-          return false;
-        }
+       isValid = valid || false;
       });
     }
-    return false;
+    return isValid;
   }
 }
 </script>

@@ -32,17 +32,17 @@ export default class RequestHall extends Vue {
   }
 
   async getTaskDetail(index: number) {
+    await this.$store.dispatch(`assignment/${LOAD_ALL_ASSIGNMENTS}`);
+    const assignments: IAssignment[] = this.$store.getters[`assignment/${GET_ALL_ASSIGNMENTS}`];
+    let isReceived = false;
+    let aid = -1;
+    assignments.forEach((assignment) => {
+      if (assignment.task_id === this.allTasks[index].id) {
+        isReceived = true;
+        aid = assignment.id;
+      }
+    });
     if (this.allTasks[index].type === 'TASK_TYPE_SURVEY') {
-      await this.$store.dispatch(`assignment/${LOAD_ALL_ASSIGNMENTS}`);
-      const assignments: IAssignment[] = this.$store.getters[`assignment/${GET_ALL_ASSIGNMENTS}`];
-      let isReceived = false;
-      let aid = -1;
-      assignments.forEach((assignment) => {
-        if (assignment.task_id === this.allTasks[index].id) {
-          isReceived = true;
-          aid = assignment.id;
-        }
-      });
       if (isReceived) {
         this.$router.push({
           name: 'answer-questionnaire',
@@ -55,6 +55,22 @@ export default class RequestHall extends Vue {
           name: 'view-questionnaire',
           params: {
             sid: String(this.allTasks[index].id)
+          }
+        });
+      }
+    } else {
+      if (isReceived) {
+        this.$router.push({
+          name: 'answer-custom-task',
+          params: {
+            aid: String(aid)
+          }
+        });
+      } else {
+        this.$router.push({
+          name: 'view-custom-task',
+          params: {
+            tid: String(this.allTasks[index].id)
           }
         });
       }

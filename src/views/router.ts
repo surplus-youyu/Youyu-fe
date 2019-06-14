@@ -74,6 +74,11 @@ export default new Router({
           component: () => import('./answer/Survey.vue')
         },
         {
+          path: 'custom/:tid',
+          name: 'view-custom-task',
+          component: () => import('./answer/CustomTask.vue')
+        },
+        {
           path: 'publish/customtask',
           name: 'customtask',
           component: () => import('./publish/PublishCustomTask.vue')
@@ -82,6 +87,11 @@ export default new Router({
           name: 'answer-questionnaire',
           path: 'assignments/:aid/questionnaire',
           component: () => import('./answer/Survey.vue')
+        },
+        {
+          name: 'answer-custom-task',
+          path: 'assignments/:aid/task',
+          component: () => import('./answer/CustomTask.vue')
         }
       ]
     }

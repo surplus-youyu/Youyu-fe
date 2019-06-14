@@ -66,7 +66,7 @@ export default class Survey extends Vue {
       });
     } else {
       const result = await this.$store.dispatch(`assignment/${SUBMIT_ASSIGNMENT_ANSWER}`, {
-        aid: this.$route.params.sid,
+        aid: this.$route.params.aid,
         payload: this.currentQuestionnaire.content
       });
       if (result === 'OK') {
