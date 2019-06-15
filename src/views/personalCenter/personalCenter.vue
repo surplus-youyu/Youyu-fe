@@ -2,7 +2,7 @@
   <div>
     <h1 style="text-align: center; margin-top: 1rem; margin-bottom: 1rem;">个人中心</h1>
     <div class="info-wrapper">
-      <div class="info" style="width: 40%">
+      <div class="info" style="width: 40%; min-width: 500px;">
         <div class="detail-wrapper">
           <span class="sub-title" style="margin-bottom: 1rem">昵称</span>
           <Input 
@@ -25,8 +25,9 @@
           <span class="sub-title" style="margin-bottom: 1rem" size="large">余额</span>
           <Input 
             v-model="userInfo.balance" 
-            prefix="logo-yen"
+            prefix="logo-usd"
             style="width: 80%"
+            size="large"
             disabled/>
         </div>
         <div class="detail-wrapper">
