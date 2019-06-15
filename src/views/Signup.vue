@@ -6,18 +6,10 @@
         <p>一个面向大学生的专业“众包”系统</p>
       </div>
       <div class="sub-title">注册</div>
+      <Input type="text" placeholder="昵称" size="large" v-model="signUpForm.nickname"/>
       <Input type="email" placeholder="邮箱" size="large" v-model="signUpForm.email"/>
       <Input type="password" placeholder="6-16位密码，区分大小写" size="large" v-model="signUpForm.password"/>
       <Input type="password" placeholder="确认密码" size="large" v-model="signUpForm.confirmPassword"/>
-      <Input placeholder="11位手机号" size="large" v-model="signUpForm.phone">
-        <Select v-model="phoneType" slot="prepend" style="width: 60px">
-          <Option value="86">+ 86</Option>
-        </Select>
-      </Input>
-      <div class="certificate">
-        <Input placeholder="输入验证码" size="large" v-model="signUpForm.veriCode"/>
-        <Button size="large">获取验证码</Button>
-      </div>
       <div class="signup-ctrl">
         <Button type="primary" size="large" @click="signUp">注册</Button>
         <a class="link" @click="login">使用已有账户登录</a>
@@ -29,7 +21,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { SignUpFormFields } from '@/typings/signup';
-import { LOAD_USER_PROFILE, SIGNUP } from '@/stores/modules/user/constants';
+import { SIGNUP } from '@/stores/modules/user/constants';
 
 @Component({
   name: 'signup'
@@ -38,18 +30,25 @@ export default class Signup extends Vue {
   phoneType = '86';
 
   signUpForm: SignUpFormFields = {
+    nickname: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    phone: '',
-    veriCode: ''
+    confirmPassword: ''
   };
 
   async signUp() {
+    // confirm password
+    if (this.signUpForm.password !== this.signUpForm.confirmPassword) {
+      this.$Notice.warning({
+        title: '密码不一致'
+      });
+      return;
+    }
+
     const fields = Object.freeze({ ...this.signUpForm });
-    const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, fields);
+    const result = await this.$store.dispatch(`user/${SIGNUP}`, fields);
     //  const result = await this.$store.dispatch(`user/${LOAD_USER_PROFILE}`, { fields });
-    if (!result.status) {
+    if (result !== 'OK') {
       this.$Notice.warning({
         title: '注册失败',
         desc: result.msg
@@ -59,7 +58,7 @@ export default class Signup extends Vue {
           title: '注册成功',
           desc: result.msg
       });
-      this.$router.push({ name: 'home' });
+      this.$router.push({ name: 'login' });
     }
   }
 

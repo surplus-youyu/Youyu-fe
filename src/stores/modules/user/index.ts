@@ -5,9 +5,11 @@ import {
   MODIFY_USER_PROFILE,
   IS_LOGIN,
   UID,
-  LOGIN
+  LOGIN,
+  SIGNUP
 } from './constants';
 import { LoginFormFieldsEP, LoginFormFieldsPV } from '@/typings/login';
+import { SignUpFormFields } from '@/typings/signup';
 import { httpRequest, httpRequestSilence } from '@/utils/httpRequest';
 import { IResponse } from '@/typings/response';
 import { IUserInfo, State } from './typing';
@@ -31,6 +33,19 @@ export default {
           IResponse<{}> >(`/login`, payload);
         if (data.status) {
           await dispatch(LOAD_USER_PROFILE);
+          return Promise.resolve('OK');
+        } else {
+          return Promise.resolve('fail');
+        }
+      } catch (error) {
+        return Promise.resolve(error);
+      }
+    },
+    async [SIGNUP]({ dispatch }, payload: SignUpFormFields) {
+      try {
+        const { data } = await httpRequestSilence.post<
+          IResponse<{}> >(`/register`, payload);
+        if (data.status) {
           return Promise.resolve('OK');
         } else {
           return Promise.resolve('fail');
