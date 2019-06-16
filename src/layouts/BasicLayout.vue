@@ -7,7 +7,7 @@
             <h1 style="color: white">有余</h1>
           </div>
           <Menu ref="leftMenu" theme="dark" width="auto" @on-select="handleClick">
-            <MenuItem name="requests/public">
+            <MenuItem name="tasks">
                 <Icon type="logo-dropbox" size="16"/>
                 <span>请求大厅</span>
             </MenuItem>
@@ -15,18 +15,10 @@
                 <Icon type="md-person" size="16"/>
                 <span>个人中心</span>
             </MenuItem>
-            <Submenu name="orderCenter" v-if="loginStatus">
-              <template slot="title">
-                  <div class="submenu-title">
-                    <Icon type="md-reorder" size="16"/>
-                    <span>我的订单</span> 
-                  </div>
-              </template>
-              <MenuItem name="requests/sent">我发出的请求</MenuItem>
-              <MenuItem name="requests/received">我接受的请求</MenuItem>
-              <MenuItem name="requests/done">已完成的请求</MenuItem>
-              <MenuItem name="requests/draft">未发送的请求</MenuItem>
-            </Submenu>
+            <MenuItem name="tasks/own" v-if="loginStatus">
+                <Icon type="md-person" size="16"/>
+                <span>我的请求</span>
+            </MenuItem>
             <Submenu name="publish" v-if="loginStatus">
               <template slot="title">
                 <div class="submenu-title">
@@ -126,7 +118,7 @@ export default class BasicLayout extends Vue {
 
   ClickLogo() {
     const leftMenu: any = this.$refs.leftMenu;
-    leftMenu.currentActiveName = 'requests/public';
+    leftMenu.currentActiveName = 'tasks';
     this.handleClick('home');
   }
 
