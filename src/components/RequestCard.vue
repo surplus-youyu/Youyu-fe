@@ -6,12 +6,11 @@
   </div>
   <p class="desc">{{req.description}}</p>
   <div>
-    <span>{{ campusMap[req.campus] }}  </span>
     <span>￥{{req.reward}}</span>
   </div>
   <div>
     <span>发布者：{{req.creator}}</span>
-    <span class="req-pbtime">{{req.created_at}}</span>
+    <span class="req-pbtime">{{timeFormat(req.created_at)}}</span>
   </div>
   <div style="margin-top: 1rem; display: flex; justify-content: flex-end;">
     <Button type="primary" @click="$emit('click')">查看详情</Button>
@@ -35,12 +34,10 @@ export default class RequestCard extends Vue {
   })
   req !: RequsetMsg;
 
-  campusMap = {
-    east: '东校园',
-    north: '北校园',
-    south: '南校园',
-    Shenzhen: '深圳校园'
-  };
+ timeFormat(time: string) {
+    return time.split('Z')[0].replace('T', ' ');
+  }
+
 
 }
 </script>
