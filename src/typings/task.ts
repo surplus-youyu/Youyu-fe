@@ -1,4 +1,5 @@
 export interface ITask {
+  [key: string]: any;
   id: number;
   creator: number;
   title: string;
