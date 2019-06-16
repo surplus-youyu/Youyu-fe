@@ -1,7 +1,6 @@
 export interface SortMap {
     time: 0 | 1 | -1;  // -1 = 从小到大，1 = 从大到小， 0 = 默认。
-    price: 0 | 1 | -1;
-    campus: 'east' | 'north' | 'south' | 'Shenzhen' | '';
+    bounty: 0 | 1 | -1;
 }
 
 export interface RequsetMsg {

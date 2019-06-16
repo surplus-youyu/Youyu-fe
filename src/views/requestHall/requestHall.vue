@@ -1,7 +1,12 @@
 <template>
   <div>
+    <div class="sort-group">
+      <sort-button class="sort-btn" :reset="!sortBytime" title="时间" @status-change="selectTime"></sort-button>
+      <sort-button class="sort-btn" :reset="sortBytime" title="价格" @status-change="selectBounty"></sort-button>
+      <Input class="search" type='text' @on-change="search" v-model="searchText" clearable placeholder="请输入搜索内容" suffix="ios-search"/>
+    </div>
     <div class="cards-container">
-      <request-card class="req-card" v-for="(task, index) in allTasks" 
+      <request-card class="req-card" v-for="(task, index) in showTasks"
       :key="index" :req="task" @click="getTaskDetail(index)"></request-card>
     </div>
   </div>
@@ -27,8 +32,21 @@ import { IAssignment } from '../../typings/assignment';
   }
 })
 export default class RequestHall extends Vue {
-  get allTasks(): ITask[] {
-    return this.$store.getters[`task/${GET_ALL_TASKS}`];
+
+  sortMap: SortMap = {
+    time: 0,
+    bounty: 0
+  };
+  sortBytime = false;
+  searchText = '';
+
+  allTasks: ITask[] = [];
+  showTasks: ITask[] = [];
+
+  getAllTasks() {
+    const data = this.$store.getters[`task/${GET_ALL_TASKS}`];
+    this.allTasks =  [ ...data ];
+    this.showTasks = [ ...data ];
   }
 
   async getTaskDetail(index: number) {
@@ -77,13 +95,70 @@ export default class RequestHall extends Vue {
     }
   }
 
+  selectTime(timeStatus: SortMap['time']) {
+    this.sortMap.time = timeStatus;
+    this.sortBytime = true;
+    this.sortList();
+  }
+
+  selectBounty(bountyStatus: SortMap['bounty']) {
+    this.sortMap.bounty = bountyStatus;
+    this.sortBytime = false;
+    this.sortList();
+  }
+
+  // 首先先根据校区进行筛选,再根据时间或价格进行排序
+  sortList() {
+    this.showTasks = [ ...this.allTasks ];
+    let sortType = '';
+    let sortOrder = 0;
+    if (this.sortMap.time && this.sortBytime) {
+      sortType = 'created_at';
+      sortOrder = this.sortMap.time;
+    } else if (this.sortMap.bounty && !this.sortBytime) {
+      sortType = 'reward';
+      sortOrder = this.sortMap.bounty;
+    }
+    if (sortType && sortOrder) {
+      this.showTasks.sort((a: ITask, b: ITask) => {
+          if (a[sortType] > b[sortType]) {
+            return sortOrder === 1 ? -1 : 1;
+          } else if (a[sortType] < b[sortType]) {
+            return sortOrder === 1 ? 1 : -1;
+          } else {
+            return 0;
+          }
+      });
+    }
+  }
+
+  search() {
+    // 避免上次搜索结果为空,而这次搜索拿空数据进行过滤
+    this.sortList();
+    this.showTasks = this.showTasks.filter((item, index) => item.title.includes(this.searchText));
+  }
+
   async mounted() {
     await this.$store.dispatch(`task/${LOAD_ALL_TASKS}`);
+    this.getAllTasks();
   }
 }
 </script>
 
 <style lang="less" scoped>
-
+.sort-group {
+  padding-left: 20px;
+  .search {
+    margin-left: 40px;
+    width: auto;
+  }
+}
+.cards-container {
+  margin-top: 20px;
+  padding: 0 35px;
+  .req-card {
+    margin: 0 20px 20px 0;
+  }
+}
 </style>
 
