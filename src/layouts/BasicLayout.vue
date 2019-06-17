@@ -15,9 +15,9 @@
                 <Icon type="md-person" size="16"/>
                 <span>个人中心</span>
             </MenuItem>
-            <MenuItem name="tasks/own" v-if="loginStatus">
+            <MenuItem name="assignments" v-if="loginStatus">
                 <Icon type="md-person" size="16"/>
-                <span>我的请求</span>
+                <span>接受的请求</span>
             </MenuItem>
             <Submenu name="publish" v-if="loginStatus">
               <template slot="title">
@@ -90,11 +90,7 @@ export default class BasicLayout extends Vue {
   userAvatar = DefaultAvatar;
 
   handleClick(name: string) {
-    if (name.includes('requests')) {
-      this.$router.push({name: 'requests', params: {requestType: name.split('/')[1]}});
-    } else {
       this.$router.push({ name });
-    }
   }
 
   login() {
