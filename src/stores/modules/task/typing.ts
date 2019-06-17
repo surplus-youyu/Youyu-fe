@@ -1,5 +1,6 @@
 import { ITask } from '@/typings/task';
 
 export interface State {
-  tasks: ITask[];
+  publicTasks: ITask[];
+  ownTasks: ITask[];
 }
