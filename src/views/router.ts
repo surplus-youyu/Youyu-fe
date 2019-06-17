@@ -49,8 +49,13 @@ export default new Router({
           component: () => import('./requestHall/requestHall.vue')
         },
         {
-          path: 'assignments',
-          name: 'assignments',
+          path: 'assignments/published',
+          name: 'a-published',
+          component: () => import('./assignments/assignments.vue')
+        },
+        {
+          path: 'assignments/accepted',
+          name: 'a-accepted',
           component: () => import('./assignments/assignments.vue')
         },
         {
