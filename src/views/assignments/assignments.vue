@@ -19,11 +19,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import SortButton from '@/components/SortButton.vue';
-import AssignmentCard from '@/components/AssignmentCard.vue';
 import { SortMap, RequsetMsg } from '@/typings/requestHall';
 import store from '@/stores';
 import { UID } from '@/stores/modules/user/constants';
-import { GET_ALL_TASKS, LOAD_ALL_TASKS } from '../../stores/modules/task/constants';
+import {
+  GET_ALL_TASKS,
+  GET_ALL_TASKS_OWN,
+  LOAD_ALL_TASKS,
+  LOAD_ALL_TASKS_OWN
+  } from '../../stores/modules/task/constants';
 import { ITask } from '@/typings/task';
 import { LOAD_ALL_ASSIGNMENTS, GET_ALL_ASSIGNMENTS } from '../../stores/modules/assignment/constants';
 import { IAssignment } from '../../typings/assignment';
@@ -31,8 +35,21 @@ import { IAssignment } from '../../typings/assignment';
 @Component({
   name: 'assignments',
   components: {
-    SortButton,
-    AssignmentCard
+    SortButton
+  },
+  async beforeRouteEnter(to: any, from: any, next: any) {
+    if (to.name === 'a-published') {
+      await store.dispatch(`assignment/${LOAD_ALL_ASSIGNMENTS}`);
+      next((vm: any) => {
+        vm.getallAssignments(`assignment/${GET_ALL_ASSIGNMENTS}`);
+      });
+    } else {
+      await store.dispatch(`task/${LOAD_ALL_TASKS_OWN}`);
+      next((vm: any) => {
+        vm.getallAssignments(`task/${GET_ALL_TASKS_OWN}`);
+      });
+    }
+    next();
   }
 })
 export default class Assignments extends Vue {
@@ -59,8 +76,8 @@ export default class Assignments extends Vue {
   allAssignments: IAssignment[] = [];
   showAssignments: IAssignment[] = [];
 
-  getallAssignments() {
-    const data = this.$store.getters[`assignment/${GET_ALL_ASSIGNMENTS}`];
+  getallAssignments(getterName: string) {
+    const data = this.$store.getters[getterName];
     this.allAssignments =  JSON.parse(JSON.stringify(data));
     this.formatshowAssignments();
   }
@@ -132,10 +149,6 @@ export default class Assignments extends Vue {
     this.showAssignments = this.showAssignments.filter((item, index) => item.title.includes(this.searchText));
   }
 
-  async mounted() {
-    await store.dispatch(`assignment/${LOAD_ALL_ASSIGNMENTS}`);
-    this.getallAssignments();
-  }
 }
 </script>
 
