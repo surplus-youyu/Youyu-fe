@@ -15,10 +15,16 @@
                 <Icon type="md-person" size="16"/>
                 <span>个人中心</span>
             </MenuItem>
-            <MenuItem name="assignments" v-if="loginStatus">
-                <Icon type="md-person" size="16"/>
-                <span>接受的请求</span>
-            </MenuItem>
+            <Submenu name="assignments" v-if="loginStatus">
+              <template slot="title">
+                <div class="submenu-title">
+                 <Icon type="md-reorder" size="16"/>
+                  <span>发布请求</span>
+                </div>
+              </template>
+              <MenuItem name="a-accepted">已接受</MenuItem>
+              <MenuItem name="a-published">已发布</MenuItem>
+            </Submenu>
             <Submenu name="publish" v-if="loginStatus">
               <template slot="title">
                 <div class="submenu-title">
