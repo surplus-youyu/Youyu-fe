@@ -107,7 +107,7 @@ export default class RequestHall extends Vue {
     this.sortList();
   }
 
-  // 首先先根据校区进行筛选,再根据时间或价格进行排序
+  // 根据时间或价格进行排序
   sortList() {
     this.showTasks = [ ...this.allTasks ];
     let sortType = '';
