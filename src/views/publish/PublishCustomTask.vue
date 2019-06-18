@@ -105,6 +105,7 @@ export default class Publish extends Vue {
           duration: 2
         });
         this.clear();
+        this.$router.push({name: 'tasks'});
       } else {
         this.$Notice.error({
           title: result,
