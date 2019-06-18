@@ -6,7 +6,7 @@
             <div @click="ClickLogo" style="color: white;"><span>Surplus</span></div>
             <h1 style="color: white">有余</h1>
           </div>
-          <Menu ref="leftMenu" theme="dark" width="auto" @on-select="handleClick">
+          <Menu ref="leftMenu" theme="dark" width="auto" accordion @on-select="handleClick">
             <MenuItem name="tasks">
                 <Icon type="logo-dropbox" size="16"/>
                 <span>请求大厅</span>
