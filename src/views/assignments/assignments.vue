@@ -38,7 +38,7 @@ import { IAssignment } from '../../typings/assignment';
     SortButton
   },
   async beforeRouteEnter(to: any, from: any, next: any) {
-    if (to.name === 'a-published') {
+    if (to.name === 'a-accepted') {
       await store.dispatch(`assignment/${LOAD_ALL_ASSIGNMENTS}`);
       next((vm: any) => {
         vm.getallAssignments(`assignment/${GET_ALL_ASSIGNMENTS}`);
@@ -49,7 +49,6 @@ import { IAssignment } from '../../typings/assignment';
         vm.getallAssignments(`task/${GET_ALL_TASKS_OWN}`);
       });
     }
-    next();
   }
 })
 export default class Assignments extends Vue {
