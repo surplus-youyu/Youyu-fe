@@ -24,17 +24,18 @@
       :max="content.options.length"></Slider>
     </FormItem>
     <FormItem label="选项" label-position="top" v-if="content.type !== 3" prop="options">
-      <Button @click="addNewOption" :disabled="mode === 'edit' && !editAllow">添加</Button><br>
-      <div v-for="(option, idx) in content.options" :key="idx" >
-        <Input type=text v-model="content.options[idx]" :disabled="mode === 'edit' && !editAllow"/><br>
+      <div class="option-wrapper" v-for="(option, idx) in content.options" :key="idx" style="margin-bottom: 8px;" >
+        <Input type=text v-model="content.options[idx]" :disabled="mode === 'edit' && !editAllow"/>
+        <Button v-if="mode !== 'edit' || editAllow" type="text" @click="delOption(idx)" icon="md-close" style="padding-right: 8px; padding-left: 8px; margin-left: 2px;"/>
       </div>
+      <Button @click="addNewOption" :disabled="mode === 'edit' && !editAllow">添加</Button>
     </FormItem>
-    <FormItem id="q-submit">
+    <FormItem id="q-submit" style="margin-bottom: 0">
       <Button v-if="mode === 'edit'" @click="editAllow = !editAllow"
-      style="margin-right: 1rem;" type="primary">
+      style="margin-right: 1rem;">
         {{ editAllow ? '正在编辑' : '编辑'}}
       </Button>
-      <Button @click="submitQuestion" :disabled="mode === 'edit' && !editAllow">提交</Button>
+      <Button type="primary" @click="submitQuestion" :disabled="mode === 'edit' && !editAllow">提交</Button>
     </FormItem>
   </Form>
 </template>
@@ -109,6 +110,10 @@ export default class QuestionForm extends Vue {
     this.content.options.push('new options');
   }
 
+  delOption(index: number) {
+    this.content.options.splice(index, 1);
+  }
+
   submitQuestion() {
     (this.$refs.questionForm as Form).validate((isValid) => {
       if (isValid) {
@@ -144,6 +149,7 @@ export default class QuestionForm extends Vue {
 </script>
 <style lang="less">
 .question-creater {
+  margin-top: 2rem;
   #q-submit {
     .ivu-form-item-content {
       display: flex;
@@ -165,6 +171,10 @@ export default class QuestionForm extends Vue {
         width: 4rem;
       }
     }
+  }
+  .option-wrapper {
+    display: flex;
+    align-items: center;
   }
   .ivu-slider-wrap {
     width: 50% !important;

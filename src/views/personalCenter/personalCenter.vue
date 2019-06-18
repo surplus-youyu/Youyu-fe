@@ -13,7 +13,7 @@
         </div>
         <div class="detail-wrapper">
           <span class="sub-title" style="margin-bottom: 1rem">性别</span>
-          <Select v-model="userInfo.gender" style="width:60px" size="large">
+          <Select v-model="userInfo.gender" style="width:70px" size="large">
             <Option 
               v-for="item in genderList" 
               :value="item.value"

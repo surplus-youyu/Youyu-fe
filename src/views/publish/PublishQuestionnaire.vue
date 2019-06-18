@@ -6,7 +6,7 @@
       :inputContent="plainContent"
       mode="create"/>
     </Modal>
-    <div style="position: fixed; bottom: 10vh; z-index: 100;" >
+    <div style="position: fixed; bottom: 4vh; z-index: 100;" >
       <Button type="primary" icon="md-add" shape="circle" @click="createQuestion" size="large"></Button>
     </div>
     <h1 style="margin-top: 1rem; margin-bottom: 2rem; text-align: center;">创建你的问卷</h1>
