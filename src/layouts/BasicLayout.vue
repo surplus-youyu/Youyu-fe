@@ -19,7 +19,7 @@
               <template slot="title">
                 <div class="submenu-title">
                  <Icon type="md-reorder" size="16"/>
-                  <span>发布请求</span>
+                  <span>我的请求</span>
                 </div>
               </template>
               <MenuItem name="a-accepted">已接受</MenuItem>
