@@ -41,8 +41,12 @@
         </div>
       </Upload>
     </div>
-    <div class="submit-btn-wrapper">
-      <Button style="margin-right: 1rem;">重置</Button>
+    <div class="submit-btn-wrapper" v-if="taskExisted">
+      <Button style="margin-right: 1rem;" @click="deleteTask">删除</Button>
+      <Button type="primary" @click="updateTask">更新</Button>
+    </div>
+    <div class="submit-btn-wrapper" v-else>
+      <Button style="margin-right: 1rem;" @click="clear">重置</Button>
       <Button type="primary" @click="submit">提交</Button>
     </div>
   </div>
@@ -53,6 +57,9 @@ import { Component, Vue } from 'vue-property-decorator';
 import { IQuestionnaireContent, IQuestionnaire } from '@/typings/publish';
 import { CURRENT_USER_INFO } from '../../stores/modules/user/constants';
 import { POST_QUESTIONARE } from '@/stores/modules/questionnaire/constants';
+import { ITask } from '@/typings/task';
+import { GET_ALL_TASKS_OWN } from '@/stores/modules/task/constants';
+import store from '@/stores';
 
 @Component({
   name: 'publish-customtask'
@@ -63,6 +70,7 @@ export default class Publish extends Vue {
   taskDescription: string = '';
   taskPayment: number = 0;
   file: any = null;
+  taskExisted = false;
 
   currentCustomTask: IQuestionnaire = {
     title: '',
@@ -71,16 +79,38 @@ export default class Publish extends Vue {
     bounty: 0
   };
 
+  async mounted() {
+    if (this.$route.name === 'published-custom-task-detail') {
+      let curTask;
+      const allTasks: ITask[] = store.getters[`task/${GET_ALL_TASKS_OWN}`];
+      const uid = this.$store.getters[`user/${CURRENT_USER_INFO}`].uid;
+      allTasks.forEach((task) => {
+        if (task.id === +this.$route.params.aid) {
+          curTask = Object.assign({}, task);
+          this.currentCustomTask = {
+            title: curTask.title,
+            summary: curTask.description,
+            publisher_id: uid,
+            bounty: curTask.reward
+          };
+          this.taskExisted = true;
+        }
+      });
+    }
+  }
+
   handleUpload(file: any) {
     this.file = file;
     return false;
   }
 
   clear() {
-    this.taskTitle = '';
-    this.taskDescription = '';
-    this.taskPayment = 0;
-    this.file = null;
+    this.currentCustomTask = {
+      title: '',
+      publisher_id: -1,
+      summary: '',
+      bounty: 0
+    };
   }
 
   async submit() {
@@ -112,6 +142,14 @@ export default class Publish extends Vue {
           duration: 2
         });
       }
+  }
+
+  deleteTask() {
+    // delete
+  }
+
+  updateTask() {
+    // update
   }
 }
 </script>

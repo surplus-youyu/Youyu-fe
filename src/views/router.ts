@@ -59,6 +59,16 @@ export default new Router({
           component: () => import('./assignments/assignments.vue')
         },
         {
+          path: 'assignments/published/:aid/questionnaire',
+          name: 'published-questionnaire-detail',
+          component: () => import('./publish/PublishQuestionnaire.vue')
+        },
+        {
+          path: 'assignments/published/:aid/task',
+          name: 'published-custom-task-detail',
+          component: () => import('./publish/PublishCustomTask.vue')
+        },
+        {
           path: 'about',
           name: 'about',
           component: () => import('./about/about.vue')

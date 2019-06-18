@@ -42,11 +42,13 @@ import { IAssignment } from '../../typings/assignment';
       await store.dispatch(`assignment/${LOAD_ALL_ASSIGNMENTS}`);
       next((vm: any) => {
         vm.getallAssignments(`assignment/${GET_ALL_ASSIGNMENTS}`);
+        vm.dataType = 'accepted';
       });
     } else {
       await store.dispatch(`task/${LOAD_ALL_TASKS_OWN}`);
       next((vm: any) => {
         vm.getallAssignments(`task/${GET_ALL_TASKS_OWN}`);
+        vm.dataType = 'published';
       });
     }
   }
@@ -68,6 +70,7 @@ export default class Assignments extends Vue {
     }
   ];
 
+  dataType = '';
   searchText = '';
   sortTimeOrder = 0;
   sortAssignType: any = '';
@@ -90,20 +93,38 @@ export default class Assignments extends Vue {
   }
 
   async getAssignDetail(data: IAssignment, index: number) {
-    if (data.type === '调查问卷') {
-      this.$router.push({
-        name: 'answer-questionnaire',
-        params: {
-          aid: String(data.id)
-        }
-      });
+    if (this.dataType === 'accepted') {
+      if (data.type === '调查问卷') {
+        this.$router.push({
+          name: 'answer-questionnaire',
+          params: {
+            aid: String(data.id)
+          }
+        });
+      } else {
+        this.$router.push({
+          name: 'answer-custom-task',
+          params: {
+            aid: String(data.id)
+          }
+        });
+      }
     } else {
-      this.$router.push({
-        name: 'answer-custom-task',
-        params: {
-          aid: String(data.id)
-        }
-      });
+      if (data.type === '调查问卷') {
+        this.$router.push({
+          name: 'published-questionnaire-detail',
+          params: {
+            aid: String(data.id)
+          }
+        });
+      } else {
+        this.$router.push({
+          name: 'published-custom-task-detail',
+          params: {
+            aid: String(data.id)
+          }
+        });
+      }
     }
   }
 

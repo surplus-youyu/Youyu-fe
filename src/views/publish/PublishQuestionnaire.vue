@@ -50,8 +50,12 @@
         :index="idx"/> 
       </Card>
     </div>
-    
-    <div class="submit-btn-wrapper">
+    <div class="submit-btn-wrapper" v-if="questionnaireExisted">
+      <Button style="margin-right: 1rem;">删除</Button>
+      <Button type="info" style="margin-right: 1rem;">查看统计</Button>
+      <Button type="primary" @click="createQuestionnaire">更新</Button>
+    </div>
+    <div class="submit-btn-wrapper" v-else>
       <Button style="margin-right: 1rem;">重置</Button>
       <Button type="primary" @click="createQuestionnaire">提交</Button>
     </div>
@@ -64,6 +68,14 @@ import { IQuestionnaireContent, IQuestionnaire } from '@/typings/publish';
 import QuestionForm from '@/components/QuestionForm.vue';
 import { CURRENT_USER_INFO } from '../../stores/modules/user/constants';
 import { POST_QUESTIONARE } from '../../stores/modules/questionnaire/constants';
+import { ITask } from '@/typings/task';
+import { GET_ALL_TASKS_OWN } from '@/stores/modules/task/constants';
+import {
+  LOAD_QUESTIONARE,
+  GET_CURRENT_QUESTIONARE,
+  RECEIVE_QUESTIONARE
+} from '@/stores/modules/questionnaire/constants';
+import store from '@/stores';
 
 @Component({
   name: 'publish-questionnaire',
@@ -73,6 +85,7 @@ import { POST_QUESTIONARE } from '../../stores/modules/questionnaire/constants';
 })
 export default class Publish extends Vue {
   showCreaterDialog: boolean = false;
+  questionnaireExisted = false;
 
   plainContent: IQuestionnaireContent = {
     title: '',
@@ -155,9 +168,15 @@ export default class Publish extends Vue {
     };
   }
 
-  mounted() {
+  async mounted() {
+    let uid = -1;
     if (this.$store.getters[`user/${CURRENT_USER_INFO}`] !== null) {
-      this.currentQuestionnaire.publisher_id = this.$store.getters[`user/${CURRENT_USER_INFO}`].uid;
+      uid = this.currentQuestionnaire.publisher_id = this.$store.getters[`user/${CURRENT_USER_INFO}`].uid;
+    }
+    if (this.$route.name === 'published-questionnaire-detail') {
+      await this.$store.dispatch(`questionnaire/${LOAD_QUESTIONARE}`, this.$route.params.aid);
+      this.currentQuestionnaire = this.$store.getters[`questionnaire/${GET_CURRENT_QUESTIONARE}`];
+      this.questionnaireExisted = true;
     }
   }
 }
