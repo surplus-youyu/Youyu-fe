@@ -84,7 +84,7 @@ import store from '@/stores';
     next((vm: any) => {
       vm.loginStatus = isLogin;
       if (isLogin) {
-        vm.userName = user.nick_name || user.real_name;
+        vm.userName = user.nickname;
         vm.userAvatar = DefaultAvatar;
       }
     });
