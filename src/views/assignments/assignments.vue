@@ -10,7 +10,7 @@
     </div>
     <Table class="assign-list" 
     stripe 
-    :columns="tableColumns" 
+    :columns="dataType === 'accepted' ? acceptTableColumns: publishTableColumns" 
     :data="showAssignments"
     @on-row-click="getAssignDetail"></Table>
   </div>
@@ -55,7 +55,26 @@ import { IAssignment } from '../../typings/assignment';
 })
 export default class Assignments extends Vue {
 
-  tableColumns = [
+  acceptTableColumns = [
+    {
+      title: '标题',
+      key: 'title'
+    },
+    {
+      title: '类型',
+      key: 'type'
+    },
+    {
+      title: '状态',
+      key: 'status'
+    },
+    {
+      title: '创建日期',
+      key: 'created_at'
+    }
+  ];
+
+  publishTableColumns = [
     {
       title: '标题',
       key: 'title'
@@ -89,6 +108,7 @@ export default class Assignments extends Vue {
     this.showAssignments.forEach((item) => {
       item.created_at = item.created_at.split('Z')[0].replace('T', ' ');
       item.type = item.type === 'TASK_TYPE_CUSTOM' ? '自定义任务' : '调查问卷';
+      item.status = item.status === 'ASSIGNMENT_STATUS_PENDING' ? '未完成' : '等待审核';
     });
   }
 
