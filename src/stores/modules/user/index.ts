@@ -86,16 +86,13 @@ export default {
   },
   getters: {
     [CURRENT_NICKNAME](state): string {
-      return state.user ? state.user.nick_name : '';
+      return state.user ? state.user.nickname : '';
     },
     [CURRENT_USER_INFO](state): IUserInfo | null {
       return state.user;
     },
     [IS_LOGIN](state): boolean {
       return state.user !== null;
-    },
-    [UID](state): number | null {
-      return state.user && state.user.uid;
     }
   }
 } as Module<State, any>;
