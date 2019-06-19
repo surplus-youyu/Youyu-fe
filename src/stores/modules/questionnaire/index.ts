@@ -2,10 +2,14 @@ import { Module } from 'vuex';
 import { State } from './typing';
 import {
   LOAD_QUESTIONARE,
+  LOAD_QUESTIONARE_SUBMITS,
   GET_CURRENT_QUESTIONARE,
+  GET_QUESTIONARE_SUBMITS,
   MODIFY_CURRENT_QUESTIONNAIRE,
+  MODIFY_QUESTIONARE_SUBMITS,
   POST_QUESTIONARE,
-  RECEIVE_QUESTIONARE
+  RECEIVE_QUESTIONARE,
+  QUESTIONARE_SUBMITS_EXIST
 } from './constants';
 import { IQuestionnaire, IQuestionnaireContent } from '@/typings/publish';
 import { httpRequestSilence } from '@/utils/httpRequest';
@@ -14,7 +18,8 @@ import { IResponse, IQueryQuestionnaireResponse } from '@/typings/response';
 export default {
   namespaced: true,
   state: () => ({
-    currentQuestionnaire: null
+    currentQuestionnaire: null,
+    questionnaireSumitList: []
   }),
   actions: {
     async [LOAD_QUESTIONARE]({ commit }, qid: number) {
@@ -31,6 +36,29 @@ export default {
             bounty: data.data.reward
           };
           commit(`${MODIFY_CURRENT_QUESTIONNAIRE}`, newQuestionnaire);
+        }
+      } catch (error) {
+        // noop
+      }
+    },
+    async [LOAD_QUESTIONARE_SUBMITS]({ commit }, tid: number) {
+      try {
+        const { data } = await httpRequestSilence.get<IResponse<IQueryQuestionnaireResponse[]> >
+          (`/tasks/${tid}/assignments`);
+        if (data.data) {
+          const lists: IQuestionnaire[] = [];
+          data.data.forEach((QNaire: any) => {
+            const item: IQuestionnaire = {
+              id: QNaire.id,
+              title: QNaire.title,
+              summary: QNaire.description,
+              publisher_id: QNaire.creator,
+              content: (JSON.parse(QNaire.content) as IQuestionnaireContent[]),
+              bounty: QNaire.reward
+            };
+            lists.push(item);
+          });
+          commit(`${MODIFY_QUESTIONARE_SUBMITS}`, lists);
         }
       } catch (error) {
         // noop
@@ -77,11 +105,20 @@ export default {
   getters: {
     [GET_CURRENT_QUESTIONARE](state): IQuestionnaire | null {
       return state.currentQuestionnaire;
+    },
+    [GET_QUESTIONARE_SUBMITS](state): IQuestionnaire[] | null {
+      return state.questionnaireSumitList;
+    },
+    [QUESTIONARE_SUBMITS_EXIST](state): boolean {
+      return state.questionnaireSumitList.length !== 0;
     }
   },
   mutations: {
     [MODIFY_CURRENT_QUESTIONNAIRE](state, payload: IQuestionnaire) {
       state.currentQuestionnaire = payload;
+    },
+    [MODIFY_QUESTIONARE_SUBMITS](state, payload: IQuestionnaire[]) {
+      state.questionnaireSumitList = payload;
     }
   }
 } as Module<State, any>;
