@@ -67,7 +67,7 @@ export default class CustomTask extends Vue {
       });
     } else {
       this.$Notice.error({
-        title: 'fail'
+        title: result.data.msg || 'fail'
       });
     }
   }
@@ -89,7 +89,7 @@ export default class CustomTask extends Vue {
       });
     } else {
       this.$Notice.error({
-        title: 'fail'
+        title: result.data.msg || 'fail'
       });
     }
   }
