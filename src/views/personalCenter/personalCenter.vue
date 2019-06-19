@@ -6,7 +6,7 @@
         <div class="detail-wrapper">
           <span class="sub-title" style="margin-bottom: 1rem">昵称</span>
           <Input 
-            v-model="userInfo.nick_name"
+            v-model="userInfo.nickname"
             type="text"
             style="width: 80%"
             size="large"/>
@@ -20,6 +20,10 @@
               :key="item.value">{{ item.label }}
             </Option>
           </Select>
+        </div>
+        <div class="detail-wrapper">
+          <span class="sub-title" style="margin-bottom: 1rem">年龄</span>
+          <InputNumber :max="130" :min="0" style="width:70px" v-model="userInfo.age"></InputNumber>
         </div>
         <div class="detail-wrapper">
           <span class="sub-title" style="margin-bottom: 1rem" size="large">余额</span>
@@ -37,15 +41,6 @@
         <div class="detail-wrapper">
           <span class="sub-title" style="margin-bottom: 1rem">密保手机</span>
           <span>已绑定手机：{{ phoneDisplay }}</span>
-        </div>
-        <div class="detail-wrapper">
-          <span class="sub-title" style="margin-bottom: 1rem">个人简介</span>
-          <Input 
-            v-model="userInfo.description"
-            type="textarea"
-            :rows="6"
-            style="width: 80%"
-            size="large"/>
         </div>
       </div>
       <div class="avatar" style="margin: 1rem 0 0 0">
@@ -89,18 +84,13 @@ import { IUserInfo } from '@/stores/modules/user/typing';
 })
 export default class PersonalCenter extends Vue {
   userInfo: IUserInfo = {
-    uid: 0,
-    real_name: '',
-    nick_name: '',
+    nickname: '',
     avatar: '',
     age: 0,
     gender: 'm',
     balance: 0,
-    major: '',
-    grade: 0,
     phone: '',
-    email: '',
-    description: ''
+    email: ''
   };
 
   DefaultAvatar = DefaultAvatar;
