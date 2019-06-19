@@ -8,6 +8,21 @@
       <div class="sub-title">注册</div>
       <Input type="text" placeholder="昵称" size="large" v-model="signUpForm.nickname"/>
       <Input type="email" placeholder="邮箱" size="large" v-model="signUpForm.email"/>
+      <Input type="tel" placeholder="手机号码" size="large" v-model="signUpForm.phone"/>
+      <div class="detail-wrapper">
+        <span class="sub-title">性别</span>
+        <Select v-model="signUpForm.gender" style="width:70px">
+          <Option 
+            v-for="item in genderList" 
+            :value="item.value"
+            :key="item.value">{{ item.label }}
+          </Option>
+        </Select>
+      </div>
+      <div class="detail-wrapper">
+        <span class="sub-title">年龄</span>
+        <InputNumber :max="130" :min="0" style="width:70px" v-model="signUpForm.age"></InputNumber>
+      </div>
       <Input type="password" placeholder="6-16位密码，区分大小写" size="large" v-model="signUpForm.password"/>
       <Input type="password" placeholder="确认密码" size="large" v-model="signUpForm.confirmPassword"/>
       <div class="signup-ctrl">
@@ -32,9 +47,23 @@ export default class Signup extends Vue {
   signUpForm: SignUpFormFields = {
     nickname: '',
     email: '',
+    age: 0,
+    phone: '',
+    gender: 'm',
     password: '',
     confirmPassword: ''
   };
+
+  genderList = [
+    {
+      value: 'm',
+      label: '男'
+    },
+    {
+      value: 'f',
+      label: '女'
+    }
+  ];
 
   async signUp() {
     // confirm password
@@ -134,6 +163,15 @@ export default class Signup extends Vue {
     width: 100%;
     margin-bottom: 20px;
   }
-  
+
+  .detail-wrapper {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+    .sub-title {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+  }
 }
 </style>
