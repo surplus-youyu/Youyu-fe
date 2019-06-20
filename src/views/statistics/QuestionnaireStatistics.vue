@@ -35,7 +35,6 @@ export default class QuestionnaireStatistics extends Vue {
 
   mounted() {
     const data = this.$store.getters[`questionnaire/${GET_QUESTIONARE_SUBMITS}`];
-    console.log(data);
     this.list = JSON.parse(JSON.stringify(data));
   }
 }
