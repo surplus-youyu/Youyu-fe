@@ -7,7 +7,7 @@
     </div>
     <div class="cards-container">
       <request-card class="req-card" v-for="(task, index) in showTasks"
-      :key="index" :req="task" @click="getTaskDetail(index)"></request-card>
+      :key="index" :req="task" @click="getTaskDetail(task)"></request-card>
     </div>
   </div>
 </template>
@@ -49,18 +49,18 @@ export default class RequestHall extends Vue {
     this.showTasks = [ ...data ];
   }
 
-  async getTaskDetail(index: number) {
+  async getTaskDetail(curTask: ITask) {
     await this.$store.dispatch(`assignment/${LOAD_ALL_ASSIGNMENTS}`);
     const assignments: IAssignment[] = this.$store.getters[`assignment/${GET_ALL_ASSIGNMENTS}`];
     let isReceived = false;
     let aid = -1;
     assignments.forEach((assignment) => {
-      if (assignment.task_id === this.allTasks[index].id) {
+      if (assignment.task_id === curTask.id) {
         isReceived = true;
         aid = assignment.id;
       }
     });
-    if (this.allTasks[index].type === 'TASK_TYPE_SURVEY') {
+    if (curTask.type === 'TASK_TYPE_SURVEY') {
       if (isReceived) {
         this.$router.push({
           name: 'answer-questionnaire',
@@ -72,7 +72,7 @@ export default class RequestHall extends Vue {
         this.$router.push({
           name: 'view-questionnaire',
           params: {
-            sid: String(this.allTasks[index].id)
+            sid: String(curTask.id)
           }
         });
       }
@@ -88,7 +88,7 @@ export default class RequestHall extends Vue {
         this.$router.push({
           name: 'view-custom-task',
           params: {
-            tid: String(this.allTasks[index].id)
+            tid: String(curTask.id)
           }
         });
       }
