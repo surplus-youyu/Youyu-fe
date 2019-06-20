@@ -9,10 +9,14 @@
       <Input class="search" type='text' @on-change="search" v-model="searchText" clearable placeholder="请输入搜索内容" suffix="ios-search"/>
     </div>
     <Table class="assign-list" 
-    stripe 
-    :columns="tableColumns" 
-    :data="showAssignments"
-    @on-row-click="getAssignDetail"></Table>
+      stripe 
+      :columns="tableColumns" 
+      :data="showAssignments"
+      >
+      <template slot-scope="{ row, index }" slot="action">
+        <Button type="primary" size="small" @click="getAssignDetail(index)">查看详情</Button>
+      </template>
+    </Table>
   </div>
 </template>
 
@@ -72,6 +76,13 @@ export default class Assignments extends Vue {
     {
       title: '创建日期',
       key: 'created_at'
+    },
+    {
+      title: '动作',
+      key: 'action',
+      slot: 'action',
+      width: 200,
+      align: 'center'
     }
   ];
 
@@ -102,7 +113,44 @@ export default class Assignments extends Vue {
     });
   }
 
-  async getAssignDetail(data: IAssignment, index: number) {
+  // async getAssignDetail(data: IAssignment, index: number) {
+  //   if (this.dataType === 'accepted') {
+  //     if (data.type === '调查问卷') {
+  //       this.$router.push({
+  //         name: 'answer-questionnaire',
+  //         params: {
+  //           aid: String(data.id)
+  //         }
+  //       });
+  //     } else {
+  //       this.$router.push({
+  //         name: 'answer-custom-task',
+  //         params: {
+  //           aid: String(data.id)
+  //         }
+  //       });
+  //     }
+  //   } else {
+  //     if (data.type === '调查问卷') {
+  //       this.$router.push({
+  //         name: 'published-questionnaire-detail',
+  //         params: {
+  //           aid: String(data.id)
+  //         }
+  //       });
+  //     } else {
+  //       this.$router.push({
+  //         name: 'published-custom-task-detail',
+  //         params: {
+  //           aid: String(data.id)
+  //         }
+  //       });
+  //     }
+  //   }
+  // }
+
+  async getAssignDetail(index: number) {
+    const data = this.showAssignments[index];
     if (this.dataType === 'accepted') {
       if (data.type === '调查问卷') {
         this.$router.push({
