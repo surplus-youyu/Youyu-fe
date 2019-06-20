@@ -10,7 +10,7 @@
     </div>
     <Table class="assign-list" 
     stripe 
-    :columns="dataType === 'accepted' ? acceptTableColumns: publishTableColumns" 
+    :columns="tableColumns" 
     :data="showAssignments"
     @on-row-click="getAssignDetail"></Table>
   </div>
@@ -31,6 +31,7 @@ import {
 import { ITask } from '@/typings/task';
 import { LOAD_ALL_ASSIGNMENTS, GET_ALL_ASSIGNMENTS } from '../../stores/modules/assignment/constants';
 import { IAssignment } from '../../typings/assignment';
+import { ASSIGNMENT_STATUS_MAP, TASK_STATUS_MAP } from './constants';
 
 @Component({
   name: 'assignments',
@@ -41,21 +42,21 @@ import { IAssignment } from '../../typings/assignment';
     if (to.name === 'a-accepted') {
       await store.dispatch(`assignment/${LOAD_ALL_ASSIGNMENTS}`);
       next((vm: any) => {
-        vm.getallAssignments(`assignment/${GET_ALL_ASSIGNMENTS}`);
         vm.dataType = 'accepted';
+        vm.getallAssignments(`assignment/${GET_ALL_ASSIGNMENTS}`);
       });
     } else {
       await store.dispatch(`task/${LOAD_ALL_TASKS_OWN}`);
       next((vm: any) => {
-        vm.getallAssignments(`task/${GET_ALL_TASKS_OWN}`);
         vm.dataType = 'published';
+        vm.getallAssignments(`task/${GET_ALL_TASKS_OWN}`);
       });
     }
   }
 })
 export default class Assignments extends Vue {
 
-  acceptTableColumns = [
+  tableColumns = [
     {
       title: '标题',
       key: 'title'
@@ -67,21 +68,6 @@ export default class Assignments extends Vue {
     {
       title: '状态',
       key: 'status'
-    },
-    {
-      title: '创建日期',
-      key: 'created_at'
-    }
-  ];
-
-  publishTableColumns = [
-    {
-      title: '标题',
-      key: 'title'
-    },
-    {
-      title: '类型',
-      key: 'type'
     },
     {
       title: '创建日期',
@@ -107,8 +93,12 @@ export default class Assignments extends Vue {
     this.showAssignments = JSON.parse(JSON.stringify(this.allAssignments));
     this.showAssignments.forEach((item) => {
       item.created_at = item.created_at.split('Z')[0].replace('T', ' ');
+      if (this.dataType === 'accepted') {
+        item.status = ASSIGNMENT_STATUS_MAP[item.status];
+      } else {
+        item.status = TASK_STATUS_MAP[item.status];
+      }
       item.type = item.type === 'TASK_TYPE_CUSTOM' ? '自定义任务' : '调查问卷';
-      item.status = item.status === 'ASSIGNMENT_STATUS_PENDING' ? '未完成' : '等待审核';
     });
   }
 

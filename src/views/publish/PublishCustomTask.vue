@@ -42,6 +42,14 @@
       </Upload>
     </div>
     <div class="submit-btn-wrapper" v-if="taskExisted">
+      <Button style="margin-right: 1rem;" @click="showFinishDialog = true">结束任务</Button>
+      <Button type="info" style="margin-right: 1rem;" @click="getTaskStatics">查看完成情况</Button>
+      <Modal
+        v-model="showFinishDialog"
+        title="结束任务"
+        @on-ok="finishTask">
+        <p>确定结束任务吗？</p>
+      </Modal>
     </div>
     <div class="submit-btn-wrapper" v-else>
       <Button style="margin-right: 1rem;" @click="clear">重置</Button>
@@ -54,9 +62,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { IQuestionnaireContent, IQuestionnaire } from '@/typings/publish';
 import { CURRENT_USER_INFO } from '../../stores/modules/user/constants';
-import { POST_QUESTIONARE } from '@/stores/modules/questionnaire/constants';
+import {
+  POST_QUESTIONARE,
+  LOAD_QUESTIONARE_SUBMITS,
+  QUESTIONARE_SUBMITS_EXIST
+  } from '@/stores/modules/questionnaire/constants';
 import { ITask } from '@/typings/task';
-import { GET_ALL_TASKS_OWN } from '@/stores/modules/task/constants';
+import { GET_ALL_TASKS_OWN, FINISH_TASK } from '@/stores/modules/task/constants';
 import store from '@/stores';
 
 @Component({
@@ -69,6 +81,7 @@ export default class Publish extends Vue {
   taskPayment: number = 0;
   file: any = null;
   taskExisted = false;
+  showFinishDialog = false;
 
   currentCustomTask: IQuestionnaire = {
     title: '',
@@ -145,12 +158,30 @@ export default class Publish extends Vue {
       }
   }
 
-  deleteTask() {
-    // delete
+  async getTaskStatics() {
+    await this.$store.dispatch(`questionnaire/${LOAD_QUESTIONARE_SUBMITS}`, this.$route.params.aid);
+    if (this.$store.getters[`questionnaire/${QUESTIONARE_SUBMITS_EXIST}`]) {
+      this.$router.push( {name: 'custom-task-statistics', params: {aid: this.$route.params.aid} });
+    } else {
+       this.$Notice.error({
+        title: '暂时无人接受任务',
+        duration: 2
+      });
+    }
   }
 
-  updateTask() {
-    // update
+  async finishTask() {
+    const result = await this.$store.dispatch(`task/${FINISH_TASK}`, this.$route.params.aid);
+    if (result === 'OK') {
+      this.$Notice.success({
+        title: '操作成功'
+      });
+      this.$router.push({name: 'a-published'});
+    } else {
+      this.$Notice.error({
+        title:  result && result.msg || 'fail'
+      });
+    }
   }
 }
 </script>

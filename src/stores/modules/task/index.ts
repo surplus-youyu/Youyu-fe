@@ -6,7 +6,8 @@ import {
   MODIFY_ALL_TASKS,
   MODIFY_ALL_TASKS_OWN,
   GET_ALL_TASKS,
-  GET_ALL_TASKS_OWN
+  GET_ALL_TASKS_OWN,
+  FINISH_TASK
 } from './constants';
 import { httpRequestSilence } from '@/utils/httpRequest';
 import { IResponse } from '@/typings/response';
@@ -41,6 +42,20 @@ export default {
         );
         if (data.status || data.msg === 'OK') {
           commit(MODIFY_ALL_TASKS_OWN, data.data);
+          return Promise.resolve('OK');
+        } else {
+          return Promise.resolve(data.msg);
+        }
+      } catch (error) {
+        return Promise.resolve(error);
+      }
+    },
+    async [FINISH_TASK]({}, payload): Promise<string> {
+      try {
+        const { data } = await httpRequestSilence.put<IResponse<ITask[]> >(
+          `/tasks/${payload}`
+        );
+        if (data.status || data.msg === 'OK') {
           return Promise.resolve('OK');
         } else {
           return Promise.resolve(data.msg);
