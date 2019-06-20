@@ -42,8 +42,6 @@
       </Upload>
     </div>
     <div class="submit-btn-wrapper" v-if="taskExisted">
-      <Button style="margin-right: 1rem;" @click="deleteTask">删除</Button>
-      <Button type="primary" @click="updateTask">更新</Button>
     </div>
     <div class="submit-btn-wrapper" v-else>
       <Button style="margin-right: 1rem;" @click="clear">重置</Button>
@@ -76,7 +74,8 @@ export default class Publish extends Vue {
     title: '',
     publisher_id: -1,
     summary: '',
-    bounty: 0
+    bounty: 0,
+    type: 'TASK_TYPE_CUSTOM'
   };
 
   async mounted() {
@@ -91,7 +90,8 @@ export default class Publish extends Vue {
             title: curTask.title,
             summary: curTask.description,
             publisher_id: uid,
-            bounty: curTask.reward
+            bounty: curTask.reward,
+            type: 'TASK_TYPE_CUSTOM'
           };
           this.taskExisted = true;
         }
@@ -109,7 +109,8 @@ export default class Publish extends Vue {
       title: '',
       publisher_id: -1,
       summary: '',
-      bounty: 0
+      bounty: 0,
+      type: 'TASK_TYPE_CUSTOM'
     };
   }
 

@@ -51,9 +51,7 @@
       </Card>
     </div>
     <div class="submit-btn-wrapper" v-if="questionnaireExisted">
-      <Button style="margin-right: 1rem;">删除</Button>
-      <Button type="info" style="margin-right: 1rem;">查看统计</Button>
-      <Button type="primary" @click="createQuestionnaire">更新</Button>
+      <Button type="info" style="margin-right: 1rem;" @click="getQNaireStatics">查看填写情况</Button>
     </div>
     <div class="submit-btn-wrapper" v-else>
       <Button style="margin-right: 1rem;">重置</Button>
@@ -67,7 +65,11 @@ import { Component, Vue } from 'vue-property-decorator';
 import { IQuestionnaireContent, IQuestionnaire } from '@/typings/publish';
 import QuestionForm from '@/components/QuestionForm.vue';
 import { CURRENT_USER_INFO } from '../../stores/modules/user/constants';
-import { POST_QUESTIONARE } from '../../stores/modules/questionnaire/constants';
+import {
+  POST_QUESTIONARE,
+  LOAD_QUESTIONARE_SUBMITS,
+  QUESTIONARE_SUBMITS_EXIST
+} from '../../stores/modules/questionnaire/constants';
 import { ITask } from '@/typings/task';
 import { GET_ALL_TASKS_OWN } from '@/stores/modules/task/constants';
 import {
@@ -92,7 +94,8 @@ export default class Publish extends Vue {
     type: 1,
     options: [],
     optional: true,
-    limit: 1
+    limit: 1,
+    answer: []
   };
 
   currentQuestionnaire: IQuestionnaire = {
@@ -100,7 +103,8 @@ export default class Publish extends Vue {
     publisher_id: -1,
     summary: '',
     bounty: 0,
-    content: []
+    content: [],
+    type: 'TASK_TYPE_SURVEY'
   };
 
   newQuestionHandler(content: IQuestionnaireContent) {
@@ -164,7 +168,8 @@ export default class Publish extends Vue {
       publisher_id: -1,
       summary: '',
       bounty: 0,
-      content: []
+      content: [],
+      type: 'TASK_TYPE_SURVEY'
     };
   }
 
@@ -177,6 +182,18 @@ export default class Publish extends Vue {
       await this.$store.dispatch(`questionnaire/${LOAD_QUESTIONARE}`, this.$route.params.aid);
       this.currentQuestionnaire = this.$store.getters[`questionnaire/${GET_CURRENT_QUESTIONARE}`];
       this.questionnaireExisted = true;
+    }
+  }
+
+  async getQNaireStatics() {
+    await this.$store.dispatch(`questionnaire/${LOAD_QUESTIONARE_SUBMITS}`, this.$route.params.aid);
+    if (this.$store.getters[`questionnaire/${QUESTIONARE_SUBMITS_EXIST}`]) {
+      this.$router.push( {name: 'questionnaire-statistics', params: {aid: this.$route.params.aid} });
+    } else {
+       this.$Notice.error({
+        title: '暂时无人填写问卷',
+        duration: 2
+      });
     }
   }
 }
