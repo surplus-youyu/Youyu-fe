@@ -111,7 +111,7 @@ export default class Survey extends Vue {
       });
     } else {
       this.$Notice.error({
-        title: 'fail'
+        title: result.data.msg || 'fail'
       });
     }
   }
