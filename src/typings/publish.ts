@@ -5,6 +5,7 @@ export interface IQuestionnaire {
   bounty: number;
   summary: string;
   content?: IQuestionnaireContent[];
+  type: 'TASK_TYPE_CUSTOM' | 'TASK_TYPE_SURVEY';
 }
 
 export interface IQuestionnaireContent {
@@ -13,4 +14,5 @@ export interface IQuestionnaireContent {
   options: string[];
   optional: boolean;
   limit: number;
+  answer: string[];
 }

@@ -33,7 +33,8 @@ export default {
             summary: data.data.description,
             publisher_id: data.data.creator,
             content: (JSON.parse(data.data.content) as IQuestionnaireContent[]),
-            bounty: data.data.reward
+            bounty: data.data.reward,
+            type: 'TASK_TYPE_SURVEY'
           };
           commit(`${MODIFY_CURRENT_QUESTIONNAIRE}`, newQuestionnaire);
         }
@@ -54,7 +55,8 @@ export default {
               summary: QNaire.description,
               publisher_id: QNaire.creator,
               content: (JSON.parse(QNaire.content) as IQuestionnaireContent[]),
-              bounty: QNaire.reward
+              bounty: QNaire.reward,
+              type: 'TASK_TYPE_SURVEY'
             };
             lists.push(item);
           });

@@ -48,7 +48,8 @@ export default class Survey extends Vue {
     publisher_id: -1,
     summary: '',
     bounty: 0,
-    content: []
+    content: [],
+    type: 'TASK_TYPE_SURVEY'
   };
 
   async submit() {

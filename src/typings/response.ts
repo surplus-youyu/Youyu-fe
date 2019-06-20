@@ -11,7 +11,7 @@ export interface IQueryQuestionnaireResponse {
     creator: number;
     title: string;
     description: string;
-    type: string;
+    type: 'TASK_TYPE_CUSTOM' | 'TASK_TYPE_SURVEY';
     reward: number;
     content: string;
 }
