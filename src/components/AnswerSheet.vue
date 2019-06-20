@@ -154,7 +154,7 @@ export default class AnswerSheet extends Vue {
   }
 
   inputChange(event: any) {
-    this.inputQuestion.answer = [ event.value ];
+    this.inputQuestion.answer = [ this.answer.input ];
   }
 
   validate(): boolean {
