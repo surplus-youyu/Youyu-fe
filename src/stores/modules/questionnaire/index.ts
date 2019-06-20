@@ -9,11 +9,13 @@ import {
   MODIFY_QUESTIONARE_SUBMITS,
   POST_QUESTIONARE,
   RECEIVE_QUESTIONARE,
-  QUESTIONARE_SUBMITS_EXIST
+  QUESTIONARE_SUBMITS_EXIST,
+  JUDGE_QUESTIONARE_SUBMIT
 } from './constants';
 import { IQuestionnaire, IQuestionnaireContent } from '@/typings/publish';
 import { httpRequestSilence } from '@/utils/httpRequest';
 import { IResponse, IQueryQuestionnaireResponse } from '@/typings/response';
+import { IAssignmentFeedback } from '@/typings/assignment';
 
 export default {
   namespaced: true,
@@ -47,20 +49,19 @@ export default {
         const { data } = await httpRequestSilence.get<IResponse<IQueryQuestionnaireResponse[]> >
           (`/tasks/${tid}/assignments`);
         if (data.data) {
-          const lists: IQuestionnaire[] = [];
+          const list: IAssignmentFeedback[] = [];
           data.data.forEach((QNaire: any) => {
-            const item: IQuestionnaire = {
+            const item: IAssignmentFeedback = {
               id: QNaire.id,
-              title: QNaire.title,
-              summary: QNaire.description,
-              publisher_id: QNaire.creator,
-              content: (JSON.parse(QNaire.content) as IQuestionnaireContent[]),
-              bounty: QNaire.reward,
-              type: 'TASK_TYPE_SURVEY'
+              task_id: QNaire.task_id,
+              status: QNaire.status,
+              created_at: QNaire.created_at,
+              updated_at: QNaire.updated_at,
+              content: (JSON.parse(QNaire.payload) as IQuestionnaireContent[])
             };
-            lists.push(item);
+            list.push(item);
           });
-          commit(`${MODIFY_QUESTIONARE_SUBMITS}`, lists);
+          commit(`${MODIFY_QUESTIONARE_SUBMITS}`, list);
         }
       } catch (error) {
         // noop
@@ -102,13 +103,28 @@ export default {
       } catch (error) {
         return Promise.resolve(error);
       }
+    },
+    async [JUDGE_QUESTIONARE_SUBMIT]({}, payload): Promise<string> {
+      try {
+        const { data } = await httpRequestSilence.put<IResponse<{}> >(
+          `/tasks/${payload.task_id}/assignments/${payload.aid}`, { pass: payload.status }
+        );
+        if (data.status || data.msg === 'OK') {
+          if (data.data) {
+            return Promise.resolve('OK');
+          }
+        }
+        return Promise.resolve(data.msg);
+     } catch (error) {
+       return Promise.resolve(error);
+     }
     }
   },
   getters: {
     [GET_CURRENT_QUESTIONARE](state): IQuestionnaire | null {
       return state.currentQuestionnaire;
     },
-    [GET_QUESTIONARE_SUBMITS](state): IQuestionnaire[] | null {
+    [GET_QUESTIONARE_SUBMITS](state): IAssignmentFeedback[] | null {
       return state.questionnaireSumitList;
     },
     [QUESTIONARE_SUBMITS_EXIST](state): boolean {
@@ -119,7 +135,7 @@ export default {
     [MODIFY_CURRENT_QUESTIONNAIRE](state, payload: IQuestionnaire) {
       state.currentQuestionnaire = payload;
     },
-    [MODIFY_QUESTIONARE_SUBMITS](state, payload: IQuestionnaire[]) {
+    [MODIFY_QUESTIONARE_SUBMITS](state, payload: IAssignmentFeedback[]) {
       state.questionnaireSumitList = payload;
     }
   }
