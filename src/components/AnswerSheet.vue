@@ -4,7 +4,7 @@
       <Input :value="inputQuestion.title" disabled/>
       <Label style="margin-top: 1rem; display: inline-block;">单选</Label>
       <FormItem prop="radio">
-        <RadioGroup v-model="answer.radio" :disabled="readonly">
+        <RadioGroup v-model="answer.radio" :disabled="readonly" @on-change="radioChange">
           <Radio v-for="(option, idx) in inputQuestion.options" 
             class="single-selection-form"
             :key="`option-${option + idx}`"
@@ -18,7 +18,7 @@
       <Input :value="inputQuestion.title" disabled />
       <Label style="margin-top: 1rem; display: inline-block;">多选：{{ inputQuestion.limit }}</Label>
       <FormItem prop="checkBox">
-        <CheckboxGroup v-model="answer.checkBox" :disabled="readonly">
+        <CheckboxGroup v-model="answer.checkBox" :disabled="readonly" @on-change="checkboxChange">
           <Checkbox 
             v-for="(option, idx) in inputQuestion.options" :key="`option-multi-${option + idx}`"
             class="multi-selection-form"
@@ -32,7 +32,7 @@
       <Input :value="inputQuestion.title" disabled/>
       <FormItem prop="input">
         <Input :disabled="readonly"
-        v-model="answer.input" placeholder="输入答案" class="input-form"/>
+        v-model="answer.input" placeholder="输入答案" class="input-form" @on-change="inputChange"/>
       </FormItem>
     </Form>
   </Card>
@@ -118,31 +118,43 @@ export default class AnswerSheet extends Vue {
     ]
   };
 
-  @Emit('radio-change')
-  @Watch('radio')
-  radioChange() {
-    return {
-      radio: this.answer.radio,
-      index: this.index
-    };
+  // @Emit('radio-change')
+  // @Watch('radio')
+  // radioChange() {
+  //   return {
+  //     radio: this.answer.radio,
+  //     index: this.index
+  //   };
+  // }
+
+  // @Emit('checkbox-change')
+  // @Watch('checkBox')
+  // checkboxChange() {
+  //   return {
+  //     checkbox: this.answer.checkBox,
+  //     index: this.index
+  //   };
+  // }
+
+  // @Emit('input-change')
+  // @Watch('input')
+  // inputChange() {
+  //   return {
+  //     input: this.answer.input,
+  //     index: this.index
+  //   };
+  // }
+
+  radioChange(option: number) {
+    this.inputQuestion.answer = [ this.inputQuestion.options[option] ];
   }
 
-  @Emit('checkbox-change')
-  @Watch('checkBox')
-  checkboxChange() {
-    return {
-      checkbox: this.answer.checkBox,
-      index: this.index
-    };
+  checkboxChange(options: number[]) {
+    this.inputQuestion.answer = options.map((index) => this.inputQuestion.options[index]);
   }
 
-  @Emit('input-change')
-  @Watch('input')
-  inputChange() {
-    return {
-      input: this.answer.input,
-      index: this.index
-    };
+  inputChange(event: any) {
+    this.inputQuestion.answer = [ event.value ];
   }
 
   validate(): boolean {

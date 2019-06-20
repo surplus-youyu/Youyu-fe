@@ -59,7 +59,8 @@ export default class QuestionForm extends Vue {
     type: 1,
     options: [],
     optional: true,
-    limit: 1
+    limit: 1,
+    answer: []
   };
 
   @Prop({
