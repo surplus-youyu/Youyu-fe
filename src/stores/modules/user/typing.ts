@@ -10,4 +10,7 @@ export interface IUserInfo {
   balance: number;
   phone: string;
   email: string;
+  password: string;
+  grade: string;
+  major: string;
 }

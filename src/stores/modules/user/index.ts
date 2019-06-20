@@ -74,7 +74,7 @@ export default {
       try {
         const { data } = await httpRequestSilence.put<
         IResponse<{}, {}>
-        >(`/user/modifyInfo`, payload);
+        >(`/user`, payload);
         if (data.status) {
           commit(MODIFY_USER_PROFILE, payload);
           return data;

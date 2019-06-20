@@ -7,8 +7,12 @@
       </div>
       <Tabs :animated="false" v-model="loginType">
         <TabPane name="UPlogin" label="账号登录">
-          <Input placeholder="邮箱" size="large" v-model="loginFormEP.email"/>
-          <Input placeholder="密码" type="password" size="large" v-model="loginFormEP.password"/>
+          <Poptip trigger="focus" content="邮箱" placement="top-start">
+            <Input placeholder="邮箱" size="large" v-model="loginFormEP.email"/>
+          </Poptip>
+          <Poptip trigger="focus" content="密码" placement="top-start">
+            <Input placeholder="密码" type="password" size="large" v-model="loginFormEP.password"/>
+          </Poptip>
           <div class="login-ctrl">
             <Checkbox size="large">自动登录</Checkbox>
             <span>忘记密码</span>
@@ -98,6 +102,9 @@ export default class Login extends Vue {
   justify-content: center;
   #login-card {
     width: 356px;
+  }
+  .ivu-poptip, .ivu-poptip-rel {
+    width: 100%;
   }
   .headers {
     padding-top: 15vh;

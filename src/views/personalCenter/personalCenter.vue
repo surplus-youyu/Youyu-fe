@@ -4,6 +4,40 @@
     <div class="info-wrapper">
       <div class="info" style="width: 40%; min-width: 500px;">
         <div class="detail-wrapper">
+          <span class="sub-title" style="margin-bottom: 1rem">性别</span>
+          <Select v-model="userInfo.gender" style="width:78px" size="large">
+            <Option 
+              v-for="item in genderList" 
+              :value="item.value"
+              :key="item.value">{{ item.label }}
+            </Option>
+          </Select>
+        </div>
+        <div style="display: flex; width:80%">
+          <div class="detail-wrapper" style="width:30%">
+            <span class="sub-title" style="margin-bottom: 1rem">年龄</span>
+            <InputNumber size="large" :max="130" :min="0" v-model="userInfo.age"></InputNumber>
+          </div>
+          <div class="detail-wrapper" style="width:70%">
+            <span class="sub-title" style="margin-bottom: 1rem">年级</span>
+            <Select v-model="userInfo.grade" size="large">
+              <Option 
+                v-for="item in gradeList" 
+                :value="item.value"
+                :key="item.value">{{ item.label }}
+              </Option>
+            </Select>
+          </div>
+        </div>
+        <div class="detail-wrapper">
+          <span class="sub-title" style="margin-bottom: 1rem">专业</span>
+          <Input 
+            v-model="userInfo.major"
+            type="text"
+            style="width: 80%"
+            size="large"/>
+        </div>
+        <div class="detail-wrapper">
           <span class="sub-title" style="margin-bottom: 1rem">昵称</span>
           <Input 
             v-model="userInfo.nickname"
@@ -12,18 +46,18 @@
             size="large"/>
         </div>
         <div class="detail-wrapper">
-          <span class="sub-title" style="margin-bottom: 1rem">性别</span>
-          <Select v-model="userInfo.gender" style="width:70px" size="large">
-            <Option 
-              v-for="item in genderList" 
-              :value="item.value"
-              :key="item.value">{{ item.label }}
-            </Option>
-          </Select>
+          <span class="sub-title" style="margin-bottom: 1rem">修改密码</span>
+          <Poptip trigger="focus" content="清空则不会修改密码" placement="top-start">
+            <Input type="password" v-model="userInfo.password" size="large" clearable/>
+          </Poptip>
         </div>
         <div class="detail-wrapper">
-          <span class="sub-title" style="margin-bottom: 1rem">年龄</span>
-          <InputNumber :max="130" :min="0" style="width:70px" v-model="userInfo.age"></InputNumber>
+          <span class="sub-title" style="margin-bottom: 1rem">邮箱</span>
+          <span>已绑定邮箱：{{ userInfo.email }}</span>
+        </div>
+        <div class="detail-wrapper">
+          <span class="sub-title" style="margin-bottom: 1rem">密保手机</span>
+          <span>已绑定手机：{{ phoneDisplay }}</span>
         </div>
         <div class="detail-wrapper">
           <span class="sub-title" style="margin-bottom: 1rem" size="large">余额</span>
@@ -33,14 +67,6 @@
             style="width: 80%"
             size="large"
             disabled/>
-        </div>
-        <div class="detail-wrapper">
-          <span class="sub-title" style="margin-bottom: 1rem">邮箱</span>
-          <span>已绑定邮箱：{{ userInfo.email }}</span>
-        </div>
-        <div class="detail-wrapper">
-          <span class="sub-title" style="margin-bottom: 1rem">密保手机</span>
-          <span>已绑定手机：{{ phoneDisplay }}</span>
         </div>
       </div>
       <div class="avatar" style="margin: 1rem 0 0 0">
@@ -90,7 +116,10 @@ export default class PersonalCenter extends Vue {
     gender: 'm',
     balance: 0,
     phone: '',
-    email: ''
+    email: '',
+    password: '',
+    grade: '',
+    major: ''
   };
 
   DefaultAvatar = DefaultAvatar;
@@ -108,6 +137,25 @@ export default class PersonalCenter extends Vue {
     {
       value: 'f',
       label: '女'
+    }
+  ];
+
+  gradeList = [
+    {
+      value: '1',
+      label: '大一'
+    },
+    {
+      value: '2',
+      label: '大二'
+    },
+    {
+      value: '3',
+      label: '大三'
+    },
+    {
+      value: '4',
+      label: '大四'
     }
   ];
 
