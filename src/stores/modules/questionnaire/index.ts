@@ -57,7 +57,7 @@ export default {
               status: QNaire.status,
               created_at: QNaire.created_at,
               updated_at: QNaire.updated_at,
-              content: (JSON.parse(QNaire.payload) as IQuestionnaireContent[])
+              content: QNaire.payload
             };
             list.push(item);
           });

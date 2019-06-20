@@ -12,7 +12,7 @@ export interface IAssignment {
 
 export interface IAssignmentFeedback {
   id: number;
-  content: IQuestionnaireContent[];
+  content: IQuestionnaireContent[] | string;
   status: string;
   task_id: number;
   created_at: string;

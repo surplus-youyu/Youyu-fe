@@ -7,16 +7,20 @@
     @on-row-click="getSubmitDetail"></Table>
   <Modal
       v-model="showSubmitDetail"
-      title="问卷详情"
+      :title="isQuestionnaire ? '问卷详情': '任务详情'"
       ok-text="审核通过"
-      cancel-text="问卷无效"
+      :cancel-text="isQuestionnaire ? '问卷无效': '任务无效'"
       @on-ok="questionnairePass(true)"
       @on-cancel="questionnairePass(false)"
       >
-      <div class="content" v-for="(content, index) in QuestionnaireDetail.content" :key="index">
-        <p class="content-title">题目{{index + 1}}: {{content.title}}</p>
-        <p class="content-answer">答案: <span v-for="(item, index) in content.answer" :key="index">{{item}}{{index < content.answer.length - 1 ? ', ': ''}}</span></p>
+      <div v-if="isQuestionnaire">
+        {{isQuestionnaire}}
+        <div class="content" v-for="(content, index) in TaskDetail.content" :key="index">
+          <p class="content-title">题目{{index + 1}}: {{content.title}}</p>
+          <p class="content-answer">答案: <span v-for="(item, index) in content.answer" :key="index">{{item}}{{index < content.answer.length - 1 ? ', ': ''}}</span></p>
+        </div>
       </div>
+      <p v-else class="content-answer">答案: {{TaskDetail.content}}</p>
   </Modal>
 </div>
     
@@ -30,13 +34,15 @@ import { IAssignmentFeedback } from '@/typings/assignment';
 import { ASSIGNMENT_STATUS_MAP } from '@/views/assignments/constants';
 
 @Component({
-  name: 'questionnaireStatistics'
+  name: 'taskStatistics'
 })
-export default class QuestionnaireStatistics extends Vue {
+export default class TaskStatistics extends Vue {
 
   submitList: IAssignmentFeedback[] = [];
   showSubmitDetail = false;
-  QuestionnaireDetail: IAssignmentFeedback = {
+  isQuestionnaire = false;
+
+  TaskDetail: IAssignmentFeedback = {
     id: -1,
     content: [],
     status: '',
@@ -69,25 +75,29 @@ export default class QuestionnaireStatistics extends Vue {
     this.submitList.forEach((item) => {
       item.created_at = item.created_at.split('Z')[0].replace('T', ' ');
       item.status = ASSIGNMENT_STATUS_MAP[item.status];
+      if (this.$route.name === 'questionnaire-statistics') {
+        this.isQuestionnaire = true;
+        item.content = (JSON.parse(item.content + '') as IQuestionnaireContent[]);
+      }
     });
   }
 
   getSubmitDetail(questionnaire: IAssignmentFeedback) {
-    this.QuestionnaireDetail = questionnaire;
+    this.TaskDetail = questionnaire;
     this.showSubmitDetail = true;
   }
 
   async questionnairePass(status: boolean) {
     const result = await this.$store.dispatch(`questionnaire/${JUDGE_QUESTIONARE_SUBMIT}`, {
       status,
-      aid: this.QuestionnaireDetail.id,
-      task_id: this.QuestionnaireDetail.task_id
+      aid: this.TaskDetail.id,
+      task_id: this.TaskDetail.task_id
     });
     if (result === 'OK') {
       this.$Notice.success({
         title: '审核成功'
       });
-      this.QuestionnaireDetail.status = status ? 'ASSIGNMENT_STATUS_SUCCESS' : 'ASSIGNMENT_STATUS_FAILED';
+      this.TaskDetail.status = status ? 'ASSIGNMENT_STATUS_SUCCESS' : 'ASSIGNMENT_STATUS_FAILED';
     } else {
       this.$Notice.error({
         title:  result && result.msg || 'fail'
