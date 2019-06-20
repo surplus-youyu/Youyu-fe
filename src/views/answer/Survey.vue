@@ -85,7 +85,8 @@ export default class Survey extends Vue {
   async mounted() {
     if (this.$route.name === 'view-questionnaire') {
       await this.$store.dispatch(`questionnaire/${LOAD_QUESTIONARE}`, this.$route.params.sid);
-      this.currentQuestionnaire = this.$store.getters[`questionnaire/${GET_CURRENT_QUESTIONARE}`];
+      const data = this.$store.getters[`questionnaire/${GET_CURRENT_QUESTIONARE}`];
+      this.currentQuestionnaire = JSON.parse(JSON.stringify(data));
     } else {
       await this.$store.dispatch(`assignment/${LOAD_ALL_ASSIGNMENTS}`);
       const assignments: IAssignment[] = this.$store.getters[`assignment/${GET_ALL_ASSIGNMENTS}`];
@@ -96,7 +97,8 @@ export default class Survey extends Vue {
         }
       });
       await this.$store.dispatch(`questionnaire/${LOAD_QUESTIONARE}`, sid);
-      this.currentQuestionnaire = this.$store.getters[`questionnaire/${GET_CURRENT_QUESTIONARE}`];
+      const data = this.$store.getters[`questionnaire/${GET_CURRENT_QUESTIONARE}`];
+      this.currentQuestionnaire = JSON.parse(JSON.stringify(data));
     }
   }
 
