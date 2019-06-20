@@ -51,7 +51,14 @@
       </Card>
     </div>
     <div class="submit-btn-wrapper" v-if="questionnaireExisted">
+      <Button style="margin-right: 1rem;" @click="showFinishDialog = true">结束任务</Button>
       <Button type="info" style="margin-right: 1rem;" @click="getQNaireStatics">查看填写情况</Button>
+      <Modal
+        v-model="showFinishDialog"
+        title="结束任务"
+        @on-ok="finishTask">
+        <p>确定结束任务吗？</p>
+      </Modal>
     </div>
     <div class="submit-btn-wrapper" v-else>
       <Button style="margin-right: 1rem;">重置</Button>
@@ -71,7 +78,7 @@ import {
   QUESTIONARE_SUBMITS_EXIST
 } from '../../stores/modules/questionnaire/constants';
 import { ITask } from '@/typings/task';
-import { GET_ALL_TASKS_OWN } from '@/stores/modules/task/constants';
+import { GET_ALL_TASKS_OWN, FINISH_TASK } from '@/stores/modules/task/constants';
 import {
   LOAD_QUESTIONARE,
   GET_CURRENT_QUESTIONARE,
@@ -87,6 +94,7 @@ import store from '@/stores';
 })
 export default class Publish extends Vue {
   showCreaterDialog: boolean = false;
+  showFinishDialog = false;
   questionnaireExisted = false;
 
   plainContent: IQuestionnaireContent = {
@@ -193,6 +201,20 @@ export default class Publish extends Vue {
        this.$Notice.error({
         title: '暂时无人填写问卷',
         duration: 2
+      });
+    }
+  }
+
+  async finishTask() {
+    const result = await this.$store.dispatch(`task/${FINISH_TASK}`, this.$route.params.aid);
+    if (result === 'OK') {
+      this.$Notice.success({
+        title: '操作成功'
+      });
+      this.$router.push({name: 'a-published'});
+    } else {
+      this.$Notice.error({
+        title:  result && result.msg || 'fail'
       });
     }
   }
