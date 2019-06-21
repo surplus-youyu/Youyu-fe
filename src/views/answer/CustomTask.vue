@@ -1,23 +1,25 @@
 <template>
-  <div class="custom-task" 
-  style="display: flex; flex-direction: column; align-items: center;">
-    <h1>{{currentTask.title}}</h1>
-    <Input
-    :disabled="true"
-    type="textarea"
-    :row="10"
-    style="width: 45%; margin: 1rem 0 1rem 0;"
-    :value="currentTask.description" /><br>
-    <Input
-    :disabled="readonly"
-    v-model="answer"
-    type="textarea" 
-    style="width: 45%; margin: 0 0 1rem 0;" 
-    size="large" 
-    :rows="4" placeholder="在这里写下你的答案"/>
-    <div class="btn-wrapper" style="width: 45%">
-      <Button v-if="readonly" @click="acceptAndAnswer">接受并开始回答</Button>
-      <Button v-else @click="submit">提交</Button>
+  <div class="custom-task">
+    <h1 style="margin-top: 1rem; margin-bottom: 1rem; text-align: center;">{{currentTask.title}}</h1>
+    <div class="title-wrapper">
+      <h3 style="margin: 1rem 0 1rem 0">描述</h3>
+      <p style="width: 45%; min-width: 400px; max-width: 500px;">{{currentTask.description}}</p>
+    </div>
+    <div class="title-wrapper">
+      <h3 style="margin: 1rem 0 0 0">回答</h3>
+      <Input
+      :disabled="readonly"
+      v-model="answer"
+      type="textarea" 
+      style="width: 45%; min-width: 400px; max-width: 500px; margin: 1rem auto;" 
+      size="large" 
+      :rows="4" placeholder="在这里写下你的答案"/>
+    </div>
+    <div v-if="!readonly" class="submit-btn-wrapper">
+      <Button @click="submit">提交</Button>
+    </div>
+    <div v-else class="submit-btn-wrapper">
+      <Button @click="acceptAndAnswer">接受并开始回答</Button>
     </div>
   </div>
 </template>
@@ -122,3 +124,21 @@ export default class CustomTask extends Vue {
   }
 }
 </script>
+<style lang="less" scoped>
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  h3 {
+    text-align: left;
+    width: 45%; 
+    min-width: 400px; 
+    max-width: 500px;
+  }
+}
+.submit-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

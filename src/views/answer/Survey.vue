@@ -1,6 +1,6 @@
 <template>
   <div id="current-questionnaire">
-    <h1 style="margin-top: 1rem; margin-bottom: 2rem; text-align: center;">{{currentQuestionnaire.title}}</h1>
+    <h1 style="margin-top: 1rem; margin-bottom: 1rem; text-align: center;">{{currentQuestionnaire.title}}</h1>
     <div class="title-wrapper">
       <h3 style="margin: 1rem 0 1rem 0">描述</h3>
       <p style="width: 45%; min-width: 400px; max-width: 500px;">{{currentQuestionnaire.summary}}</p>
