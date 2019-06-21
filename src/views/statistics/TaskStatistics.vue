@@ -3,18 +3,18 @@
   <Table class="statistics-list"
     stripe 
     :columns="TableColumns" 
-    :data="submitList"
-    @on-row-click="getSubmitDetail"></Table>
+    :data="submitList">
+    <template slot-scope="{ row, index }" slot="action">
+      <Button class="action" type="primary" size="small" @click="getSubmitDetail(index)">查看详情</Button>
+      <Button class="action" type="error" size="small" @click="questionnairePass(index, false)">审核失败</Button>
+      <Button class="action" type="success" size="small" @click="questionnairePass(index, true)">审核通过</Button>
+    </template>
+  </Table>
   <Modal
       v-model="showSubmitDetail"
       :title="isQuestionnaire ? '问卷详情': '任务详情'"
-      ok-text="审核通过"
-      :cancel-text="isQuestionnaire ? '问卷无效': '任务无效'"
-      @on-ok="questionnairePass(true)"
-      @on-cancel="questionnairePass(false)"
       >
       <div v-if="isQuestionnaire">
-        {{isQuestionnaire}}
         <div class="content" v-for="(content, index) in TaskDetail.content" :key="index">
           <p class="content-title">题目{{index + 1}}: {{content.title}}</p>
           <p class="content-answer">答案: <span v-for="(item, index) in content.answer" :key="index">{{item}}{{index < content.answer.length - 1 ? ', ': ''}}</span></p>
@@ -66,6 +66,12 @@ export default class TaskStatistics extends Vue {
       title: '创建日期',
       key: 'created_at',
       align: 'center'
+    },
+    {
+      title: '操作',
+      key: 'action',
+      slot: 'action',
+      align: 'center'
     }
   ];
 
@@ -82,16 +88,17 @@ export default class TaskStatistics extends Vue {
     });
   }
 
-  getSubmitDetail(questionnaire: IAssignmentFeedback) {
-    this.TaskDetail = questionnaire;
+  getSubmitDetail(index: number) {
+    this.TaskDetail = this.submitList[index];
     this.showSubmitDetail = true;
   }
 
-  async questionnairePass(status: boolean) {
+  async questionnairePass(index: number, status: boolean) {
+    const taskDetail = this.submitList[index];
     const result = await this.$store.dispatch(`questionnaire/${JUDGE_QUESTIONARE_SUBMIT}`, {
       status,
-      aid: this.TaskDetail.id,
-      task_id: this.TaskDetail.task_id
+      aid: taskDetail.id,
+      task_id: taskDetail.task_id
     });
     if (result === 'OK') {
       this.$Notice.success({
@@ -117,5 +124,9 @@ export default class TaskStatistics extends Vue {
   .content-answer {
     font-size: 14px;
   }
+}
+
+.action {
+  margin-right: 10px;
 }
 </style>
