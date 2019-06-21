@@ -3,8 +3,8 @@ export interface State {
 }
 
 export interface IUserInfo {
+  uid: number;
   nickname: string;
-  avatar?: string;
   age: number;
   gender: 'm' | 'f';
   balance: number;

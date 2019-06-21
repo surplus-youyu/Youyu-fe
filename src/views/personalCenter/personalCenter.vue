@@ -71,12 +71,16 @@
       </div>
       <div class="avatar" style="margin: 1rem 0 0 0">
         <img 
-          :src="userInfo.avatar || DefaultAvatar"
+          ref="userAvatar"
+          :src="avatar"
           alt="Avatar"
-          style="width: 128px; border-radius: 50%; margin-bottom: 1rem">
+          style="width: 128px; height: 128px; border-radius: 50%; margin-bottom: 1rem">
         <Upload
+          :action="uploadAvatarURL"
+          name="avatar"
+          :show-upload-list="false"
           :before-upload="handleUpload"
-          action="">
+          :on-success="avatarUploadSuccess">
           <Button size="large">更换头像</Button>
         </Upload>
       </div>
@@ -88,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Emit } from 'vue-property-decorator';
 import store from '@/stores';
 import DefaultAvatar from '@/assets/user/default-avatar.png';
 import { UID, CURRENT_USER_INFO, MODIFY_USER_PROFILE } from '@/stores/modules/user/constants';
@@ -97,11 +101,13 @@ import { IUserInfo } from '@/stores/modules/user/typing';
 
 @Component({
   name: 'personalCenter',
-  beforeRouteEnter(to: any, from: any, next: any) {
+  async beforeRouteEnter(to: any, from: any, next: any) {
     const data = store.getters[`user/${CURRENT_USER_INFO}`];
     if (data) {
       next((vm: any) => {
         vm.userInfo = Object.assign({}, data);
+        vm.avatar = `/api/user/${vm.userInfo.uid}/avatar`;
+        vm.uploadAvatarURL = `/api/user/${vm.userInfo.uid}/avatar`;
       });
     } else {
       next('/login');
@@ -110,8 +116,8 @@ import { IUserInfo } from '@/stores/modules/user/typing';
 })
 export default class PersonalCenter extends Vue {
   userInfo: IUserInfo = {
+    uid: -1,
     nickname: '',
-    avatar: '',
     age: 0,
     gender: 'm',
     balance: 0,
@@ -122,7 +128,8 @@ export default class PersonalCenter extends Vue {
     major: ''
   };
 
-  DefaultAvatar = DefaultAvatar;
+  avatar = '';
+  uploadAvatarURL = '/api/user/:uid/avatar';
 
   genderMap = {
     m: '男',
@@ -163,8 +170,25 @@ export default class PersonalCenter extends Vue {
     return this.userInfo.phone.slice(0, 3) + '****' + this.userInfo.phone.slice(7);
   }
 
-  handleUpload() {
-    return false;
+  async handleUpload(file: any) {
+    const isJPGorPNG = file.type === 'image/jpeg' || file.type === 'image/png';
+    const isLt10M = file.size / 1024 / 1024 < 10;
+    if (!isJPGorPNG) {
+      this.$Message.error('请上传图片类型的文件');
+      return false;
+    }
+    if (!isLt10M) {
+      this.$Message.error('上传头像图片大小不能超过 10MB');
+      return false;
+    }
+    return isJPGorPNG && isLt10M;
+  }
+
+  @Emit('updateAvatar')
+  async avatarUploadSuccess() {
+    const userAvatar: any = this.$refs.userAvatar;
+    userAvatar.src = `/api/user/${this.userInfo.uid}/avatar?t=${Math.random()}`;
+    this.$Message.success('更新成功');
   }
 
   async updateInfo() {
@@ -175,6 +199,7 @@ export default class PersonalCenter extends Vue {
       this.$Message.error('更新失败，请稍候重试');
     }
   }
+
 }
 </script>
 

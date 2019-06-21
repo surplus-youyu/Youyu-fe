@@ -106,15 +106,13 @@ export default {
     },
     async [JUDGE_QUESTIONARE_SUBMIT]({}, payload): Promise<string> {
       try {
-        const { data } = await httpRequestSilence.put<IResponse<{}> >(
+        const result = await httpRequestSilence.put<IResponse<{}> >(
           `/tasks/${payload.task_id}/assignments/${payload.aid}`, { pass: payload.status }
         );
-        if (data.status || data.msg === 'OK') {
-          if (data.data) {
+        if (result.status === 204) {
             return Promise.resolve('OK');
-          }
         }
-        return Promise.resolve(data.msg);
+        return Promise.resolve(result.data.msg);
      } catch (error) {
        return Promise.resolve(error);
      }

@@ -58,7 +58,7 @@
           </Header>
           <Content id="content">
               <Card>
-                  <router-view :key="key"></router-view>
+                  <router-view :key="key" @updateAvatar="updateAvatar"></router-view>
               </Card>
           </Content>
       </Layout>
@@ -84,15 +84,15 @@ import store from '@/stores';
     next((vm: any) => {
       vm.loginStatus = isLogin;
       if (isLogin) {
-        vm.userName = user.nickname;
-        vm.userAvatar = DefaultAvatar;
+        vm.uid = user.uid;
+        vm.userAvatar = `/api/user/${user.uid}/avatar`;
       }
     });
   }
 })
 export default class BasicLayout extends Vue {
   loginStatus = true;
-  userName = '';
+  uid = 0;
   userAvatar = DefaultAvatar;
 
   handleClick(name: string) {
@@ -127,6 +127,10 @@ export default class BasicLayout extends Vue {
 
   get key() {
     return this.$route.path + Math.random();
+  }
+
+  updateAvatar() {
+    this.userAvatar = `/api/user/${this.uid}/avatar?t=${Math.random()}`;
   }
 
 }
@@ -217,7 +221,9 @@ export default class BasicLayout extends Vue {
         }
 
         .user-avatar {
-          height: 40px;
+          border-radius: 50%;
+          height: 45px;
+          width: 45px;
         }
 
         .user-name {
