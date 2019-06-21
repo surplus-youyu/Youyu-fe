@@ -78,7 +78,7 @@ export default class Assignments extends Vue {
       key: 'created_at'
     },
     {
-      title: '动作',
+      title: ' ',
       key: 'action',
       slot: 'action',
       width: 200,
