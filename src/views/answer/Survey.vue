@@ -1,12 +1,24 @@
 <template>
   <div id="current-questionnaire">
-    <h1>{{currentQuestionnaire.title}}</h1>
-    <h3>{{currentQuestionnaire.summary}}</h3>
-    <answer-sheet v-for="(content, idx) in currentQuestionnaire.content" ref="answer"
+    <h1 style="margin-top: 1rem; margin-bottom: 2rem; text-align: center;">{{currentQuestionnaire.title}}</h1>
+    <div class="title-wrapper">
+      <h3 style="margin: 1rem 0 1rem 0">描述</h3>
+      <p style="width: 45%; min-width: 400px; max-width: 500px;">{{currentQuestionnaire.summary}}</p>
+    </div>
+    <div class="title-wrapper">
+      <h3 style="margin: 1rem 0 0 0">问题</h3>
+    </div>
+    <answer-sheet 
+    v-for="(content, idx) in currentQuestionnaire.content" 
+    ref="answer"
     :key="`content-questionnaire-${idx}`" :inputQuestion="content" :index="idx"
     :readonly="readonly"></answer-sheet>
-    <Button v-if="!readonly" @click="submit">提交</Button>
-    <Button v-else @click="acceptAndAnswer">接受并任务并开始填写</Button>
+    <div v-if="!readonly" class="submit-btn-wrapper">
+      <Button @click="submit">提交</Button>
+    </div>
+    <div v-else class="submit-btn-wrapper">
+      <Button @click="acceptAndAnswer">接受并任务并开始填写</Button>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -119,3 +131,22 @@ export default class Survey extends Vue {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  h3 {
+    text-align: left;
+    width: 45%; 
+    min-width: 400px; 
+    max-width: 500px;
+  }
+}
+.submit-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

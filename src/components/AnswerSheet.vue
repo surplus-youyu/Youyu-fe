@@ -1,7 +1,7 @@
 <template>
-  <Card class="answer-sheet" dis-hover>
+  <Card class="answer-sheet" dis-hover style="margin: 1rem auto 0 auto; width: 45%; min-width: 400px; max-width: 500px;">
     <Form v-if="inputQuestion.type === 1" :rules="singleChoiceRule" ref="single" :model="answer">
-      <Input :value="inputQuestion.title" disabled/>
+      <p>{{inputQuestion.title}}</p>
       <Label style="margin-top: 1rem; display: inline-block;">单选</Label>
       <FormItem prop="radio">
         <RadioGroup v-model="answer.radio" :disabled="readonly" @on-change="radioChange">
@@ -15,7 +15,7 @@
       </FormItem>
     </Form>
     <Form v-else-if="inputQuestion.type === 2" :rules="multiChoiceRule" ref="multi" :model="answer">
-      <Input :value="inputQuestion.title" disabled />
+      <p>{{inputQuestion.title}}</p>
       <Label style="margin-top: 1rem; display: inline-block;">多选：{{ inputQuestion.limit }}</Label>
       <FormItem prop="checkBox">
         <CheckboxGroup v-model="answer.checkBox" :disabled="readonly" @on-change="checkboxChange">
@@ -29,7 +29,7 @@
       </FormItem>
     </Form>
     <Form v-else ref="input" :rules="inputRule" :model="answer">
-      <Input :value="inputQuestion.title" disabled/>
+      <p style="width: 45%; min-width: 400px; max-width: 500px;">{{inputQuestion.title}}</p>
       <FormItem prop="input">
         <Input :disabled="readonly"
         v-model="answer.input" placeholder="输入答案" class="input-form" @on-change="inputChange"/>
