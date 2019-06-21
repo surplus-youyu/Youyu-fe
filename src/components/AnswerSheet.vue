@@ -4,9 +4,10 @@
       <p>{{inputQuestion.title}}</p>
       <Label style="margin-top: 1rem; display: inline-block;">单选</Label>
       <FormItem prop="radio">
-        <RadioGroup v-model="answer.radio" :disabled="readonly" @on-change="radioChange">
+        <RadioGroup v-model="answer.radio" @on-change="radioChange">
           <Radio v-for="(option, idx) in inputQuestion.options" 
             class="single-selection-form"
+            :disabled="readonly"
             :key="`option-${option + idx}`"
             :label="idx" prop="single">
             {{ option }}
@@ -18,10 +19,11 @@
       <p>{{inputQuestion.title}}</p>
       <Label style="margin-top: 1rem; display: inline-block;">多选：{{ inputQuestion.limit }}</Label>
       <FormItem prop="checkBox">
-        <CheckboxGroup v-model="answer.checkBox" :disabled="readonly" @on-change="checkboxChange">
+        <CheckboxGroup v-model="answer.checkBox" @on-change="checkboxChange">
           <Checkbox 
             v-for="(option, idx) in inputQuestion.options" :key="`option-multi-${option + idx}`"
             class="multi-selection-form"
+            :disabled="readonly"
             :label="idx">
             {{ option }}
           </Checkbox>
