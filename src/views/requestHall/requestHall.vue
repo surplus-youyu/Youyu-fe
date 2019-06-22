@@ -3,6 +3,12 @@
     <div class="sort-group">
       <sort-button class="sort-btn" :reset="!sortBytime" title="时间" @status-change="selectTime"></sort-button>
       <sort-button class="sort-btn" :reset="sortBytime" title="价格" @status-change="selectBounty"></sort-button>
+      <div class="select-container">
+        <Select class="select" clearable @on-change="selecttype" placeholder="任务类型">
+          <Option value="TASK_TYPE_SURVEY" key="TASK_TYPE_SURVEY">调查问卷</Option>
+          <Option value="TASK_TYPE_CUSTOM" key="TASK_TYPE_CUSTOM">自定义任务</Option>
+        </Select>
+      </div>
       <Input class="search" type='text' @on-change="search" v-model="searchText" clearable placeholder="请输入搜索内容" suffix="ios-search"/>
     </div>
     <div class="cards-container">
@@ -38,8 +44,10 @@ export default class RequestHall extends Vue {
 
   sortMap: SortMap = {
     time: 0,
-    bounty: 0
+    bounty: 0,
+    type: ''
   };
+
   sortBytime = false;
   searchText = '';
   currentPage = 1;
@@ -103,18 +111,31 @@ export default class RequestHall extends Vue {
   selectTime(timeStatus: SortMap['time']) {
     this.sortMap.time = timeStatus;
     this.sortBytime = true;
-    this.sortList();
+    this.sortList(false);
   }
 
   selectBounty(bountyStatus: SortMap['bounty']) {
     this.sortMap.bounty = bountyStatus;
     this.sortBytime = false;
-    this.sortList();
+    this.sortList(false);
   }
 
-  // 根据时间或价格进行排序
-  sortList() {
-    this.showTasks = [ ...this.allTasks ];
+  selecttype(type: SortMap['type']) {
+    // 清除type选项时设为''
+    type = type || '';
+    this.sortMap.type = type;
+    this.sortList(true);
+  }
+
+  // 先根据类型分类筛选，根据时间或价格进行排序
+  sortList(filterType: boolean) {
+    if (filterType) {
+      if (this.sortMap.type) {
+        this.showTasks = this.allTasks.filter((item) => item.type === this.sortMap.type);
+      } else {
+        this.showTasks = [ ...this.allTasks ];
+      }
+    }
     let sortType = '';
     let sortOrder = 0;
     if (this.sortMap.time && this.sortBytime) {
@@ -139,7 +160,7 @@ export default class RequestHall extends Vue {
 
   search() {
     // 避免上次搜索结果为空,而这次搜索拿空数据进行过滤
-    this.sortList();
+    this.sortList(true);
     this.showTasks = this.showTasks.filter((item, index) => item.title.includes(this.searchText));
   }
 
@@ -168,6 +189,11 @@ export default class RequestHall extends Vue {
     margin-left: 40px;
     width: auto;
   }
+}
+
+.select {
+  width: 102px;
+  margin-left: 10px;
 }
 
 .cards-container {

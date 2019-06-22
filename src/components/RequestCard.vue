@@ -1,8 +1,8 @@
 <template>
  <card class="card">
   <p class="title" slot="title">{{req.title}} </p>
-  <div class="tags">
-    <Tag class="tag" v-for="tag in req.tags" :key="tag" :fade="false" color="default">{{tag}}</Tag>
+  <div class="type">
+    <span>{{typeMap[req.type]}}</span>
   </div>
   <p class="desc">{{req.description}}</p>
   <div>
@@ -23,11 +23,17 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { RequsetMsg } from '@/typings/requestHall';
 import { DateFormat } from '@/utils/format';
+import { IIndexSignatureMap } from '@/views/assignments/constants';
 @Component({
   name: 'request-card'
 })
 
 export default class RequestCard extends Vue {
+
+  typeMap: IIndexSignatureMap = {
+    TASK_TYPE_SURVEY: '调查问卷',
+    TASK_TYPE_CUSTOM: '自定义任务'
+  };
 
   @Prop({
     required: true
@@ -51,13 +57,7 @@ export default class RequestCard extends Vue {
     .title {
       font-size: 16px;
     }
-
-    .tags {
-      .tag {
-        margin-right: 10px;
-      }
-    }
-    
+     
     .desc {
       width: 360px;
       height: 38px;
