@@ -3,13 +3,16 @@
   <Table class="statistics-list"
     stripe 
     :columns="TableColumns" 
-    :data="submitList">
+    :data="showPagesubmitList">
     <template slot-scope="{ row, index }" slot="action">
       <Button class="action" type="primary" size="small" @click="getSubmitDetail(index)">查看详情</Button>
-      <Button class="action" type="error" size="small" @click="questionnairePass(index, false)">审核失败</Button>
-      <Button class="action" type="success" size="small" @click="questionnairePass(index, true)">审核通过</Button>
+      <Button class="action" type="error" size="small" @click="questionnairePass(index, false)" v-if="showPagesubmitList[index].status !== '审核通过'">审核失败</Button>
+      <Button class="action" type="success" size="small" @click="questionnairePass(index, true)" v-if="showPagesubmitList[index].status !== '审核通过'">审核通过</Button>
     </template>
   </Table>
+  <div class="page-container">
+    <Page class="page" :total="submitList.length" :page-size="pageSize" @on-change="pageChange"/>
+  </div>
   <Modal
       v-model="showSubmitDetail"
       :title="isQuestionnaire ? '问卷详情': '任务详情'"
@@ -41,6 +44,8 @@ export default class TaskStatistics extends Vue {
   submitList: IAssignmentFeedback[] = [];
   showSubmitDetail = false;
   isQuestionnaire = false;
+  currentPage = 1;
+  pageSize = 10;
 
   TaskDetail: IAssignmentFeedback = {
     id: -1,
@@ -89,12 +94,12 @@ export default class TaskStatistics extends Vue {
   }
 
   getSubmitDetail(index: number) {
-    this.TaskDetail = this.submitList[index];
+    this.TaskDetail = this.showPagesubmitList[index];
     this.showSubmitDetail = true;
   }
 
   async questionnairePass(index: number, status: boolean) {
-    const taskDetail = this.submitList[index];
+    const taskDetail = this.showPagesubmitList[index];
     const result = await this.$store.dispatch(`questionnaire/${JUDGE_QUESTIONARE_SUBMIT}`, {
       status,
       aid: taskDetail.id,
@@ -110,6 +115,15 @@ export default class TaskStatistics extends Vue {
         title:  result && result.msg || 'fail'
       });
     }
+  }
+
+  pageChange(page: number) {
+    this.currentPage = page;
+  }
+
+  get showPagesubmitList(): IAssignmentFeedback[] {
+    return this.submitList.filter(
+      (item, index) => index / this.pageSize >= this.currentPage - 1 && index / this.pageSize < this.currentPage);
   }
 }
 </script>
@@ -128,5 +142,11 @@ export default class TaskStatistics extends Vue {
 
 .action {
   margin-right: 10px;
+}
+
+.page-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
