@@ -6,14 +6,17 @@
       <Input class="search" type='text' @on-change="search" v-model="searchText" clearable placeholder="请输入搜索内容" suffix="ios-search"/>
     </div>
     <div class="cards-container">
-      <request-card class="req-card" v-for="(task, index) in showTasks"
+      <request-card class="req-card" v-for="(task, index) in showPageTasks"
       :key="index" :req="task" @click="getTaskDetail(task)"></request-card>
+    </div>
+    <div class="page-container">
+      <Page class="page" :total="showTasks.length" :page-size="pageSize" @on-change="pageChange"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import SortButton from '@/components/SortButton.vue';
 import RequestCard from '@/components/RequestCard.vue';
 import { SortMap, RequsetMsg } from '@/typings/requestHall';
@@ -39,6 +42,8 @@ export default class RequestHall extends Vue {
   };
   sortBytime = false;
   searchText = '';
+  currentPage = 1;
+  pageSize = 9;
 
   allTasks: ITask[] = [];
   showTasks: ITask[] = [];
@@ -142,23 +147,38 @@ export default class RequestHall extends Vue {
     await this.$store.dispatch(`task/${LOAD_ALL_TASKS}`);
     this.getAllTasks();
   }
+
+  pageChange(page: number) {
+    this.currentPage = page;
+  }
+
+  get showPageTasks(): ITask[] {
+    return this.showTasks.filter(
+      (item, index) => index / this.pageSize >= this.currentPage - 1 && index / this.pageSize < this.currentPage);
+  }
+
 }
 </script>
 
 <style lang="less" scoped>
 .sort-group {
-  padding-left: 20px;
   .search {
     margin-left: 40px;
     width: auto;
   }
 }
+
 .cards-container {
   margin-top: 20px;
-  padding: 0 35px;
+  padding: 0 7px;
   .req-card {
     margin: 0 20px 20px 0;
   }
+}
+
+.page-container {
+  display: flex;
+  justify-content: center;
 }
 </style>
 
