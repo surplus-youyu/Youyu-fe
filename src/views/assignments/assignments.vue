@@ -11,12 +11,15 @@
     <Table class="assign-list" 
       stripe 
       :columns="tableColumns" 
-      :data="showAssignments"
+      :data="showPageAssignments"
       >
       <template slot-scope="{ row, index }" slot="action">
         <Button type="primary" size="small" @click="getAssignDetail(index)">查看详情</Button>
       </template>
     </Table>
+    <div class="page-container">
+      <Page class="page" :total="showAssignments.length" :page-size="pageSize" @on-change="pageChange"/>
+    </div>
   </div>
 </template>
 
@@ -90,6 +93,8 @@ export default class Assignments extends Vue {
   searchText = '';
   sortTimeOrder = 0;
   sortAssignType: any = '';
+  currentPage = 1;
+  pageSize = 10;
 
   allAssignments: IAssignment[] = [];
   showAssignments: IAssignment[] = [];
@@ -113,44 +118,8 @@ export default class Assignments extends Vue {
     });
   }
 
-  // async getAssignDetail(data: IAssignment, index: number) {
-  //   if (this.dataType === 'accepted') {
-  //     if (data.type === '调查问卷') {
-  //       this.$router.push({
-  //         name: 'answer-questionnaire',
-  //         params: {
-  //           aid: String(data.id)
-  //         }
-  //       });
-  //     } else {
-  //       this.$router.push({
-  //         name: 'answer-custom-task',
-  //         params: {
-  //           aid: String(data.id)
-  //         }
-  //       });
-  //     }
-  //   } else {
-  //     if (data.type === '调查问卷') {
-  //       this.$router.push({
-  //         name: 'published-questionnaire-detail',
-  //         params: {
-  //           aid: String(data.id)
-  //         }
-  //       });
-  //     } else {
-  //       this.$router.push({
-  //         name: 'published-custom-task-detail',
-  //         params: {
-  //           aid: String(data.id)
-  //         }
-  //       });
-  //     }
-  //   }
-  // }
-
   async getAssignDetail(index: number) {
-    const data = this.showAssignments[index];
+    const data = this.showPageAssignments[index];
     if (this.dataType === 'accepted') {
       if (data.type === '调查问卷') {
         this.$router.push({
@@ -227,6 +196,15 @@ export default class Assignments extends Vue {
     this.showAssignments = this.showAssignments.filter((item, index) => item.title.includes(this.searchText));
   }
 
+  pageChange(page: number) {
+    this.currentPage = page;
+  }
+
+  get showPageAssignments(): IAssignment[] {
+    return this.showAssignments.filter(
+      (item, index) => index / this.pageSize >= this.currentPage - 1 && index / this.pageSize < this.currentPage);
+  }
+
 }
 </script>
 
@@ -238,8 +216,15 @@ export default class Assignments extends Vue {
     width: auto;
   }
 }
+
 .assign-list {
   margin: 20px;
+}
+
+.page-container {
+  display: flex;
+  padding-right: 20px;
+  justify-content: flex-end;
 }
 </style>
 
