@@ -14,4 +14,6 @@ export interface IQueryQuestionnaireResponse {
     type: 'TASK_TYPE_CUSTOM' | 'TASK_TYPE_SURVEY';
     reward: number;
     content: string;
+    limit: number;
+    assigned: number;
 }

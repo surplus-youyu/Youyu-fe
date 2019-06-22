@@ -2,8 +2,12 @@
   <div class="custom-task">
     <h1 style="margin-top: 1rem; margin-bottom: 1rem; text-align: center;">{{currentTask.title}}</h1>
     <div class="title-wrapper">
-      <h3 style="margin: 1rem 0 1rem 0">描述</h3>
+      <h3 style="margin: 1rem 0 1rem 0">任务描述</h3>
       <p style="width: 45%; min-width: 400px; max-width: 500px;">{{currentTask.description}}</p>
+    </div>
+    <div class="limit-wrapper">
+      <h3 style="margin: 1rem 0 1rem 0">已认领</h3>
+      <p style="width: 45%; min-width: 400px; max-width: 500px; text-align: left">{{currentTask.assigned}} / {{currentTask.limit}}</p>
     </div>
     <div class="title-wrapper">
       <h3 style="margin: 1rem 0 0 0">回答</h3>
@@ -55,7 +59,8 @@ export default class CustomTask extends Vue {
     type: 'TASK_TYPE_CUSTOM',
     content: '',
     reward: 0,
-    created_at: ''
+    created_at: '',
+    assigned: 1
   };
 
   async acceptAndAnswer() {
@@ -125,6 +130,7 @@ export default class CustomTask extends Vue {
 }
 </script>
 <style lang="less" scoped>
+.limit-wrapper,
 .title-wrapper {
   display: flex;
   flex-direction: column;

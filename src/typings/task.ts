@@ -8,4 +8,5 @@ export interface ITask {
   content: string;
   reward: number;
   created_at: string;
+  assigned: number;
 }

@@ -36,7 +36,9 @@ export default {
             publisher_id: data.data.creator,
             content: (JSON.parse(data.data.content) as IQuestionnaireContent[]),
             bounty: data.data.reward,
-            type: 'TASK_TYPE_SURVEY'
+            type: 'TASK_TYPE_SURVEY',
+            limit: data.data.limit,
+            assigned: data.data.assigned
           };
           commit(`${MODIFY_CURRENT_QUESTIONNAIRE}`, newQuestionnaire);
         }
@@ -75,7 +77,7 @@ export default {
           type: (payload.type === '' ? 'TASK_TYPE_SURVEY' : payload.type),
           content: JSON.stringify(payload.content),
           reward: 0,
-          limit: 100
+          limit: payload.limit
         });
         if (data.status) {
           return Promise.resolve('OK');

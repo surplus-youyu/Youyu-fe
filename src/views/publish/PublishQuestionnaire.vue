@@ -26,13 +26,18 @@
         style="width: 45%; min-width: 400px; max-width: 500px;"
         v-model="currentQuestionnaire.summary"/>
     </div>
-    <div class="bounty-wrapper">
-      <h3 style="margin-bottom: 1rem">报酬</h3>
-      <Input 
-        v-model="currentQuestionnaire.bounty" 
-        prefix="logo-usd"
-        style="width: 45%; min-width: 400px; max-width: 500px;"
-        size="large"/>
+    <div style="display: flex; justify-content: space-between; width: 45%; min-width: 400px; max-width: 500px; margin: 0 auto;">
+      <div class="bounty-wrapper" style="width: 70%">
+        <h3 style="margin-bottom: 1rem">报酬</h3>
+        <Input 
+          v-model="currentQuestionnaire.bounty" 
+          prefix="logo-usd"
+          size="large"/>
+      </div>
+      <div class="limit-wrapper" style="width: 25%">
+        <h3 style="margin-bottom: 1rem">人数限制</h3>
+        <InputNumber style="width: 100%" size="large" :max="400" :min="1" v-model="currentQuestionnaire.limit"></InputNumber>
+      </div>
     </div>
     <div class="questions-wrapper">
       <h3 v-if="currentQuestionnaire.content.length === 0" 
@@ -112,7 +117,8 @@ export default class Publish extends Vue {
     summary: '',
     bounty: 0,
     content: [],
-    type: 'TASK_TYPE_SURVEY'
+    type: 'TASK_TYPE_SURVEY',
+    limit: 1
   };
 
   newQuestionHandler(content: IQuestionnaireContent) {
@@ -177,7 +183,8 @@ export default class Publish extends Vue {
       summary: '',
       bounty: 0,
       content: [],
-      type: 'TASK_TYPE_SURVEY'
+      type: 'TASK_TYPE_SURVEY',
+      limit: 1
     };
   }
 
@@ -223,6 +230,7 @@ export default class Publish extends Vue {
 <style lang="less">
 .submit-btn-wrapper,
 .questions-wrapper,
+.limit-wrapper,
 .bounty-wrapper
 {
   margin: 1rem 0 0 0;
@@ -230,7 +238,6 @@ export default class Publish extends Vue {
 
 .title-wrapper, 
 .description-wrapper,
-.bounty-wrapper, 
 .uploader-wrapper, 
 .questions-wrapper 
 {

@@ -2,8 +2,12 @@
   <div id="current-questionnaire">
     <h1 style="margin-top: 1rem; margin-bottom: 1rem; text-align: center;">{{currentQuestionnaire.title}}</h1>
     <div class="title-wrapper">
-      <h3 style="margin: 1rem 0 1rem 0">描述</h3>
+      <h3 style="margin: 1rem 0 1rem 0">问卷描述</h3>
       <p style="width: 45%; min-width: 400px; max-width: 500px;">{{currentQuestionnaire.summary}}</p>
+    </div>
+    <div class="limit-wrapper">
+      <h3 style="margin: 1rem 0 1rem 0">已认领</h3>
+      <p style="width: 45%; min-width: 400px; max-width: 500px; text-align: left">{{currentQuestionnaire.assigned}} / {{currentQuestionnaire.limit}}</p>
     </div>
     <div class="title-wrapper">
       <h3 style="margin: 1rem 0 0 0">问题</h3>
@@ -61,7 +65,9 @@ export default class Survey extends Vue {
     summary: '',
     bounty: 0,
     content: [],
-    type: 'TASK_TYPE_SURVEY'
+    type: 'TASK_TYPE_SURVEY',
+    limit: 1,
+    assigned: 1
   };
 
   async submit() {
@@ -133,6 +139,7 @@ export default class Survey extends Vue {
 </script>
 
 <style lang="less" scoped>
+.limit-wrapper,
 .title-wrapper {
   display: flex;
   flex-direction: column;
