@@ -22,7 +22,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { RequsetMsg } from '@/typings/requestHall';
-
+import { DateFormat } from '@/utils/format';
 @Component({
   name: 'request-card'
 })
@@ -35,7 +35,7 @@ export default class RequestCard extends Vue {
   req !: RequsetMsg;
 
  timeFormat(time: string) {
-    return time.split('Z')[0].replace('T', ' ');
+    return DateFormat(new Date(time));
   }
 
 
