@@ -162,6 +162,8 @@ export default class RequestHall extends Vue {
 
 <style lang="less" scoped>
 .sort-group {
+  display: flex;
+  justify-content: center;
   .search {
     margin-left: 40px;
     width: auto;
@@ -171,6 +173,9 @@ export default class RequestHall extends Vue {
 .cards-container {
   margin-top: 20px;
   padding: 0 7px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   .req-card {
     margin: 0 20px 20px 0;
   }
