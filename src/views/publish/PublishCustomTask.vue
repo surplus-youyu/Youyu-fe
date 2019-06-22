@@ -200,6 +200,7 @@ export default class Publish extends Vue {
 .title-wrapper,
 .description-wrapper,
 .bounty-wrapper,
+.limit-wrapper,
 .uploader-wrapper
 {
   margin: 1rem 0 0 0;
