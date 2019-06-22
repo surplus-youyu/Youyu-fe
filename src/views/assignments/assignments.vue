@@ -39,6 +39,7 @@ import { ITask } from '@/typings/task';
 import { LOAD_ALL_ASSIGNMENTS, GET_ALL_ASSIGNMENTS } from '../../stores/modules/assignment/constants';
 import { IAssignment } from '../../typings/assignment';
 import { ASSIGNMENT_STATUS_MAP, TASK_STATUS_MAP } from './constants';
+import { DateFormat } from '@/utils/format';
 
 @Component({
   name: 'assignments',
@@ -108,7 +109,7 @@ export default class Assignments extends Vue {
   formatshowAssignments() {
     this.showAssignments = JSON.parse(JSON.stringify(this.allAssignments));
     this.showAssignments.forEach((item) => {
-      item.created_at = item.created_at.split('Z')[0].replace('T', ' ');
+      item.created_at = DateFormat(new Date(item.created_at));
       if (this.dataType === 'accepted') {
         item.status = ASSIGNMENT_STATUS_MAP[item.status];
       } else {
