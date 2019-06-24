@@ -47,7 +47,10 @@
       </h3>
       <h3 v-else>问题</h3>
       <Card :dis-hover="true" style="margin: 1rem 0 0 0; width: 45%; min-width: 400px; max-width: 500px;" 
-        v-for="(content, idx) in currentQuestionnaire.content" :key="'content' + idx">
+        v-for="(content, idx) in currentQuestionnaire.content" :key="'content' + idx + Math.random()">
+        <div style="width: 100%; display: flex; justify-content: flex-end;">
+          <Button type="text" icon="md-close" @click="delQuestion(idx)" style="padding: 0"></Button>
+        </div>
         <question-form 
         :inputContent="content"
         @modifyQuestion="modifyQuestionHandler"
@@ -173,6 +176,12 @@ export default class Publish extends Vue {
           duration: 2
         });
       }
+    }
+  }
+
+  delQuestion(index: number) {
+    if (this.currentQuestionnaire.content) {
+      this.currentQuestionnaire.content.splice(index, 1);
     }
   }
 
