@@ -162,7 +162,14 @@ export default class Publish extends Vue {
       return;
     } else {
       const result = await this.$store.dispatch(`questionnaire/${POST_QUESTIONARE}`,
-        Object.freeze(this.currentQuestionnaire));
+       Object.freeze({
+        title: this.currentQuestionnaire.title,
+        summary: this.currentQuestionnaire.summary,
+        limit: this.currentQuestionnaire.limit,
+        type: this.currentQuestionnaire.type,
+        content: this.currentQuestionnaire.content,
+        reward: this.currentQuestionnaire.bounty
+      }));
       if (result === 'OK') {
         this.$Notice.success({
           title: '发布成功',
