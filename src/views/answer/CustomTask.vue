@@ -21,7 +21,7 @@
     </div>
     <div class="file-wrapper"  v-if="currentTask.files && currentTask.files.length">
        <h3>附件</h3>  
-      <div class="file-list" style="width: 45%; min-width: 400px; max-width: 500px; margin: 0 auto;">
+      <div class="file-list" style="width: 45%; min-width: 400px; max-width: 500px; margin: 5px auto;">
       <div class="file-item" v-for="(item, index) in currentTask.files" :key="index">
         <a class="file-name" href="javascript:;" @click="download(item)">{{item}}</a>
       </div>
