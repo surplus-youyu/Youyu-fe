@@ -35,6 +35,7 @@
     <div class="uploader-wrapper">
       <h3 style="margin-bottom: 1rem">附件</h3>
       <Upload
+        v-if="!taskExisted"
         :before-upload="handleUpload"
         multiple
         :show-upload-list="true"
@@ -48,8 +49,8 @@
       </Upload>
       <div class="file-list" v-if="this.currentCustomTask.files && this.currentCustomTask.files.length" style="width: 45%; min-width: 400px; max-width: 500px; margin: 0 auto;">
         <div class="file-item" v-for="(item, index) in this.currentCustomTask.files" :key="index">
-          <div class="file-name">{{item.name}}</div>
-          <Button class="delete-file-btn" @click="delFile(index)" icon="md-close" style="padding-right: 8px; padding-left: 8px;"/>
+          <div class="file-name">{{item.name || item}}</div>
+          <Button class="delete-file-btn" @click="delFile(index)" icon="md-close" style="padding-right: 8px; padding-left: 8px;" v-if="!taskExisted"/>
         </div>
       </div>
     </div>
@@ -110,7 +111,7 @@ export default class Publish extends Vue {
       let curTask;
       const allTasks: ITask[] = store.getters[`task/${GET_ALL_TASKS_OWN}`];
       const uid = this.$store.getters[`user/${CURRENT_USER_INFO}`].uid;
-      allTasks.forEach((task) => {
+      for (const task of allTasks) {
         if (task.id === +this.$route.params.aid) {
           curTask = Object.assign({}, task);
           this.currentCustomTask = {
@@ -120,16 +121,23 @@ export default class Publish extends Vue {
             bounty: curTask.reward,
             type: 'TASK_TYPE_CUSTOM',
             limit: curTask.limit,
-            files: curTask.files
+            files: curTask.files ? curTask.files : []
           };
           this.taskExisted = true;
+          break;
         }
-      });
+      }
+      if (this.currentCustomTask.files && typeof this.currentCustomTask.files === 'string') {
+        this.currentCustomTask.files = this.currentCustomTask.files.split('/');
+        if (this.currentCustomTask.files[this.currentCustomTask.files.length - 1] === '') {
+          this.currentCustomTask.files.pop();
+        }
+      }
     }
   }
 
   handleUpload(file: any) {
-    if (this.currentCustomTask.files && file) {
+    if (this.currentCustomTask.files && typeof this.currentCustomTask.files !== 'string') {
       this.currentCustomTask.files.push(file);
     }
     return false;
@@ -207,7 +215,7 @@ export default class Publish extends Vue {
   }
 
   delFile(index: number) {
-    if (this.currentCustomTask.files) {
+    if (this.currentCustomTask.files  && typeof this.currentCustomTask.files !== 'string') {
       this.currentCustomTask.files.splice(index, 1);
     }
   }

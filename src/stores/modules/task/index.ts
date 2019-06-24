@@ -7,7 +7,8 @@ import {
   MODIFY_ALL_TASKS_OWN,
   GET_ALL_TASKS,
   GET_ALL_TASKS_OWN,
-  FINISH_TASK
+  FINISH_TASK,
+  LOAD_FILE
 } from './constants';
 import { httpRequestSilence } from '@/utils/httpRequest';
 import { IResponse } from '@/typings/response';
@@ -30,6 +31,20 @@ export default {
           return Promise.resolve('OK');
         } else {
           return Promise.resolve(data.msg);
+        }
+      } catch (error) {
+        return Promise.resolve(error);
+      }
+    },
+    async [LOAD_FILE]({}, payload): Promise<any> {
+      try {
+        const { data } = await httpRequestSilence.get<IResponse<Blob> >(
+          `/tasks/${payload.id}/files/${payload.filename}`, {responseType: 'blob'}
+        );
+        if (data) {
+          return Promise.resolve(data);
+        } else {
+          return Promise.resolve('no file');
         }
       } catch (error) {
         return Promise.resolve(error);

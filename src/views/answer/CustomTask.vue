@@ -19,11 +19,11 @@
       size="large" 
       :rows="4" placeholder="在这里写下你的答案"/>
     </div>
-    <div class="file-wrapper"  v-if="this.currentTask.files && this.currentTask.files.length">
+    <div class="file-wrapper"  v-if="currentTask.files && currentTask.files.length">
        <h3>附件</h3>  
       <div class="file-list" style="width: 45%; min-width: 400px; max-width: 500px; margin: 0 auto;">
-      <div class="file-item" v-for="(item, index) in this.currentTask.files" :key="index">
-        <a class="file-name" :href="item" :download="item">{{item}}</a>
+      <div class="file-item" v-for="(item, index) in currentTask.files" :key="index">
+        <a class="file-name" href="javascript:;" @click="download(item)">{{item}}</a>
       </div>
     </div>
     </div>
@@ -39,7 +39,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import { ITask } from '@/typings/task';
-import { LOAD_ALL_TASKS, GET_ALL_TASKS } from '../../stores/modules/task/constants';
+import { LOAD_ALL_TASKS, GET_ALL_TASKS, LOAD_FILE } from '../../stores/modules/task/constants';
 import {
   RECEIVE_QUESTIONARE
 } from '@/stores/modules/questionnaire/constants';
@@ -118,6 +118,12 @@ export default class CustomTask extends Vue {
       allTasks.forEach((task) => {
         if (String(task.id) === this.$route.params.tid) {
           this.currentTask = Object.assign({}, task);
+          if (this.currentTask.files && typeof this.currentTask.files === 'string') {
+            this.currentTask.files = this.currentTask.files.split('/');
+            if (this.currentTask.files[this.currentTask.files.length - 1] === '') {
+              this.currentTask.files.pop();
+            }
+          }
         }
       });
     } else {
@@ -133,9 +139,28 @@ export default class CustomTask extends Vue {
       allTasks.forEach((task) => {
         if (task.id === sid) {
           this.currentTask = Object.assign({}, task);
+          if (this.currentTask.files && typeof this.currentTask.files === 'string') {
+            this.currentTask.files = this.currentTask.files.split('/');
+            if (this.currentTask.files[this.currentTask.files.length - 1] === '') {
+              this.currentTask.files.pop();
+            }
+          }
         }
       });
     }
+  }
+
+  async download(filename: string) {
+    const data = await this.$store.dispatch(`task/${LOAD_FILE}`, {
+      id: this.currentTask.id,
+      filename
+    });
+    const url = URL.createObjectURL(data);
+    const a = document.createElement('a'); // 生成一个a元素
+    a.style.display = 'none';
+    a.href = url;
+    a.setAttribute('download', filename);
+    a.click();
   }
 }
 </script>

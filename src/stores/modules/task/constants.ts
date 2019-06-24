@@ -6,6 +6,7 @@ export const GET_ALL_TASKS_OWN = 'GET_ALL_TASKS_OWN';
 export const LOAD_ALL_TASKS = 'LOAD_ALL_TASKS';
 export const LOAD_ALL_TASKS_OWN = 'LOAD_ALL_TASKS_OWN';
 export const FINISH_TASK = 'FINISH_TASK';
+export const LOAD_FILE = 'LOAD_FILE';
 
 // mutation
 export const MODIFY_ALL_TASKS = 'MODIFY_ALL_TASKS';
