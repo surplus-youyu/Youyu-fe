@@ -9,4 +9,5 @@ export interface ITask {
   reward: number;
   created_at: string;
   assigned: number;
+  files?: any[];
 }

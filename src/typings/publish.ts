@@ -8,6 +8,7 @@ export interface IQuestionnaire {
   type: 'TASK_TYPE_CUSTOM' | 'TASK_TYPE_SURVEY';
   limit: number;
   assigned?: number;
+  files?: any[];
 }
 
 export interface IQuestionnaireContent {

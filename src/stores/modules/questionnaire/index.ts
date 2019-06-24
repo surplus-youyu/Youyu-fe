@@ -16,6 +16,7 @@ import { IQuestionnaire, IQuestionnaireContent } from '@/typings/publish';
 import { httpRequestSilence } from '@/utils/httpRequest';
 import { IResponse, IQueryQuestionnaireResponse } from '@/typings/response';
 import { IAssignmentFeedback } from '@/typings/assignment';
+import { IIndexSignatureMap } from '@/views/assignments/constants';
 
 export default {
   namespaced: true,
@@ -70,15 +71,30 @@ export default {
       }
     },
     async [POST_QUESTIONARE]({ commit }, payload): Promise<string> {
+      const uploadData: IIndexSignatureMap = {
+        title: payload.title,
+        description: payload.summary,
+        type: (payload.type === '' ? 'TASK_TYPE_SURVEY' : payload.type),
+        content: payload.content ? JSON.stringify(payload.content) : '',
+        reward: payload.reward,
+        limit: payload.limit,
+        files: payload.files ? payload.files : ''
+      };
+      const param = new FormData();
+      Object.keys(uploadData).forEach((key) => {
+        if (key === 'files') {
+          if (uploadData[key]) {
+            uploadData[key].forEach((file: any) => {
+              param.append('files', file, file.name);
+            });
+          }
+        } else {
+          param.append(key, uploadData[key]);
+        }
+      });
       try {
-        const { data } = await httpRequestSilence.post<IResponse<{}>>(`/tasks`, {
-          title: payload.title,
-          description: payload.summary,
-          type: (payload.type === '' ? 'TASK_TYPE_SURVEY' : payload.type),
-          content: JSON.stringify(payload.content),
-          reward: 0,
-          limit: payload.limit
-        });
+        const { data } = await httpRequestSilence.post<IResponse<{}>>(`/tasks`, param,
+        {headers: {'Content-Type': 'multipart/form-data'}});
         if (data.status) {
           return Promise.resolve('OK');
         } else {

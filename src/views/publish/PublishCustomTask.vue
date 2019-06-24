@@ -37,6 +37,7 @@
       <Upload
         :before-upload="handleUpload"
         multiple
+        :show-upload-list="true"
         action=""
         type="drag"
         style="width: 45%; min-width: 400px; max-width: 500px">
@@ -45,6 +46,12 @@
           <p>点击或拖拽上传附件</p>
         </div>
       </Upload>
+      <div class="file-list" v-if="this.currentCustomTask.files && this.currentCustomTask.files.length" style="width: 45%; min-width: 400px; max-width: 500px; margin: 0 auto;">
+        <div class="file-item" v-for="(item, index) in this.currentCustomTask.files" :key="index">
+          <div class="file-name">{{item.name}}</div>
+          <Button class="delete-file-btn" @click="delFile(index)" icon="md-close" style="padding-right: 8px; padding-left: 8px;"/>
+        </div>
+      </div>
     </div>
     <div class="submit-btn-wrapper" v-if="taskExisted">
       <Button style="margin-right: 1rem;" @click="showFinishDialog = true">结束任务</Button>
@@ -94,7 +101,8 @@ export default class Publish extends Vue {
     summary: '',
     bounty: 0,
     type: 'TASK_TYPE_CUSTOM',
-    limit: 1
+    limit: 1,
+    files: []
   };
 
   async mounted() {
@@ -111,7 +119,8 @@ export default class Publish extends Vue {
             publisher_id: uid,
             bounty: curTask.reward,
             type: 'TASK_TYPE_CUSTOM',
-            limit: curTask.limit
+            limit: curTask.limit,
+            files: curTask.files
           };
           this.taskExisted = true;
         }
@@ -120,7 +129,9 @@ export default class Publish extends Vue {
   }
 
   handleUpload(file: any) {
-    this.file = file;
+    if (this.currentCustomTask.files && file) {
+      this.currentCustomTask.files.push(file);
+    }
     return false;
   }
 
@@ -131,7 +142,8 @@ export default class Publish extends Vue {
       summary: '',
       bounty: 0,
       type: 'TASK_TYPE_CUSTOM',
-      limit: 1
+      limit: 1,
+      files: []
     };
   }
 
@@ -147,9 +159,10 @@ export default class Publish extends Vue {
       `questionnaire/${POST_QUESTIONARE}`, Object.freeze({
         title: this.currentCustomTask.title,
         summary: this.currentCustomTask.summary,
-        enclosure: this.file,
         limit: this.currentCustomTask.limit,
-        type: 'TASK_TYPE_CUSTOM'
+        type: 'TASK_TYPE_CUSTOM',
+        reward: this.currentCustomTask.bounty,
+        files: this.currentCustomTask.files
       })
     );
     if (result === 'OK') {
@@ -192,6 +205,12 @@ export default class Publish extends Vue {
       });
     }
   }
+
+  delFile(index: number) {
+    if (this.currentCustomTask.files) {
+      this.currentCustomTask.files.splice(index, 1);
+    }
+  }
 }
 </script>
 
@@ -226,5 +245,20 @@ export default class Publish extends Vue {
   display: flex;
   justify-content: flex-end;
   margin-top: 2rem;
+}
+
+.file-list {
+  .file-item {
+    display: flex;
+    align-items: center;
+    .file-name {
+      display: inline-block;
+      width: 93%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+  
 }
 </style>

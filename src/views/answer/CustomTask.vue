@@ -19,6 +19,15 @@
       size="large" 
       :rows="4" placeholder="在这里写下你的答案"/>
     </div>
+    <div class="file-wrapper"  v-if="this.currentTask.files && this.currentTask.files.length">
+       <h3>附件</h3>  
+      <div class="file-list" style="width: 45%; min-width: 400px; max-width: 500px; margin: 0 auto;">
+      <div class="file-item" v-for="(item, index) in this.currentTask.files" :key="index">
+        <a class="file-name" :href="item" :download="item">{{item}}</a>
+      </div>
+    </div>
+    </div>
+    
     <div v-if="!readonly" class="submit-btn-wrapper">
       <Button @click="submit">提交</Button>
     </div>
@@ -60,7 +69,8 @@ export default class CustomTask extends Vue {
     content: '',
     reward: 0,
     created_at: '',
-    assigned: 1
+    assigned: 1,
+    files: []
   };
 
   async acceptAndAnswer() {
@@ -131,7 +141,8 @@ export default class CustomTask extends Vue {
 </script>
 <style lang="less" scoped>
 .limit-wrapper,
-.title-wrapper {
+.title-wrapper,
+.file-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -146,5 +157,12 @@ export default class CustomTask extends Vue {
 .submit-btn-wrapper {
   display: flex;
   justify-content: flex-end;
+}
+.file-item {
+  min-width: 400px; 
+  max-width: 500px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
