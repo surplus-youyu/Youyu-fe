@@ -69,7 +69,7 @@
       </Modal>
     </div>
     <div class="submit-btn-wrapper" v-else>
-      <Button style="margin-right: 1rem;">重置</Button>
+      <Button style="margin-right: 1rem;"  @click="clear">重置</Button>
       <Button type="primary" @click="createQuestionnaire">提交</Button>
     </div>
   </div>
