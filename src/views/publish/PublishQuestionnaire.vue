@@ -41,9 +41,9 @@
     </div>
     <div class="questions-wrapper">
       <h3 v-if="currentQuestionnaire.content.length === 0" 
-        style="text-align: center; height: 180px; line-height: 180px;
+        style="text-align: center; height: 180px; display:flex; align-items: center; justify-content: center;
         vertical-align: middle;">
-        你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！
+        <span>你的问卷还没有任何问题哦，点击左下方的“+”按钮创建吧！</span>
       </h3>
       <h3 v-else>问题</h3>
       <Card :dis-hover="true" style="margin: 1rem 0 0 0; width: 45%; min-width: 400px; max-width: 500px;" 
