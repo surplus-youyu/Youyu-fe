@@ -124,7 +124,8 @@ export default class TaskStatistics extends Vue {
       this.$Notice.success({
         title: '审核成功'
       });
-      this.TaskDetail.status = status ? 'ASSIGNMENT_STATUS_SUCCESS' : 'ASSIGNMENT_STATUS_FAILED';
+      const updateStatus = status ? 'ASSIGNMENT_STATUS_SUCCESS' : 'ASSIGNMENT_STATUS_FAILED';
+      taskDetail.status = ASSIGNMENT_STATUS_MAP[updateStatus];
     } else {
       this.$Notice.error({
         title:  result && result.msg || 'fail'
