@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <Card v-for="(item, idx) in statisticResult" :key="idx" >
-      <h1>{{item.title}}</h1>
+  <div class="statistics">
+    <Card class="card" v-for="(item, idx) in statisticResult" :key="idx">
+      <h3 style="margin-bottom: 1rem;">{{item.title}}</h3>
       <ve-pie :data="item.chartData"></ve-pie>
     </Card>
   </div>
@@ -42,3 +42,16 @@ export default class QuestionnaireStatistics extends Vue  {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.statistics {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  .card {
+    display: inline-block;
+    width: 400px;
+    margin: 0 20px 20px 0;
+  }
+}
+</style>
