@@ -122,6 +122,11 @@ export default new Router({
           path: 'publish/custom/:aid/Statistics',
           name: 'custom-task-statistics',
           component: () => import('./statistics/TaskStatistics.vue')
+        },
+        {
+          path: 'publish/questionnaire/:aid/Statistic/overview',
+          name: 'overview-of-statistic',
+          component: () => import('./statistics/QuestionnaireStatistics.vue')
         }
       ]
     }
