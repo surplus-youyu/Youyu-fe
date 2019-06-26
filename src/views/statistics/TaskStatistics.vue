@@ -1,6 +1,5 @@
 <template>
 <div>
-  <Button @click="overviewOfQuestionnaire" v-if="isQuestionnaire">查看统计</Button>
   <Table class="statistics-list"
     stripe 
     :columns="TableColumns" 
@@ -11,7 +10,13 @@
       <Button class="action" type="success" size="small" @click="questionnairePass(index, true)" v-if="showPagesubmitList[index].status !== '审核通过'">审核通过</Button>
     </template>
   </Table>
-  <div class="page-container">
+  <div class="btn-container">
+    <Button 
+      @click="overviewOfQuestionnaire" 
+      v-if="isQuestionnaire"
+      type="primary"
+      style="margin-bottom: 1rem;">查看统计
+    </Button>
     <Page class="page" :total="submitList.length" :page-size="pageSize" @on-change="pageChange"/>
   </div>
   <Modal
@@ -154,9 +159,9 @@ export default class TaskStatistics extends Vue {
   margin-right: 10px;
 }
 
-.page-container {
+.btn-container {
   margin-top: 20px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 </style>

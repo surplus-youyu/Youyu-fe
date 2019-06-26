@@ -114,17 +114,17 @@ export default new Router({
           component: () => import('./answer/CustomTask.vue')
         },
         {
-          path: 'publish/questionnaire/:aid/Statistics',
+          path: 'publish/questionnaire/:aid/statistics',
           name: 'questionnaire-statistics',
           component: () => import('./statistics/TaskStatistics.vue')
         },
         {
-          path: 'publish/custom/:aid/Statistics',
+          path: 'publish/custom/:aid/statistics',
           name: 'custom-task-statistics',
           component: () => import('./statistics/TaskStatistics.vue')
         },
         {
-          path: 'publish/questionnaire/:aid/Statistic/overview',
+          path: 'publish/questionnaire/:aid/statistic/overview',
           name: 'overview-of-statistic',
           component: () => import('./statistics/QuestionnaireStatistics.vue')
         }
