@@ -125,6 +125,7 @@ export default class QuestionForm extends Vue {
         if (this.mode === 'create') {
           this.$emit('createNewQuestion', Object.assign({}, this.content));
           this.clear();
+          this.content.options = [];
         } else {
           this.editAllow = false;
           this.$emit('modifyQuestion', Object.freeze(this.content), this.index);
