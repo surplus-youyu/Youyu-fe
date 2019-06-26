@@ -101,7 +101,7 @@ export default {
           return Promise.resolve(data.msg);
         }
       } catch (err) {
-        return Promise.resolve('fail');
+        return Promise.resolve(err.data.msg);
       }
     },
     async [RECEIVE_QUESTIONARE]({}, payload): Promise<string> {
