@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "cross-env": "^5.2.0",
+    "echarts": "^4.2.1",
     "iview": "^3.4.1",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
@@ -18,6 +19,7 @@
     "loadash": "^1.0.0",
     "mocker-api": "^1.7.6",
     "ts-import-plugin": "^1.5.5",
+    "v-charts": "^1.19.0",
     "vue": "^2.6.6",
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^8.0.0",

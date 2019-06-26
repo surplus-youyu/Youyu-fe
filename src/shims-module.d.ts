@@ -17,3 +17,8 @@ declare module '*.json' {
 const content: object;
 export default content;
 }
+
+declare module 'v-charts'{
+    var _a: any;
+    export = _a;
+}

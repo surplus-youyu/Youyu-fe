@@ -1,5 +1,6 @@
 <template>
 <div>
+  <Button @click="overviewOfQuestionnaire" v-if="isQuestionnaire">查看统计</Button>
   <Table class="statistics-list"
     stripe 
     :columns="TableColumns" 
@@ -89,6 +90,15 @@ export default class TaskStatistics extends Vue {
       if (this.$route.name === 'questionnaire-statistics') {
         this.isQuestionnaire = true;
         item.content = (JSON.parse(item.content + '') as IQuestionnaireContent[]);
+      }
+    });
+  }
+  overviewOfQuestionnaire() {
+    const taskId = this.$route.params.aid;
+    this.$router.push({
+      name: 'overview-of-statistic',
+      params: {
+        aid: String(taskId)
       }
     });
   }
