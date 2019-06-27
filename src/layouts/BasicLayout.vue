@@ -68,7 +68,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { IS_LOGIN, CURRENT_USER_INFO } from '@/stores/modules/user/constants';
+import { IS_LOGIN, CURRENT_USER_INFO, LOGINOUT } from '@/stores/modules/user/constants';
 import { IUserInfo } from '@/stores/modules/user/typing';
 import DefaultAvatar from '@/assets/user/default-avatar.png';
 import store from '@/stores';
@@ -103,7 +103,8 @@ export default class BasicLayout extends Vue {
     this.$router.push({ name: 'login' });
   }
 
-  logOut() {
+  async logOut() {
+    await this.$store.dispatch(`user/${LOGINOUT}`);
     this.$router.push({ name: 'login' });
   }
 
