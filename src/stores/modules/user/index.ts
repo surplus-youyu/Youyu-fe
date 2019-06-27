@@ -47,7 +47,7 @@ export default {
         const { data } = await httpRequestSilence.get<
           IResponse<{}> >(`/loginout`);
         if (data.status) {
-          commit(MODIFY_USER_PROFILE, payload);
+          commit(MODIFY_USER_PROFILE, null);
           return Promise.resolve('OK');
         } else {
           return Promise.resolve('fail');
