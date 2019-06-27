@@ -6,7 +6,7 @@ import {
   IS_LOGIN,
   UID,
   LOGIN,
-  LOGINOUT,
+  LOGOUT,
   SIGNUP
 } from './constants';
 import { LoginFormFieldsEP, LoginFormFieldsPV } from '@/typings/login';
@@ -42,10 +42,10 @@ export default {
         return Promise.resolve(error);
       }
     },
-    async [LOGINOUT]({ commit }, payload) {
+    async [LOGOUT]({ commit }, payload) {
       try {
-        const { data } = await httpRequestSilence.get<
-          IResponse<{}> >(`/loginout`);
+        const { data } = await httpRequestSilence.put<
+          IResponse<{}> >(`/logout`);
         if (data.status) {
           commit(MODIFY_USER_PROFILE, null);
           return Promise.resolve('OK');

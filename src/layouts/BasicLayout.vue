@@ -68,7 +68,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { IS_LOGIN, CURRENT_USER_INFO, LOGINOUT } from '@/stores/modules/user/constants';
+import { IS_LOGIN, CURRENT_USER_INFO, LOGOUT } from '@/stores/modules/user/constants';
 import { IUserInfo } from '@/stores/modules/user/typing';
 import DefaultAvatar from '@/assets/user/default-avatar.png';
 import store from '@/stores';
@@ -104,7 +104,7 @@ export default class BasicLayout extends Vue {
   }
 
   async logOut() {
-    const result = await this.$store.dispatch(`user/${LOGINOUT}`);
+    const result = await this.$store.dispatch(`user/${LOGOUT}`);
     if (result !== 'OK') {
       this.$Notice.warning({
         title: '注销失败',
