@@ -104,8 +104,19 @@ export default class BasicLayout extends Vue {
   }
 
   async logOut() {
-    await this.$store.dispatch(`user/${LOGINOUT}`);
-    this.$router.push({ name: 'login' });
+    const result = await this.$store.dispatch(`user/${LOGINOUT}`);
+    if (result !== 'OK') {
+      this.$Notice.warning({
+        title: '注销失败',
+        desc: result.msg
+      });
+    } else {
+      this.$Notice.success({
+          title: '注销成功',
+          desc: result.msg
+      });
+      this.$router.push({ name: 'login' });
+    }
   }
 
   drapDownClick(name: string) {
