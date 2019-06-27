@@ -108,12 +108,12 @@ export default class BasicLayout extends Vue {
     if (result !== 'OK') {
       this.$Notice.warning({
         title: '注销失败',
-        desc: result.msg
+        desc: result
       });
     } else {
       this.$Notice.success({
           title: '注销成功',
-          desc: result.msg
+          desc: result
       });
       this.$router.push({ name: 'login' });
     }
