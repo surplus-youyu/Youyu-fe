@@ -6,6 +6,7 @@ import {
   IS_LOGIN,
   UID,
   LOGIN,
+  LOGOUT,
   SIGNUP
 } from './constants';
 import { LoginFormFieldsEP, LoginFormFieldsPV } from '@/typings/login';
@@ -33,6 +34,20 @@ export default {
           IResponse<{}> >(`/login`, payload);
         if (data.status) {
           await dispatch(LOAD_USER_PROFILE);
+          return Promise.resolve('OK');
+        } else {
+          return Promise.resolve('fail');
+        }
+      } catch (error) {
+        return Promise.resolve(error);
+      }
+    },
+    async [LOGOUT]({ commit }, payload) {
+      try {
+        const { data } = await httpRequestSilence.put<
+          IResponse<{}> >(`/logout`);
+        if (data.status) {
+          commit(MODIFY_USER_PROFILE, null);
           return Promise.resolve('OK');
         } else {
           return Promise.resolve('fail');
